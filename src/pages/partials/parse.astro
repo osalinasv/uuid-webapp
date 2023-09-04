@@ -1,0 +1,9 @@
+---
+import { v4 as uuidv4, parse as uuidParse } from 'uuid'
+import UuidDetails from '@/components/UuidDetails.astro'
+
+const request = await Astro.request.formData()
+const uuid = (request.get('uuid') as string) || uuidv4()
+---
+
+<UuidDetails rawValue={uuid} />

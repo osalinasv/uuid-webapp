@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/react": "^3.0.0",
     "@astrojs/tailwind": "^5.0.0",
+    "@radix-ui/react-slot": "^1.0.2",
     "astro": "^3.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",

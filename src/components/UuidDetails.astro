@@ -1,0 +1,26 @@
+---
+import { parse as uuidParse } from 'uuid'
+
+export type Props = {
+  rawValue: string
+}
+
+const { rawValue } = Astro.props as Props
+
+const bytes = uuidParse(rawValue)
+const hex = Array.from(bytes.values(), (b) => b.toString(16).padStart(2, '0'))
+
+const oracle = []
+oracle.push(hex.slice(0, 4).reverse())
+oracle.push(hex.slice(4, 6).reverse())
+oracle.push(hex.slice(6, 8).reverse())
+oracle.push(hex.slice(8))
+---
+
+<dl class='mt-4'>
+  <dt class='text-red-500'>Original:</dt>
+  <dd class='text-bold'>{rawValue}</dd>
+  <dt>Bytes:</dt><dd>{bytes.toString()}</dd>
+  <dt>Oracle:</dt><dd>{oracle}</dd>
+  <dt>Hex:</dt><dd>{hex}</dd>
+</dl>
