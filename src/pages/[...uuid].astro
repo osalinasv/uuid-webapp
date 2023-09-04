@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro'
+
+const { uuid } = Astro.params
+---
+
+<Layout title='UUIDv4 Tools'>
+  <header class='max-w-screen-md mx-auto px-4'></header>
+  <main class='max-w-screen-md mx-auto px-4'>
+    <form hx-post='/partials/test' hx-target='#parse-response' class='flex items-center'>
+      <input
+        class='flex h-9 w-full rounded-l-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
+        placeholder='UUID v4, Oracle RAW(16) ID, etc.'
+        value={uuid}
+        name='uuid'
+        type='text'
+      />
+      <button
+        class='inline-flex items-center justify-center rounded-r-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-zinc-900 text-white shadow hover:bg-zinc-900/90 h-9 px-4 py-2'
+        type='submit'>Parse</button
+      >
+    </form>
+    <div id='parse-response'></div>
+  </main>
+  <section class='max-w-screen-md mx-auto px-4'></section>
+  <footer class='max-w-screen-md mx-auto px-4'></footer>
+</Layout>
