@@ -1,0 +1,25 @@
+---
+import { parseId } from '@/lib/parse'
+
+import Details from '@/components/Details.astro'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+
+export type Props = {
+  rawValue: string
+}
+
+const { rawValue } = Astro.props
+const parsed = parseId(rawValue)
+---
+
+{
+  parsed != undefined ? (
+    <Details value={parsed} />
+  ) : (
+    <Alert variant='destructive'>
+      <AlertDescription className='max-w-screen-sm mx-auto text-center'>
+        The value {rawValue} is not recognized as a UUID format
+      </AlertDescription>
+    </Alert>
+  )
+}

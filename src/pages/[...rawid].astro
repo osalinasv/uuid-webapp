@@ -1,0 +1,37 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Convert from '@/components/Convert.astro'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+
+const { rawid = '' } = Astro.params
+const sanitized = rawid.replace(/\s/g, '')
+---
+
+<Layout title='UUIDv4 Tools'>
+  <header class='max-w-screen-md mx-auto px-4'></header>
+  <main class='max-w-screen-md mx-auto px-4'>
+    <form
+      hx-post='/partials/parse'
+      hx-target='#convert-result'
+      hx-push-url='true'
+      class='grid md:grid-cols-[1fr_auto] items-center gap-2 mb-4'>
+      <Input
+        className='h-12 text-lg'
+        placeholder='UUID v4, Oracle RAW(16), etc.'
+        defaultValue={sanitized}
+        name='rawid'
+        id='rawid'
+        type='text'
+      />
+      <Button className='h-12 text-lg rounded-md px-8' type='submit'>Convert</Button>
+    </form>
+
+    <div id='convert-result'>
+      {sanitized && <Convert rawValue={sanitized} />}
+    </div>
+  </main>
+  <section class='max-w-screen-md mx-auto px-4'></section>
+  <footer class='max-w-screen-md mx-auto px-4'></footer>
+</Layout>
