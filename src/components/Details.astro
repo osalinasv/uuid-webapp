@@ -1,9 +1,10 @@
 ---
-import { type RawId } from '@/lib/parse'
+import { convertId, type RawId } from '@/lib/parse'
 
 export type Props = {
   value: RawId
 }
 
 const { value } = Astro.props as Props
+convertId(value)
 ---
