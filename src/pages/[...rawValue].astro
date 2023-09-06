@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Convert from '@/components/Convert.astro'
+
+const { rawValue = '' } = Astro.params
+---
+
+<Layout title='UUID v4 Tools'>
+  <header class='max-w-screen-md mx-auto flex flex-col items-center gap-2 px-4 pt-12 md:pt-14 pb-8'>
+    <h1 class='text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]'>UUID v4 Tools</h1>
+    <p class='max-w-screen-sm text-lg text-muted-foreground sm:text-xl'>
+      Convert between common UUID v4 formats, generate new values and analyze their byte components.
+      <a class='underline underline-offset-4' href='#'>What is UUID v4?</a>
+    </p>
+  </header>
+
+  <Convert rawValue={rawValue} />
+
+  <section class='max-w-screen-md mx-auto px-4'></section>
+  <footer class='max-w-screen-md mx-auto px-4'></footer>
+</Layout>

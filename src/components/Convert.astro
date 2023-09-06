@@ -1,25 +1,52 @@
 ---
 import { parseId } from '@/lib/parse'
-
 import Details from '@/components/Details.astro'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 export type Props = {
   rawValue: string
 }
 
+const SUBMIT_BTN_CONVERT = 'Convert'
+const SUBMIT_BTN_GENERATE = 'Generate'
+
 const { rawValue } = Astro.props
-const parsed = parseId(rawValue)
+
+const sanitized = rawValue.replace(/\s/g, '')
+const parsed = parseId(sanitized)
 ---
 
-{
-  parsed != undefined ? (
-    <Details value={parsed} />
-  ) : (
-    <Alert variant='destructive'>
-      <AlertDescription className='max-w-screen-sm mx-auto text-center'>
+<main id='converter' class='max-w-screen-md mx-auto px-4'>
+  <form
+    hx-post='/partials/parse'
+    hx-target='#converter'
+    hx-swap='outerHTML'
+    hx-push-url='true'
+    class='grid md:grid-cols-[1fr_auto] items-center gap-2 mb-4'>
+    <Input
+      className='h-12 text-lg'
+      placeholder='UUID, Oracle RAW(16). Leave empty to generate.'
+      defaultValue={sanitized}
+      name='rawValue'
+      id='rawValue'
+      type='text'
+      hx-on={`input: submitBtn.innerText = (event.target.value ? "${SUBMIT_BTN_CONVERT}" : "${SUBMIT_BTN_GENERATE}")`}
+    />
+
+    <Button id='submitBtn' className='h-12 text-lg rounded-md px-4 min-w-[12ch]' type='submit'>
+      {sanitized ? SUBMIT_BTN_CONVERT : SUBMIT_BTN_GENERATE}
+    </Button>
+  </form>
+
+  {
+    !parsed.valid && parsed.error === 'invalid' && (
+      <p role='alert' class='max-w-screen-sm mx-auto px-4 text-sm text-center text-destructive'>
         The value {rawValue} is not recognized as a UUID format
-      </AlertDescription>
-    </Alert>
-  )
-}
+      </p>
+    )
+  }
+
+  {parsed.valid && <Details value={parsed.result} />}
+</main>

@@ -1,4 +1,3 @@
-import { number } from 'astro/zod'
 import { parse as uuidParse } from 'uuid'
 import { version as uuidVersion } from 'uuid'
 import { validate as uuidValidate } from 'uuid'
@@ -10,21 +9,25 @@ export type RawId = {
   value: string
 }
 
-export function parseId(rawValue: string): RawId | undefined {
+type ParseError = 'invalid' | 'empty'
+type ParseResult = { valid: true; result: RawId } | { valid: false; error: ParseError }
+
+export function parseId(rawValue: string): ParseResult {
+  if (!rawValue) return { valid: false, error: 'empty' }
   const uppercased = rawValue.toUpperCase()
 
   if (uuidValidate(uppercased) && uuidVersion(uppercased) === 4) {
-    return { type: 'uuid', value: uppercased.toLowerCase() }
+    return { valid: true, result: { type: 'uuid', value: uppercased.toLowerCase() } }
   }
 
   if (/^[0-9A-F]{32}$/gs.test(uppercased)) {
-    return { type: 'oracle', value: uppercased }
+    return { valid: true, result: { type: 'oracle', value: uppercased } }
   }
 
-  return undefined
+  return { valid: false, error: 'invalid' }
 }
 
-export type IdFormat = {
+type IdFormat = {
   type: IdType
   value: string
   segments: string[]

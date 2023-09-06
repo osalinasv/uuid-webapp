@@ -2,23 +2,11 @@
 import { v4 as uuidv4 } from 'uuid'
 import Convert from '@/components/Convert.astro'
 
-import { Input } from '@/components/ui/input'
-
 const request = await Astro.request.formData()
-const rawid = (request.get('rawid') as string) || uuidv4()
+const rawValue = (request.get('rawValue') as string) || uuidv4()
 
-const sanitized = rawid.replace(/\s/g, '')
+const sanitized = rawValue.replace(/\s/g, '')
 Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(sanitized)}`)
 ---
-
-<Input
-  className='h-12 text-lg'
-  placeholder='UUID v4, Oracle RAW(16), etc.'
-  defaultValue={sanitized}
-  name='rawid'
-  id='rawid'
-  type='text'
-  hx-swap-oob='true'
-/>
 
 <Convert rawValue={sanitized} />
