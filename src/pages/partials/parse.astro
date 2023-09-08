@@ -5,8 +5,8 @@ import Convert from '@/components/Convert.astro'
 const request = await Astro.request.formData()
 const rawValue = (request.get('rawValue') as string) || uuidv4()
 
-const sanitized = rawValue.replace(/\s/g, '')
-Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(sanitized)}`)
+const sanitizedValue = rawValue.replace(/\s/g, '')
+Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(sanitizedValue)}`)
 ---
 
-<Convert rawValue={sanitized} />
+<Convert rawValue={sanitizedValue} />
