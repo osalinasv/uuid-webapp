@@ -3,19 +3,57 @@ import { version as uuidVersion } from 'uuid'
 import { validate as uuidValidate } from 'uuid'
 import { stringify as uuidStringify } from 'uuid'
 
-export type RawId = {
+type ParsedId = {
   type: 'uuid' | 'oracle'
   value: string
 }
 
-type ParseErrorType = 'invalid' | 'empty'
+type ConvertError = {
+  valid: false
+  error: 'invalid' | 'empty'
+  message?: string
+}
 
-type ParseError = { valid: false; error: ParseErrorType }
-type ParsedRawId = { valid: true } & RawId
+type UuidLayout = {
+  stringified: string
+  timeLow: number[]
+  timeMid: number[]
+  timeHiVersion: number[]
+  clockSeqHiReserved: number[]
+  clockSeqLow: number[]
+  node: number[]
+}
 
-type ParseResult = ParsedRawId | ParseError
+type ConvertedId = {
+  rawIdValue: string
+  uuidFormat: UuidLayout
+  oracleFormat: UuidLayout
+  bytes: number[]
+  bytesAsHex: string[]
+}
 
-export function parseId(rawValue: string): ParseResult {
+type ConvertResult = { valid: true } & ConvertedId
+export function convertId(rawValue: string): ConvertResult | ConvertError {
+  try {
+    const parseResult = parseId(rawValue)
+    if (!parseResult.valid) return parseResult
+
+    // prettier-ignore
+    const convertedId = parseResult.type === 'uuid'
+      ? convertFromUuid(parseResult.value)
+      : convertFromOracle(parseResult.value)
+
+    const convertResult = convertedId as ConvertResult
+    convertResult.valid = true
+
+    return convertResult
+  } catch (e: any) {
+    return { valid: false, error: 'invalid', message: e.message }
+  }
+}
+
+type ParsedResult = { valid: true } & ParsedId
+function parseId(rawValue: string): ParsedResult | ConvertError {
   if (!rawValue) return { valid: false, error: 'empty' }
   const uppercased = rawValue.toUpperCase()
 
@@ -30,38 +68,16 @@ export function parseId(rawValue: string): ParseResult {
   return { valid: false, error: 'invalid' }
 }
 
-type IdLayout = {
-  stringified: string
-  timeLow: number[]
-  timeMid: number[]
-  timeHiVersion: number[]
-  clockSeqHiReserved: number[]
-  clockSeqLow: number[]
-  node: number[]
-}
-
-type ConvertedId = {
-  rawIdValue: string
-  uuidFormat: IdLayout
-  oracleFormat: IdLayout
-  bytes: number[]
-  bytesAsHex: string[]
-}
-
-export function convertId(rawId: RawId): ConvertedId {
-  return rawId.type === 'uuid' ? convertFromUuid(rawId) : convertFromOracle(rawId)
-}
-
-function convertFromUuid(rawId: RawId): ConvertedId {
-  const uuidBytes = Array.from(uuidParse(rawId.value))
+function convertFromUuid(rawValue: string): ConvertedId {
+  const uuidBytes = Array.from(uuidParse(rawValue))
   const oracleBytes = flipByteOrder(uuidBytes)
 
-  const uuidFormat = buildIdLayout(rawId.value, uuidBytes)
+  const uuidFormat = buildUuidLayout(rawValue, uuidBytes)
   const oracleString = oracleBytes.map(stringifyAsHex).join('').toUpperCase()
-  const oracleFormat = buildIdLayout(oracleString, oracleBytes)
+  const oracleFormat = buildUuidLayout(oracleString, oracleBytes)
 
   return {
-    rawIdValue: rawId.value,
+    rawIdValue: rawValue,
     uuidFormat,
     oracleFormat,
     bytes: uuidBytes,
@@ -69,16 +85,16 @@ function convertFromUuid(rawId: RawId): ConvertedId {
   }
 }
 
-function convertFromOracle(rawId: RawId): ConvertedId {
-  const oracleBytes = getBytesFromOracle(rawId.value)
+function convertFromOracle(rawValue: string): ConvertedId {
+  const oracleBytes = getBytesFromOracle(rawValue)
   const uuidBytes = flipByteOrder(oracleBytes)
 
   const uuidString = uuidStringify(uuidBytes)
-  const uuidFormat = buildIdLayout(uuidString, uuidBytes)
-  const oracleFormat = buildIdLayout(rawId.value, oracleBytes)
+  const uuidFormat = buildUuidLayout(uuidString, uuidBytes)
+  const oracleFormat = buildUuidLayout(rawValue, oracleBytes)
 
   return {
-    rawIdValue: rawId.value,
+    rawIdValue: rawValue,
     uuidFormat,
     oracleFormat,
     bytes: uuidBytes,
@@ -90,7 +106,7 @@ function stringifyAsHex(byte: number) {
   return byte.toString(16).padStart(2, '0')
 }
 
-function buildIdLayout(rawIdValue: string, bytes: number[]): IdLayout {
+function buildUuidLayout(rawIdValue: string, bytes: number[]): UuidLayout {
   return {
     stringified: rawIdValue,
     timeLow: bytes.slice(0, 4),
@@ -103,21 +119,20 @@ function buildIdLayout(rawIdValue: string, bytes: number[]): IdLayout {
 }
 
 function getBytesFromOracle(id: string) {
-  const octets = new Array<number>()
-
+  const bytes = new Array<number>()
   for (var i = 0; i < id.length; i += 2) {
-    octets.push(parseInt(id.substring(i, i + 2), 16))
+    bytes.push(parseInt(id.substring(i, i + 2), 16))
   }
 
-  return octets
+  return bytes
 }
 
 function flipByteOrder(bytes: number[]) {
   const newBytes = new Array<number>(16)
 
-  assignFlippedBytesInRange(newBytes, bytes, 0, 4)
-  assignFlippedBytesInRange(newBytes, bytes, 4, 6)
-  assignFlippedBytesInRange(newBytes, bytes, 6, 8)
+  flipBytesInRange(newBytes, bytes, 0, 4)
+  flipBytesInRange(newBytes, bytes, 4, 6)
+  flipBytesInRange(newBytes, bytes, 6, 8)
 
   for (let index = 8; index < bytes.length; index++) {
     newBytes[index] = bytes[index]
@@ -126,14 +141,8 @@ function flipByteOrder(bytes: number[]) {
   return newBytes
 }
 
-function assignFlippedBytesInRange(target: number[], source: number[], start: number, end: number) {
+function flipBytesInRange(target: number[], source: number[], start: number, end: number) {
   for (let index = start; index < end; index++) {
     target[index] = source[start + end - 1 - index]
   }
 }
-
-// 00cb4112-0a70-4baa-82cd-e06d6166ddfa
-// 1241CB00700AAA4B82CDE06D6166DDFA
-
-// 12 41 CB 00 70 0A AA 4B 82 CD E0 6D 61 66 DD FA
-// 12 41 CB  0 70  A AA 4B 82 CD E0 6D 61 66 DD FA

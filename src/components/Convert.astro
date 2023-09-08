@@ -1,6 +1,5 @@
 ---
-import { parseId } from '@/lib/parse'
-import Details from '@/components/Details.astro'
+import { convertId } from '@/lib/parse'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -15,9 +14,9 @@ export type Props = {
 const { rawValue } = Astro.props
 
 const sanitizedValue = rawValue.replace(/\s/g, '')
-const parseResult = parseId(sanitizedValue)
+const convertResult = convertId(sanitizedValue)
 
-const defaultValue = parseResult.valid ? parseResult.value : ''
+const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
 ---
 
 <main id='converter' class='grid max-w-screen-md mx-auto p-4 gap-4'>
@@ -31,25 +30,34 @@ const defaultValue = parseResult.valid ? parseResult.value : ''
       id='rawValue'
       className='h-12 text-lg px-6'
       placeholder='UUID, Oracle RAW(16). Leave empty to generate.'
-      defaultValue={defaultValue}
+      defaultValue={displayValue}
       name='rawValue'
       type='text'
       hx-on={`input: submitBtn.innerText = (event.target.value ? "${SUBMIT_BTN_CONVERT}" : "${SUBMIT_BTN_GENERATE}")`}
     />
 
     <Button id='submitBtn' className='h-12 text-lg rounded-md px-6 min-w-[12ch]' type='submit'>
-      {defaultValue ? SUBMIT_BTN_CONVERT : SUBMIT_BTN_GENERATE}
+      {displayValue ? SUBMIT_BTN_CONVERT : SUBMIT_BTN_GENERATE}
     </Button>
   </form>
 
-  <!-- prettier-ignore -->
   {
-    !parseResult.valid && parseResult.error === 'invalid' && (
-      <p role='alert' class='max-w-screen-sm mx-auto px-4 text-sm text-center text-destructive'>
-        The value <span class='font-weight-bold'>{rawValue}</span> is not a valid UUID format
-      </p>
+    !convertResult.valid && convertResult.error !== 'empty' && (
+      <div role='alert' class='max-w-screen-sm mx-auto px-4 text-sm text-center text-destructive'>
+        <p>
+          The value <span class='font-weight-bold'>{rawValue}</span> is not a valid UUID format
+        </p>
+        {convertResult.message && <p>{convertResult.message}</p>}
+      </div>
     )
   }
 
-  {parseResult.valid && <Details rawId={parseResult} />}
+  {
+    convertResult.valid && (
+      <section class='rounded-xl border bg-card text-card-foreground shadow p-6'>
+        <h1>{convertResult.rawIdValue}</h1>
+        <code>{JSON.stringify(convertResult, null, 4)}</code>
+      </section>
+    )
+  }
 </main>
