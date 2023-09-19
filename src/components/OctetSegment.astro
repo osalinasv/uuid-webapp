@@ -1,0 +1,17 @@
+---
+import { cn } from '@/lib/utils'
+
+export type Props = {
+  octets: string[] | number[]
+  class?: string
+  octet?: string
+}
+
+const { octets, class: classList, octet } = Astro.props
+
+export const prerender = true
+---
+
+<span class:list={['uuid-segment', cn('flex-inline rounded px-[3px] py-[2px]', classList)]}>
+  {octets.map((o) => <span class={cn('px-[1px]', octet)}>{o}</span>)}
+</span>

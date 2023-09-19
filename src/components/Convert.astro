@@ -4,6 +4,8 @@ import { convertId } from '@/lib/parse'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
+import OctetSegment from '@/components/OctetSegment.astro'
+
 const SUBMIT_BTN_CONVERT = 'Convert'
 const SUBMIT_BTN_GENERATE = 'Generate'
 
@@ -45,7 +47,7 @@ const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
     !convertResult.valid && convertResult.error !== 'empty' && (
       <div role='alert' class='max-w-screen-sm mx-auto px-4 text-sm text-center text-destructive'>
         <p>
-          The value <span class='font-weight-bold'>{rawValue}</span> is not a valid UUID format
+          The value <span class='font-bold'>{rawValue}</span> is not a valid UUID format
         </p>
         {convertResult.message && <p>{convertResult.message}</p>}
       </div>
@@ -54,9 +56,49 @@ const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
 
   {
     convertResult.valid && (
-      <section class='rounded-xl border bg-card text-card-foreground shadow p-6'>
-        <h1>{convertResult.rawIdValue}</h1>
-        <code>{JSON.stringify(convertResult, null, 4)}</code>
+      <section class='convert-results rounded-xl border bg-card text-card-foreground text-center shadow p-6'>
+        <h2 class='font-bold'>Standard UUID v4</h2>
+        <p
+          class='flex-inline flex-wrap items-center justify-center text-lg mb-4'
+          data-uuid-string={convertResult.uuidFormat.stringified}>
+          <OctetSegment octets={convertResult.uuidFormat.timeLow} class='time-low-segment' />
+          <span class='p-0.5 text-muted-foreground'>-</span>
+          <OctetSegment octets={convertResult.uuidFormat.timeMid} class='time-mid-segment' />
+          <span class='p-0.5 text-muted-foreground'>-</span>
+          <OctetSegment octets={convertResult.uuidFormat.timeHi} class='time-hi-segment' />
+          <span class='p-0.5 text-muted-foreground'>-</span>
+          <OctetSegment octets={convertResult.uuidFormat.clockSeqHi} class='clock-hi-segment' />
+          <span class='p-0.5 text-muted-foreground'>-</span>
+          <OctetSegment octets={convertResult.uuidFormat.clockSeqLow} class='clock-low-segment' />
+          <span class='p-0.5 text-muted-foreground'>-</span>
+          <OctetSegment octets={convertResult.uuidFormat.node} class='node-segment' />
+        </p>
+
+        <h3 class='font-bold'>Oracle RAW(16)</h3>
+        <p
+          class='flex-inline flex-wrap items-center justify-center text-lg mb-4'
+          data-uuid-string={convertResult.oracleFormat.stringified}>
+          <OctetSegment octets={convertResult.oracleFormat.timeLow} class='time-low-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.oracleFormat.timeMid} class='time-mid-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.oracleFormat.timeHi} class='time-hi-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.oracleFormat.clockSeqHi} class='clock-hi-segment px-0' octet='px-[3px]' />
+          <OctetSegment
+            octets={convertResult.oracleFormat.clockSeqLow}
+            class='clock-low-segment px-0'
+            octet='px-[3px]'
+          />
+          <OctetSegment octets={convertResult.oracleFormat.node} class='node-segment px-0' octet='px-[3px]' />
+        </p>
+
+        <h3 class='font-bold'>Unsigned Integers</h3>
+        <p class='flex flex-wrap items-center justify-center text-lg'>
+          <OctetSegment octets={convertResult.bytes.timeLow} class='time-low-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.bytes.timeMid} class='time-mid-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.bytes.timeHi} class='time-hi-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.bytes.clockSeqHi} class='clock-hi-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.bytes.clockSeqLow} class='clock-low-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.bytes.node} class='node-segment px-0' octet='px-[3px]' />
+        </p>
       </section>
     )
   }

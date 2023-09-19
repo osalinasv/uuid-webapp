@@ -57,3 +57,33 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .uuid-segment {
+    @apply transition-colors;
+  }
+
+  .convert-results:has(.time-low-segment:hover) .time-low-segment {
+    @apply bg-lime-100/90;
+  }
+
+  .convert-results:has(.time-mid-segment:hover) .time-mid-segment {
+    @apply bg-emerald-100/90;
+  }
+
+  .convert-results:has(.time-hi-segment:hover) .time-hi-segment {
+    @apply bg-cyan-100/90;
+  }
+
+  .convert-results:has(.clock-hi-segment:hover) .clock-hi-segment {
+    @apply bg-violet-100/90;
+  }
+
+  .convert-results:has(.clock-low-segment:hover) .clock-low-segment {
+    @apply bg-fuchsia-100/90;
+  }
+
+  .convert-results:has(.node-segment:hover) .node-segment {
+    @apply bg-rose-100/90;
+  }
+}

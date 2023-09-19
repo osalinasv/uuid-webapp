@@ -16,10 +16,20 @@ type ConvertError = {
 
 type UuidLayout = {
   stringified: string
+  timeLow: string[]
+  timeMid: string[]
+  timeHi: string[]
+  clockSeqHi: string[]
+  clockSeqLow: string[]
+  node: string[]
+}
+
+type ByteLayout = {
+  raw: number[]
   timeLow: number[]
   timeMid: number[]
-  timeHiVersion: number[]
-  clockSeqHiReserved: number[]
+  timeHi: number[]
+  clockSeqHi: number[]
   clockSeqLow: number[]
   node: number[]
 }
@@ -28,8 +38,7 @@ type ConvertedId = {
   rawIdValue: string
   uuidFormat: UuidLayout
   oracleFormat: UuidLayout
-  bytes: number[]
-  bytesAsHex: string[]
+  bytes: ByteLayout
 }
 
 type ConvertResult = { valid: true } & ConvertedId
@@ -74,14 +83,13 @@ function convertFromUuid(rawValue: string): ConvertedId {
 
   const uuidFormat = buildUuidLayout(rawValue, uuidBytes)
   const oracleString = oracleBytes.map(stringifyAsHex).join('').toUpperCase()
-  const oracleFormat = buildUuidLayout(oracleString, oracleBytes)
+  const oracleFormat = buildUuidLayout(oracleString, oracleBytes, true)
 
   return {
     rawIdValue: rawValue,
     uuidFormat,
     oracleFormat,
-    bytes: uuidBytes,
-    bytesAsHex: uuidBytes.map(stringifyAsHex),
+    bytes: buildByteLayout(uuidBytes),
   }
 }
 
@@ -91,14 +99,25 @@ function convertFromOracle(rawValue: string): ConvertedId {
 
   const uuidString = uuidStringify(uuidBytes)
   const uuidFormat = buildUuidLayout(uuidString, uuidBytes)
-  const oracleFormat = buildUuidLayout(rawValue, oracleBytes)
+  const oracleFormat = buildUuidLayout(rawValue, oracleBytes, true)
 
   return {
     rawIdValue: rawValue,
     uuidFormat,
     oracleFormat,
-    bytes: uuidBytes,
-    bytesAsHex: uuidBytes.map(stringifyAsHex),
+    bytes: buildByteLayout(uuidBytes),
+  }
+}
+
+function buildByteLayout(bytes: number[]): ByteLayout {
+  return {
+    raw: bytes,
+    timeLow: bytes.slice(0, 4),
+    timeMid: bytes.slice(4, 6),
+    timeHi: bytes.slice(6, 8),
+    clockSeqHi: bytes.slice(8, 9),
+    clockSeqLow: bytes.slice(9, 10),
+    node: bytes.slice(10),
   }
 }
 
@@ -106,15 +125,20 @@ function stringifyAsHex(byte: number) {
   return byte.toString(16).padStart(2, '0')
 }
 
-function buildUuidLayout(rawIdValue: string, bytes: number[]): UuidLayout {
+function buildUuidLayout(rawIdValue: string, bytes: number[], uppercase = false): UuidLayout {
+  const hex = bytes.map((b) => {
+    const asHex = stringifyAsHex(b)
+    return uppercase ? asHex.toUpperCase() : asHex
+  })
+
   return {
     stringified: rawIdValue,
-    timeLow: bytes.slice(0, 4),
-    timeMid: bytes.slice(4, 6),
-    timeHiVersion: bytes.slice(6, 8),
-    clockSeqHiReserved: bytes.slice(8, 9),
-    clockSeqLow: bytes.slice(9, 10),
-    node: bytes.slice(10),
+    timeLow: hex.slice(0, 4),
+    timeMid: hex.slice(4, 6),
+    timeHi: hex.slice(6, 8),
+    clockSeqHi: hex.slice(8, 9),
+    clockSeqLow: hex.slice(9, 10),
+    node: hex.slice(10),
   }
 }
 
