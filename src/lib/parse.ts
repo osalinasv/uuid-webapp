@@ -1,12 +1,30 @@
 import { parse as uuidParse } from 'uuid'
-import { version as uuidVersion } from 'uuid'
 import { validate as uuidValidate } from 'uuid'
-import { stringify as uuidStringify } from 'uuid'
 
-type ParsedId = {
+type Uuid = {
   type: 'uuid' | 'oracle'
   value: string
 }
+
+type UuidLayout<TOctet = string> = {
+  timeLow: TOctet[]
+  timeMid: TOctet[]
+  timeHi: TOctet[]
+  clockHi: TOctet[]
+  clockLow: TOctet[]
+  node: TOctet[]
+}
+
+type ByteLayout = UuidLayout<number>
+
+type UuidData = {
+  rawIdValue: string
+  uuidFormat: UuidLayout
+  oracleFormat: UuidLayout
+  bytes: ByteLayout
+}
+
+type ConvertResult = { valid: true } & UuidData
 
 type ConvertError = {
   valid: false
@@ -14,34 +32,6 @@ type ConvertError = {
   message?: string
 }
 
-type UuidLayout = {
-  stringified: string
-  timeLow: string[]
-  timeMid: string[]
-  timeHi: string[]
-  clockSeqHi: string[]
-  clockSeqLow: string[]
-  node: string[]
-}
-
-type ByteLayout = {
-  raw: number[]
-  timeLow: number[]
-  timeMid: number[]
-  timeHi: number[]
-  clockSeqHi: number[]
-  clockSeqLow: number[]
-  node: number[]
-}
-
-type ConvertedId = {
-  rawIdValue: string
-  uuidFormat: UuidLayout
-  oracleFormat: UuidLayout
-  bytes: ByteLayout
-}
-
-type ConvertResult = { valid: true } & ConvertedId
 export function convertId(rawValue: string): ConvertResult | ConvertError {
   try {
     const parseResult = parseId(rawValue)
@@ -49,8 +39,8 @@ export function convertId(rawValue: string): ConvertResult | ConvertError {
 
     // prettier-ignore
     const convertedId = parseResult.type === 'uuid'
-      ? convertFromUuid(parseResult.value)
-      : convertFromOracle(parseResult.value)
+      ? convertFromUuid(parseResult)
+      : convertFromOracle(parseResult)
 
     const convertResult = convertedId as ConvertResult
     convertResult.valid = true
@@ -61,12 +51,13 @@ export function convertId(rawValue: string): ConvertResult | ConvertError {
   }
 }
 
-type ParsedResult = { valid: true } & ParsedId
+type ParsedResult = { valid: true } & Uuid
+
 function parseId(rawValue: string): ParsedResult | ConvertError {
   if (!rawValue) return { valid: false, error: 'empty' }
   const uppercased = rawValue.toUpperCase()
 
-  if (uuidValidate(uppercased) && uuidVersion(uppercased) === 4) {
+  if (uuidValidate(uppercased)) {
     return { valid: true, type: 'uuid', value: uppercased.toLowerCase() }
   }
 
@@ -77,75 +68,61 @@ function parseId(rawValue: string): ParsedResult | ConvertError {
   return { valid: false, error: 'invalid' }
 }
 
-function convertFromUuid(rawValue: string): ConvertedId {
-  const uuidBytes = Array.from(uuidParse(rawValue))
+function convertFromUuid(id: Uuid): UuidData {
+  const uuidBytes = Array.from(uuidParse(id.value))
   const oracleBytes = flipByteOrder(uuidBytes)
 
-  const uuidFormat = buildUuidLayout(rawValue, uuidBytes)
-  const oracleString = oracleBytes.map(stringifyAsHex).join('').toUpperCase()
-  const oracleFormat = buildUuidLayout(oracleString, oracleBytes, true)
+  const uuidFormat = buildHexLayout(uuidBytes)
+  const oracleFormat = buildHexLayout(oracleBytes, true)
 
   return {
-    rawIdValue: rawValue,
+    rawIdValue: id.value,
     uuidFormat,
     oracleFormat,
-    bytes: buildByteLayout(uuidBytes),
+    bytes: buildLayout(uuidBytes),
   }
 }
 
-function convertFromOracle(rawValue: string): ConvertedId {
-  const oracleBytes = getBytesFromOracle(rawValue)
+function convertFromOracle(id: Uuid): UuidData {
+  const oracleBytes = getBytesFromOracle(id.value)
   const uuidBytes = flipByteOrder(oracleBytes)
 
-  const uuidString = uuidStringify(uuidBytes)
-  const uuidFormat = buildUuidLayout(uuidString, uuidBytes)
-  const oracleFormat = buildUuidLayout(rawValue, oracleBytes, true)
+  const uuidFormat = buildHexLayout(uuidBytes)
+  const oracleFormat = buildHexLayout(oracleBytes, true)
 
   return {
-    rawIdValue: rawValue,
+    rawIdValue: id.value,
     uuidFormat,
     oracleFormat,
-    bytes: buildByteLayout(uuidBytes),
+    bytes: buildLayout(uuidBytes),
   }
 }
 
-function buildByteLayout(bytes: number[]): ByteLayout {
+function buildLayout<TOctet>(bytes: TOctet[]): UuidLayout<TOctet> {
   return {
-    raw: bytes,
     timeLow: bytes.slice(0, 4),
     timeMid: bytes.slice(4, 6),
     timeHi: bytes.slice(6, 8),
-    clockSeqHi: bytes.slice(8, 9),
-    clockSeqLow: bytes.slice(9, 10),
+    clockHi: bytes.slice(8, 9),
+    clockLow: bytes.slice(9, 10),
     node: bytes.slice(10),
   }
 }
 
-function stringifyAsHex(byte: number) {
-  return byte.toString(16).padStart(2, '0')
+function buildHexLayout(bytes: number[], uppercase = false): UuidLayout {
+  const hex = bytes.map((b) => stringifyAsHex(b, uppercase))
+  return buildLayout(hex)
 }
 
-function buildUuidLayout(rawIdValue: string, bytes: number[], uppercase = false): UuidLayout {
-  const hex = bytes.map((b) => {
-    const asHex = stringifyAsHex(b)
-    return uppercase ? asHex.toUpperCase() : asHex
-  })
-
-  return {
-    stringified: rawIdValue,
-    timeLow: hex.slice(0, 4),
-    timeMid: hex.slice(4, 6),
-    timeHi: hex.slice(6, 8),
-    clockSeqHi: hex.slice(8, 9),
-    clockSeqLow: hex.slice(9, 10),
-    node: hex.slice(10),
-  }
+function stringifyAsHex(byte: number, uppercase = false) {
+  const hex = byte.toString(16).padStart(2, '0')
+  return uppercase ? hex.toUpperCase() : hex
 }
 
 function getBytesFromOracle(id: string) {
-  const bytes = new Array<number>()
-  for (var i = 0; i < id.length; i += 2) {
-    bytes.push(parseInt(id.substring(i, i + 2), 16))
+  const bytes = new Array<number>(16)
+  for (var i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(id.substring(i + i, i + i + 2), 16)
   }
 
   return bytes
@@ -158,15 +135,15 @@ function flipByteOrder(bytes: number[]) {
   flipBytesInRange(newBytes, bytes, 4, 6)
   flipBytesInRange(newBytes, bytes, 6, 8)
 
-  for (let index = 8; index < bytes.length; index++) {
-    newBytes[index] = bytes[index]
+  for (let i = 8; i < bytes.length; i++) {
+    newBytes[i] = bytes[i]
   }
 
   return newBytes
 }
 
 function flipBytesInRange(target: number[], source: number[], start: number, end: number) {
-  for (let index = start; index < end; index++) {
-    target[index] = source[start + end - 1 - index]
+  for (let i = start; i < end; i++) {
+    target[i] = source[start + end - 1 - i]
   }
 }

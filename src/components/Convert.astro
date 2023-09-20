@@ -58,35 +58,27 @@ const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
     convertResult.valid && (
       <section class='convert-results rounded-xl border bg-card text-card-foreground text-center shadow p-6'>
         <h2 class='font-bold'>Standard UUID v4</h2>
-        <p
-          class='flex-inline flex-wrap items-center justify-center text-lg mb-4'
-          data-uuid-string={convertResult.uuidFormat.stringified}>
+        <p class='flex-inline flex-wrap items-center justify-center text-lg mb-4'>
           <OctetSegment octets={convertResult.uuidFormat.timeLow} class='time-low-segment' />
           <span class='p-0.5 text-muted-foreground'>-</span>
           <OctetSegment octets={convertResult.uuidFormat.timeMid} class='time-mid-segment' />
           <span class='p-0.5 text-muted-foreground'>-</span>
           <OctetSegment octets={convertResult.uuidFormat.timeHi} class='time-hi-segment' />
           <span class='p-0.5 text-muted-foreground'>-</span>
-          <OctetSegment octets={convertResult.uuidFormat.clockSeqHi} class='clock-hi-segment' />
+          <OctetSegment octets={convertResult.uuidFormat.clockHi} class='clock-hi-segment' />
           <span class='p-0.5 text-muted-foreground'>-</span>
-          <OctetSegment octets={convertResult.uuidFormat.clockSeqLow} class='clock-low-segment' />
+          <OctetSegment octets={convertResult.uuidFormat.clockLow} class='clock-low-segment' />
           <span class='p-0.5 text-muted-foreground'>-</span>
           <OctetSegment octets={convertResult.uuidFormat.node} class='node-segment' />
         </p>
 
         <h3 class='font-bold'>Oracle RAW(16)</h3>
-        <p
-          class='flex-inline flex-wrap items-center justify-center text-lg mb-4'
-          data-uuid-string={convertResult.oracleFormat.stringified}>
+        <p class='flex-inline flex-wrap items-center justify-center text-lg mb-4'>
           <OctetSegment octets={convertResult.oracleFormat.timeLow} class='time-low-segment px-0' octet='px-[3px]' />
           <OctetSegment octets={convertResult.oracleFormat.timeMid} class='time-mid-segment px-0' octet='px-[3px]' />
           <OctetSegment octets={convertResult.oracleFormat.timeHi} class='time-hi-segment px-0' octet='px-[3px]' />
-          <OctetSegment octets={convertResult.oracleFormat.clockSeqHi} class='clock-hi-segment px-0' octet='px-[3px]' />
-          <OctetSegment
-            octets={convertResult.oracleFormat.clockSeqLow}
-            class='clock-low-segment px-0'
-            octet='px-[3px]'
-          />
+          <OctetSegment octets={convertResult.oracleFormat.clockHi} class='clock-hi-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.oracleFormat.clockLow} class='clock-low-segment px-0' octet='px-[3px]' />
           <OctetSegment octets={convertResult.oracleFormat.node} class='node-segment px-0' octet='px-[3px]' />
         </p>
 
@@ -95,8 +87,8 @@ const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
           <OctetSegment octets={convertResult.bytes.timeLow} class='time-low-segment px-0' octet='px-[3px]' />
           <OctetSegment octets={convertResult.bytes.timeMid} class='time-mid-segment px-0' octet='px-[3px]' />
           <OctetSegment octets={convertResult.bytes.timeHi} class='time-hi-segment px-0' octet='px-[3px]' />
-          <OctetSegment octets={convertResult.bytes.clockSeqHi} class='clock-hi-segment px-0' octet='px-[3px]' />
-          <OctetSegment octets={convertResult.bytes.clockSeqLow} class='clock-low-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.bytes.clockHi} class='clock-hi-segment px-0' octet='px-[3px]' />
+          <OctetSegment octets={convertResult.bytes.clockLow} class='clock-low-segment px-0' octet='px-[3px]' />
           <OctetSegment octets={convertResult.bytes.node} class='node-segment px-0' octet='px-[3px]' />
         </p>
       </section>

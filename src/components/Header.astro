@@ -3,7 +3,12 @@ export const prerender = true
 ---
 
 <header class='container flex h-14 items-center'>
-  <a class='font-bold inline-block mr-6' href='/'> uuidv4</a>
+  <div class='inline-block mr-6'>
+    <a class='font-medium text-muted-foreground' href='https://osalinasv.dev/' rel='noopener' target='_blank'>
+      osalinasv.dev/
+    </a>
+    <a class='font-bold' href='/'>uuid</a>
+  </div>
   <nav class='flex flex-1 items-center justify-between space-x-2 md:justify-end'>
     <!-- TODO -->
   </nav>
@@ -12,9 +17,9 @@ export const prerender = true
 <section class='max-w-screen-sm mx-auto grid justify-center gap-2 px-4 pt-14 pb-8'>
   <h1 class='text-center text-3xl font-bold leading-tight tracking-tighter md:text-5xl lg:leading-[1.1]'>UUID Tools</h1>
   <p class='max-w-screen-sm text-lg text-muted-foreground sm:text-xl'>
-    Convert between common UUID v4 formats, generate new values and analyze their byte components.
-    <a class='underline underline-offset-4 hover:text-accent-foreground transition-colors' href='#'>
-      What is UUID v4?
+    Convert between common UUID formats, generate new values and analyze their byte components.
+    <a class='underline underline-offset-4 hover:text-accent-foreground transition-colors' href='#about'>
+      What is UUID?
     </a>
   </p>
 </section>

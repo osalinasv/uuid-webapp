@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro'
 
+import About from '@/components/About.astro'
 import Header from '@/components/Header.astro'
 import Convert from '@/components/Convert.astro'
 
@@ -11,6 +12,6 @@ const { rawValue = '' } = Astro.params
   <Header />
   <Convert rawValue={rawValue} />
 
-  <section class='container px-4'></section>
+  <About />
   <footer class='container px-4'></footer>
 </Layout>
