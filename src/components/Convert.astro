@@ -21,7 +21,7 @@ const convertResult = convertId(sanitizedValue)
 const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
 ---
 
-<main id='converter' class='max-w-screen-sm mx-auto grid p-4 gap-4'>
+<main id='converter' class='max-w-screen-sm flex flex-col min-h-[20rem] mx-auto p-4 gap-4'>
   <form
     hx-post='/partials/parse'
     hx-target='#converter'
@@ -38,7 +38,7 @@ const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
       hx-on={`input: submitBtn.innerText = (event.target.value ? "${SUBMIT_BTN_CONVERT}" : "${SUBMIT_BTN_GENERATE}")`}
     />
 
-    <Button id='submitBtn' className='h-12 text-lg rounded-md px-6 min-w-[14ch]' type='submit'>
+    <Button id='submitBtn' className='h-12 text-lg rounded-md px-6 min-w-[14ch]' type='submit' aria-live='polite'>
       {displayValue ? SUBMIT_BTN_CONVERT : SUBMIT_BTN_GENERATE}
     </Button>
   </form>

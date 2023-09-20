@@ -63,27 +63,37 @@
     @apply transition-colors;
   }
 
-  .convert-results:has(.time-low-segment:hover) .time-low-segment {
+  .convert-results:has(.uuid-segment:focus-visible) .uuid-segment {
+    @apply focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .convert-results:has(.time-low-segment:hover) .time-low-segment,
+  .convert-results:has(.time-low-segment:focus-visible) .time-low-segment {
     @apply bg-lime-100/90;
   }
 
-  .convert-results:has(.time-mid-segment:hover) .time-mid-segment {
+  .convert-results:has(.time-mid-segment:hover) .time-mid-segment,
+  .convert-results:has(.time-mid-segment:focus-visible) .time-mid-segment {
     @apply bg-emerald-100/90;
   }
 
-  .convert-results:has(.time-hi-segment:hover) .time-hi-segment {
+  .convert-results:has(.time-hi-segment:hover) .time-hi-segment,
+  .convert-results:has(.time-hi-segment:focus-visible) .time-hi-segment {
     @apply bg-cyan-100/90;
   }
 
-  .convert-results:has(.clock-hi-segment:hover) .clock-hi-segment {
+  .convert-results:has(.clock-hi-segment:hover) .clock-hi-segment,
+  .convert-results:has(.clock-hi-segment:focus-visible) .clock-hi-segment {
     @apply bg-violet-100/90;
   }
 
-  .convert-results:has(.clock-low-segment:hover) .clock-low-segment {
+  .convert-results:has(.clock-low-segment:hover) .clock-low-segment,
+  .convert-results:has(.clock-low-segment:focus-visible) .clock-low-segment {
     @apply bg-fuchsia-100/90;
   }
 
-  .convert-results:has(.node-segment:hover) .node-segment {
+  .convert-results:has(.node-segment:hover) .node-segment,
+  .convert-results:has(.node-segment:focus-visible) .node-segment {
     @apply bg-rose-100/90;
   }
 }
