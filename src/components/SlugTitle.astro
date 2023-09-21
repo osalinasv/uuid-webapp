@@ -1,0 +1,31 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import { cn } from '@/lib/utils'
+
+export type Props = HTMLAttributes<'h2'>
+
+const { id, class: classList, ...props } = Astro.props
+
+export const prerender = true
+---
+
+<h2 class={cn('text-2xl font-bold', classList)} id={id} {...props}>
+  <a class='items-center group' href={`#${id}`}>
+    <span><slot /></span>
+    <div class='inline-block relative opacity-0 group-hover:opacity-100 group-focus:opacity-100 pointer-events-none'>
+      &ZeroWidthSpace;
+      <div class='flex absolute top-0 bottom-0 left-0 place-items-center ml-2'>
+        <i class='rounded border bg-card text-muted-foreground p-1'>
+          <svg width='10' height='10' viewBox='0 0 12 12' fill='none' aria-hidden='true'>
+            <path
+              d='M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10'
+              stroke='currentColor'
+              stroke-width='1.5'
+              stroke-linecap='round'>
+            </path>
+          </svg>
+        </i>
+      </div>
+    </div>
+  </a>
+</h2>

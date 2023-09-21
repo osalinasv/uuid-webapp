@@ -1,26 +1,102 @@
 ---
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+
+import SlugTitle from '@/components/SlugTitle.astro'
+
 export const prerender = true
 ---
 
-<section id='about' class='max-w-screen-sm mx-auto px-4'>
+<section id='about' class='max-w-screen-sm mx-auto p-4'>
   <article class='mb-12'>
-    <h2 class='text-center text-2xl font-bold mb-4'>What is a UUID?</h2>
+    <SlugTitle id='what-is-uuid' class='text-center mb-4'>What is a UUID?</SlugTitle>
     <p class='mb-2'>
-      A UUID or &#145;Universally Unique Identifier&#146; (also known as a GUID) is a 128-bit label used to identify
-      resources. The UUID specification has 5 versions, each one has its own generation strategy with v4 being random or
-      pseudo-random numbers.
+      A UUID or &OpenCurlyQuote;Universally Unique Identifier&CloseCurlyQuote; (also known as a GUID) is a 128-bit label
+      used to identify resources. The UUID specification has 5 versions, each one has its own generation strategy with
+      v4 being random or pseudo-random numbers.
     </p>
     <p class='mb-2'>
-      The term GUID or &#145;Globally Unique Identifier&#146; is generally used when working with Microsoft
-      technologies. UUID is commonly used elsewhere.
+      The term GUID or &OpenCurlyQuote;Globally Unique Identifier&CloseCurlyQuote; is generally used when working with
+      Microsoft technologies.
     </p>
     <p>
       Read the <a
         href='https://datatracker.ietf.org/doc/html/rfc4122'
         rel='noopener'
         target='_blank'
-        class='underline underline-offset-4 text-blue-400 hover:text-blue-300 transition-colors'>UUID specification</a
+        class='underline underline-offset-4 text-blue-600 hover:text-blue-400 transition-colors'>UUID specification</a
       > for more info.
     </p>
+  </article>
+
+  <article class='mb-12'>
+    <SlugTitle id='how-unique-is-uuid' class='text-center mb-4'>How unique is a UUID?</SlugTitle>
+    <p class='mb-2'>
+      In the case of v1 and v2 UUIDs using unique MAC addresses as their node, generating duplicates is virtually
+      imposible. In contrast, all other standard versions can have collisions. However the probability of generating a
+      duplicate UUID is extremely low.
+    </p>
+    <p>
+      For example, the number of random v4 UUIDs which need to be generated in order to have a chance of one collision
+      is 2.71 quintillion. This number is equivalent to generating 1 billion UUIDs per second for about 86 years.
+    </p>
+  </article>
+
+  <article>
+    <SlugTitle id='uuid-layout-byte-order' class='text-center mb-4'>Layout and Byte Order</SlugTitle>
+    <p class='mb-4'>
+      A UUID is defined in fields that are integral numbers of octets. The fields are encoded as 16 octets with each
+      field encoded with the Most Significant Byte first (known as network byte order).
+    </p>
+
+    <figure class='rounded-xl border bg-card shadow p-6'>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className='whitespace-nowrap'>Field</TableHead>
+            <TableHead className='whitespace-nowrap'>Data Type</TableHead>
+            <TableHead className='whitespace-nowrap'>Octets</TableHead>
+            <TableHead className='max-w-[28ch]'>Description</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow>
+            <TableCell className='font-medium'>time_low</TableCell>
+            <TableCell>uint32</TableCell>
+            <TableCell>0-3</TableCell>
+            <TableCell>The low field of the timestamp</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className='font-medium'>time_mid</TableCell>
+            <TableCell>uint16</TableCell>
+            <TableCell>4-5</TableCell>
+            <TableCell>The middle field of the timestamp</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className='font-medium'>time_hi_and_version</TableCell>
+            <TableCell>uint16</TableCell>
+            <TableCell>6-7</TableCell>
+            <TableCell>The high field of the timestamp multiplexed with the version number</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className='font-medium'>clock_seq_hi_and_reserved</TableCell>
+            <TableCell>uint8</TableCell>
+            <TableCell>8</TableCell>
+            <TableCell>The high field of the clock sequence multiplexed with the variant</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className='font-medium'>clock_seq_low</TableCell>
+            <TableCell>uint8</TableCell>
+            <TableCell>9</TableCell>
+            <TableCell>The low field of the clock sequence</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell className='font-medium'>node</TableCell>
+            <TableCell>uint48</TableCell>
+            <TableCell>10-15</TableCell>
+            <TableCell>The spatially unique node identifier</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </figure>
   </article>
 </section>
