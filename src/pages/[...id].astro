@@ -3,12 +3,12 @@ import { sanitize } from '@/lib/input'
 
 import Layout from '@/layouts/Layout.astro'
 
-import About from '@/components/About.astro'
-import Header from '@/components/Header.astro'
-import Convert from '@/components/Convert.astro'
+import About from '@/components/page/About.astro'
+import Header from '@/components/page/Header.astro'
+import Convert from '@/components/converter/Convert.astro'
 
-let { rawValue = '' } = Astro.params
-rawValue = sanitize(rawValue)
+let { id = '' } = Astro.params
+const rawValue = sanitize(id)
 
 let title = 'UUID Tools by osalinasv.dev'
 if (rawValue) title += ` | ${rawValue}`
