@@ -14,9 +14,7 @@ export type Props = {
 }
 
 const { rawValue } = Astro.props
-
-const sanitizedValue = rawValue.replace(/\s/g, '')
-const convertResult = convertId(sanitizedValue)
+const convertResult = convertId(rawValue)
 
 const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
 ---
@@ -31,7 +29,7 @@ const displayValue = convertResult.valid ? convertResult.rawIdValue : ''
     <Input
       id='rawValue'
       className='h-12 text-lg px-6'
-      placeholder='UUID, Oracle RAW(16). Leave empty to generate.'
+      placeholder='UUID, Oracle RAW(16), Empty to generate UUIDv4'
       defaultValue={displayValue}
       name='rawValue'
       type='text'

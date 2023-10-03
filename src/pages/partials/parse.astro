@@ -1,12 +1,20 @@
 ---
 import { v4 as uuidv4 } from 'uuid'
+import { sanitize } from '@/lib/input'
+
 import Convert from '@/components/Convert.astro'
 
 const request = await Astro.request.formData()
-const rawValue = (request.get('rawValue') as string) || uuidv4()
 
-const sanitizedValue = rawValue.replace(/\s/g, '')
-Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(sanitizedValue)}`)
+let rawValue = request.get('rawValue') as string
+rawValue = sanitize(rawValue)
+
+const rawIdValue = !rawValue ? uuidv4() : rawValue
+Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(rawIdValue)}`)
 ---
 
-<Convert rawValue={sanitizedValue} />
+<head>
+  <title>UUID Tools by osalinasv.dev | {rawIdValue}</title>
+</head>
+
+<Convert rawValue={rawIdValue} />
