@@ -1,0 +1,23 @@
+---
+import { v4 as uuidv4 } from 'uuid'
+import { sanitize, formatTitle } from '@/lib/global'
+
+import ConvertResult from '@/components/converter/ConvertResult.astro'
+
+const request = await Astro.request.formData()
+const id = request.get('id') as string | undefined
+
+let rawValue = sanitize(id)
+
+if (!rawValue) {
+  rawValue = uuidv4()
+
+  const events = { 'sv:generated': { id: rawValue } }
+  Astro.response.headers.append('HX-Trigger', JSON.stringify(events))
+}
+
+Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(rawValue)}`)
+---
+
+<head><title>{formatTitle(rawValue)}</title></head>
+<ConvertResult rawValue={rawValue} />

@@ -1,0 +1,21 @@
+---
+import { convertId } from '@/lib/parse'
+
+import ConvertError from '@/components/converter/ConvertError.astro'
+import ConvertSuccess from '@/components/converter/ConvertSuccess.astro'
+
+export type Props = {
+  rawValue: string
+}
+
+const { rawValue } = Astro.props
+const convertResult = convertId(rawValue)
+---
+
+{
+  convertResult.valid ? (
+    <ConvertSuccess result={convertResult} />
+  ) : (
+    <ConvertError result={convertResult} rawValue={rawValue} />
+  )
+}

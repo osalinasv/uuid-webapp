@@ -24,11 +24,11 @@ type UuidData = {
   bytes: ByteLayout
 }
 
-type ConvertResult = { valid: true } & UuidData
+export type ConvertResult = { valid: true } & UuidData
 
-type ConvertError = {
+export type ConvertError = {
   valid: false
-  error: 'invalid' | 'empty'
+  error: 'invalid'
   message?: string
 }
 
@@ -54,7 +54,6 @@ export function convertId(rawValue: string): ConvertResult | ConvertError {
 type ParsedResult = { valid: true } & Uuid
 
 function parseId(rawValue: string): ParsedResult | ConvertError {
-  if (!rawValue) return { valid: false, error: 'empty' }
   const uppercased = rawValue.toUpperCase()
 
   if (uuidValidate(uppercased)) {

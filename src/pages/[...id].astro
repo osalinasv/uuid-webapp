@@ -1,22 +1,19 @@
 ---
-import { sanitize } from '@/lib/input'
+import { sanitize, formatTitle } from '@/lib/global'
 
 import Layout from '@/layouts/Layout.astro'
 
 import About from '@/components/page/About.astro'
 import Header from '@/components/page/Header.astro'
-import Convert from '@/components/converter/Convert.astro'
+import ConvertForm from '@/components/converter/ConvertForm.astro'
 
-let { id = '' } = Astro.params
+let { id } = Astro.params
 const rawValue = sanitize(id)
-
-let title = 'UUID Tools by osalinasv.dev'
-if (rawValue) title += ` | ${rawValue}`
 ---
 
-<Layout title={title}>
+<Layout title={formatTitle(rawValue)}>
   <Header />
-  <Convert rawValue={rawValue} />
+  <ConvertForm rawValue={rawValue} />
 
   <About />
   <footer class='container px-4'></footer>
@@ -26,7 +23,7 @@ if (rawValue) title += ` | ${rawValue}`
   const colorSchemeMedia = window.matchMedia('(prefers-color-scheme: dark)')
   setDarkTheme(colorSchemeMedia.matches)
 
-  colorSchemeMedia.addEventListener('change', event => setDarkTheme(event.matches))
+  colorSchemeMedia.addEventListener('change', (event) => setDarkTheme(event.matches))
 
   function setDarkTheme(useDarkTheme: boolean) {
     if (useDarkTheme) {
