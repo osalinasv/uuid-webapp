@@ -1,11 +1,6 @@
 import { parse as uuidParse } from 'uuid'
 import { validate as uuidValidate } from 'uuid'
 
-type Uuid = {
-  type: 'uuid' | 'oracle'
-  value: string
-}
-
 type UuidLayout<TOctet = string> = {
   timeLow: TOctet[]
   timeMid: TOctet[]
@@ -15,82 +10,59 @@ type UuidLayout<TOctet = string> = {
   node: TOctet[]
 }
 
-type ByteLayout = UuidLayout<number>
-
-type UuidData = {
-  rawIdValue: string
+export type ConvertResult = {
+  valid: true
   uuidFormat: UuidLayout
   oracleFormat: UuidLayout
-  bytes: ByteLayout
+  bytes: UuidLayout<number>
 }
-
-export type ConvertResult = { valid: true } & UuidData
 
 export type ConvertError = {
   valid: false
-  error: 'invalid'
   message?: string
 }
 
 export function convertId(rawValue: string): ConvertResult | ConvertError {
   try {
-    const parseResult = parseId(rawValue)
-    if (!parseResult.valid) return parseResult
+    if (uuidValidate(rawValue)) {
+      return convertFromUuid(rawValue.toLowerCase())
+    }
 
-    // prettier-ignore
-    const convertedId = parseResult.type === 'uuid'
-      ? convertFromUuid(parseResult)
-      : convertFromOracle(parseResult)
+    const uppercased = rawValue.toUpperCase()
+    if (/^[0-9A-F]{32}$/gs.test(uppercased)) {
+      return convertFromOracle(uppercased)
+    }
 
-    const convertResult = convertedId as ConvertResult
-    convertResult.valid = true
-
-    return convertResult
+    return { valid: false }
   } catch (e: any) {
-    return { valid: false, error: 'invalid', message: e.message }
+    return { valid: false, message: e.message }
   }
 }
 
-type ParsedResult = { valid: true } & Uuid
-
-function parseId(rawValue: string): ParsedResult | ConvertError {
-  const uppercased = rawValue.toUpperCase()
-
-  if (uuidValidate(uppercased)) {
-    return { valid: true, type: 'uuid', value: uppercased.toLowerCase() }
-  }
-
-  if (/^[0-9A-F]{32}$/gs.test(uppercased)) {
-    return { valid: true, type: 'oracle', value: uppercased }
-  }
-
-  return { valid: false, error: 'invalid' }
-}
-
-function convertFromUuid(id: Uuid): UuidData {
-  const uuidBytes = Array.from(uuidParse(id.value))
+function convertFromUuid(id: string): ConvertResult {
+  const uuidBytes = Array.from(uuidParse(id))
   const oracleBytes = flipByteOrder(uuidBytes)
 
   const uuidFormat = buildHexLayout(uuidBytes)
   const oracleFormat = buildHexLayout(oracleBytes, true)
 
   return {
-    rawIdValue: id.value,
+    valid: true,
     uuidFormat,
     oracleFormat,
     bytes: buildLayout(uuidBytes),
   }
 }
 
-function convertFromOracle(id: Uuid): UuidData {
-  const oracleBytes = getBytesFromOracle(id.value)
+function convertFromOracle(id: string): ConvertResult {
+  const oracleBytes = getBytesFromOracle(id)
   const uuidBytes = flipByteOrder(oracleBytes)
 
   const uuidFormat = buildHexLayout(uuidBytes)
   const oracleFormat = buildHexLayout(oracleBytes, true)
 
   return {
-    rawIdValue: id.value,
+    valid: true,
     uuidFormat,
     oracleFormat,
     bytes: buildLayout(uuidBytes),
