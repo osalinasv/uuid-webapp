@@ -9,10 +9,12 @@ const { id, class: classList, ...props } = Astro.props
 export const prerender = true
 ---
 
-<h2 class={cn('text-2xl font-bold', classList)} id={id} {...props}>
-  <a class='items-center group' href={`#${id}`}>
+<h2 class={cn('text-2xl font-bold leading-tight', classList)} id={id} {...props}>
+  <a class='group' href={`#${id}`}>
     <span><slot /></span>
-    <div class='inline-block relative opacity-0 group-hover:opacity-100 group-focus:opacity-100 pointer-events-none'>
+    <div
+      class='inline-block relative opacity-0 group-hover:opacity-100 group-focus:opacity-100 pointer-events-none'
+      aria-hidden='true'>
       &ZeroWidthSpace;
       <div class='flex absolute top-0 bottom-0 left-0 place-items-center ml-2'>
         <i class='rounded border bg-card text-muted-foreground p-1'>

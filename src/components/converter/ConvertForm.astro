@@ -17,34 +17,37 @@ const { rawValue } = Astro.props
     hx-target='#convert-result'
     hx-push-url='true'
     class='grid md:grid-cols-[1fr_auto] items-center gap-2'
-    _="on sv:generated(id) call setIdInputValue(id)">
+    _='on sv:generated(id) call setIdInputValue(id)'>
     <div class='relative'>
       <Input
         id='id'
-        className='h-12 text-lg px-6'
+        className='h-12 text-lg px-3'
         placeholder='UUID, Oracle RAW(16), Empty to generate UUIDv4'
         defaultValue={rawValue}
         name='id'
         type='text'
+        maxLength={37}
+        spellCheck='true'
+        autoComplete='off'
         _='on input call updateSubmitLabel(my.value)'
       />
 
-      <div class='absolute top-0 bottom-0 right-0 grid place-content-center mx-2 my-1'>
+      <div class='absolute top-0 bottom-0 right-0 inline-flex place-items-center mr-2'>
         <button
-          id="clearBtn"
+          id='clearBtn'
           type='button'
           disabled={!rawValue}
-          aria-label="Clear ID field"
+          aria-label='Clear ID field'
           class='block rounded-full p-0.5 bg-primary text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:hidden'
-          _="on click call setIdInputValue(null)">
-          <svg xmlns='http://www.w3.org/2000/svg' class='w-3 h-3' width='32' height='32' viewBox='0 0 24 24' aria-hidden="true">
-            <path fill='none' stroke='currentColor'stroke-width='2'  d='M17 7L7 17M7 7l10 10'></path>
+          _='on click call setIdInputValue(null)'>
+          <svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' aria-hidden='true'>
+            <path fill='none' stroke='currentColor'stroke-width='2' d='M17 7L7 17M7 7l10 10'></path>
           </svg>
         </button>
       </div>
     </div>
 
-    <Button id='submitBtn' className='h-12 text-lg rounded-md px-6 min-w-[14ch]' type='submit' aria-live='polite'>
+    <Button id='submitBtn' className='h-12 text-lg rounded-md px-3 min-w-[14ch]' type='submit' aria-live='polite'>
       {!rawValue ? 'Generate' : 'Convert'}
     </Button>
   </form>
@@ -54,7 +57,7 @@ const { rawValue } = Astro.props
   </div>
 </main>
 
-<script type="text/hyperscript">
+<script type='text/hyperscript'>
   def setIdInputValue(value)
     set #id.value to value
     call updateSubmitLabel(value)

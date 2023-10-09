@@ -18,18 +18,3 @@ const rawValue = sanitize(id)
   <About />
   <footer class='container px-4'></footer>
 </Layout>
-
-<script>
-  const colorSchemeMedia = window.matchMedia('(prefers-color-scheme: dark)')
-  setDarkTheme(colorSchemeMedia.matches)
-
-  colorSchemeMedia.addEventListener('change', (event) => setDarkTheme(event.matches))
-
-  function setDarkTheme(useDarkTheme: boolean) {
-    if (useDarkTheme) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-  }
-</script>
