@@ -99,22 +99,31 @@ function getBytesFromOracle(id: string) {
   return bytes
 }
 
-function flipByteOrder(bytes: number[]) {
-  const newBytes = new Array<number>(16)
-
-  flipBytesInRange(newBytes, bytes, 0, 4)
-  flipBytesInRange(newBytes, bytes, 4, 6)
-  flipBytesInRange(newBytes, bytes, 6, 8)
-
-  for (let i = 8; i < bytes.length; i++) {
-    newBytes[i] = bytes[i]
+function flipByteOrder(bytes: number[]): number[] {
+  if (bytes.length < 16) {
+    throw new Error('Unexpected byte array found: not enough bytes to convert')
   }
 
-  return newBytes
-}
+  return [
+    bytes[3],
+    bytes[2],
+    bytes[1],
+    bytes[0],
 
-function flipBytesInRange(target: number[], source: number[], start: number, end: number) {
-  for (let i = start; i < end; i++) {
-    target[i] = source[start + end - 1 - i]
-  }
+    bytes[5],
+    bytes[4],
+
+    bytes[7],
+    bytes[6],
+
+    bytes[8],
+    bytes[9],
+
+    bytes[10],
+    bytes[11],
+    bytes[12],
+    bytes[13],
+    bytes[14],
+    bytes[15],
+  ]
 }

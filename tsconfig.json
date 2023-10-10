@@ -5,7 +5,7 @@
     "moduleDetection": "force",
 
     "strict": true,
-    // "noUncheckedIndexedAccess": true,
+    "noUncheckedIndexedAccess": false,
 
     "lib": ["ESNext", "dom"],
     "jsx": "react-jsx",
