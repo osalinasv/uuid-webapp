@@ -4,9 +4,7 @@ import { sanitize, formatTitle } from '@/lib/global'
 
 import ConvertResult from '@/components/converter/ConvertResult.astro'
 
-const request = await Astro.request.formData()
-const id = request.get('id') as string | undefined
-
+const id = Astro.url.searchParams.get('id')
 let rawValue = sanitize(id)
 
 if (!rawValue) {

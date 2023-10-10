@@ -1,4 +1,4 @@
-export function sanitize(value: string | undefined) {
+export function sanitize(value: Nullable<string>) {
   return !value ? '' : value.replace(/\s/g, '')
 }
 
