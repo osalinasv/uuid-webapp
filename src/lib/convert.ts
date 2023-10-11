@@ -1,5 +1,6 @@
 import { parse as uuidParse } from 'uuid'
 import { validate as uuidValidate } from 'uuid'
+import { flipNetworkByteOrder } from './common'
 
 type UuidLayout<TOctet = string> = {
   timeLow: TOctet[]
@@ -41,7 +42,7 @@ export function convertId(rawValue: string): ConvertResult | ConvertError {
 
 function convertFromUuid(id: string): ConvertResult {
   const uuidBytes = Array.from(uuidParse(id))
-  const oracleBytes = flipByteOrder(uuidBytes)
+  const oracleBytes = flipNetworkByteOrder(uuidBytes)
 
   const uuidFormat = buildHexLayout(uuidBytes)
   const oracleFormat = buildHexLayout(oracleBytes, true)
@@ -56,7 +57,7 @@ function convertFromUuid(id: string): ConvertResult {
 
 function convertFromOracle(id: string): ConvertResult {
   const oracleBytes = getBytesFromOracle(id)
-  const uuidBytes = flipByteOrder(oracleBytes)
+  const uuidBytes = flipNetworkByteOrder(oracleBytes)
 
   const uuidFormat = buildHexLayout(uuidBytes)
   const oracleFormat = buildHexLayout(oracleBytes, true)
@@ -98,29 +99,4 @@ function getBytesFromOracle(id: string) {
   }
 
   return bytes
-}
-
-function flipByteOrder(bytes: number[]) {
-  return [
-    bytes[3],
-    bytes[2],
-    bytes[1],
-    bytes[0],
-
-    bytes[5],
-    bytes[4],
-
-    bytes[7],
-    bytes[6],
-
-    bytes[8],
-    bytes[9],
-
-    bytes[10],
-    bytes[11],
-    bytes[12],
-    bytes[13],
-    bytes[14],
-    bytes[15],
-  ]
 }
