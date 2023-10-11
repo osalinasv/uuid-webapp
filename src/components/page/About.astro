@@ -1,6 +1,10 @@
 ---
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-
+import Table from '@/components/ui/table/Table.astro'
+import TableBody from '@/components/ui/table/TableBody.astro'
+import TableCell from '@/components/ui/table/TableCell.astro'
+import TableHead from '@/components/ui/table/TableHead.astro'
+import TableHeader from '@/components/ui/table/TableHeader.astro'
+import TableRow from '@/components/ui/table/TableRow.astro'
 import SlugTitle from '@/components/page/SlugTitle.astro'
 
 export const prerender = true
@@ -52,45 +56,45 @@ export const prerender = true
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className='whitespace-nowrap'>Field</TableHead>
-            <TableHead className='whitespace-nowrap'>Data Type</TableHead>
-            <TableHead className='whitespace-nowrap'>Octets</TableHead>
-            <TableHead className='max-w-[28ch]'>Description</TableHead>
+            <TableHead class='whitespace-nowrap'>Field</TableHead>
+            <TableHead class='whitespace-nowrap'>Data Type</TableHead>
+            <TableHead class='whitespace-nowrap'>Octets</TableHead>
+            <TableHead class='max-w-[28ch]'>Description</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableCell className='font-medium'>time_low</TableCell>
+            <TableCell class='font-medium'>time_low</TableCell>
             <TableCell>uint32</TableCell>
             <TableCell>0-3</TableCell>
             <TableCell>The low field of the timestamp</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className='font-medium'>time_mid</TableCell>
+            <TableCell class='font-medium'>time_mid</TableCell>
             <TableCell>uint16</TableCell>
             <TableCell>4-5</TableCell>
             <TableCell>The middle field of the timestamp</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className='font-medium'>time_hi_and_version</TableCell>
+            <TableCell class='font-medium'>time_hi_and_version</TableCell>
             <TableCell>uint16</TableCell>
             <TableCell>6-7</TableCell>
             <TableCell>The high field of the timestamp multiplexed with the version number</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className='font-medium'>clock_seq_hi_and_reserved</TableCell>
+            <TableCell class='font-medium'>clock_seq_hi_and_reserved</TableCell>
             <TableCell>uint8</TableCell>
             <TableCell>8</TableCell>
             <TableCell>The high field of the clock sequence multiplexed with the variant</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className='font-medium'>clock_seq_low</TableCell>
+            <TableCell class='font-medium'>clock_seq_low</TableCell>
             <TableCell>uint8</TableCell>
             <TableCell>9</TableCell>
             <TableCell>The low field of the clock sequence</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell className='font-medium'>node</TableCell>
+            <TableCell class='font-medium'>node</TableCell>
             <TableCell>uint48</TableCell>
             <TableCell>10-15</TableCell>
             <TableCell>The spatially unique node identifier</TableCell>

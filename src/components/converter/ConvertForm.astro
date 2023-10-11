@@ -1,7 +1,6 @@
 ---
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-
+import Input from '@/components/ui/Input.astro'
+import Button from '@/components/ui/Button.astro'
 import ConvertResult from '@/components/converter/ConvertResult.astro'
 
 export type Props = {
@@ -21,14 +20,14 @@ const { rawValue } = Astro.props
     <div class='relative'>
       <Input
         id='id'
-        className='h-12 text-lg px-3'
+        class='h-12 text-lg px-3'
         placeholder='UUID, Oracle RAW(16), Empty to generate UUIDv4'
-        defaultValue={rawValue}
+        value={rawValue}
         name='id'
         type='text'
-        maxLength={37}
-        spellCheck='false'
-        autoComplete='off'
+        maxlength={37}
+        spellcheck='false'
+        autocomplete='off'
         _='on input call updateSubmitLabel(my.value)'
       />
 
@@ -47,7 +46,7 @@ const { rawValue } = Astro.props
       </div>
     </div>
 
-    <Button id='submitBtn' className='h-12 text-lg px-3 min-w-[14ch]' type='submit' aria-live='polite'>
+    <Button id='submitBtn' class='h-12 text-lg px-3 min-w-[14ch]' type='submit' aria-live='polite'>
       {!rawValue ? 'Generate' : 'Convert'}
     </Button>
   </form>

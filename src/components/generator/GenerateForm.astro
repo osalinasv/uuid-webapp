@@ -1,7 +1,6 @@
 ---
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-
+import Input from '@/components/ui/Input.astro'
+import Button from '@/components/ui/Button.astro'
 import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
 ---
 
@@ -10,7 +9,7 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
     <div class='inline-flex items-center gap-2 mr-6'>
       <Input
         id='count'
-        className='w-[90px]'
+        class='w-[90px]'
         name='count'
         type='number'
         min={GENERATE_COUNT_MIN}
