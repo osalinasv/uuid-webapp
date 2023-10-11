@@ -80,7 +80,7 @@ function buildLayout<TOctet>(bytes: TOctet[]): UuidLayout<TOctet> {
   }
 }
 
-function buildHexLayout(bytes: number[], uppercase = false): UuidLayout {
+function buildHexLayout(bytes: number[], uppercase = false) {
   const hex = bytes.map((b) => stringifyAsHex(b, uppercase))
   return buildLayout(hex)
 }
@@ -92,6 +92,7 @@ function stringifyAsHex(byte: number, uppercase = false) {
 
 function getBytesFromOracle(id: string) {
   const bytes = new Array<number>(16)
+
   for (var i = 0; i < bytes.length; i++) {
     bytes[i] = parseInt(id.substring(i + i, i + i + 2), 16)
   }
@@ -99,11 +100,7 @@ function getBytesFromOracle(id: string) {
   return bytes
 }
 
-function flipByteOrder(bytes: number[]): number[] {
-  if (bytes.length < 16) {
-    throw new Error('Unexpected byte array found: not enough bytes to convert')
-  }
-
+function flipByteOrder(bytes: number[]) {
   return [
     bytes[3],
     bytes[2],

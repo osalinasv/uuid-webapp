@@ -11,10 +11,10 @@ export type Props = {
 const { rawValue } = Astro.props
 ---
 
-<main id='convert-form' class='max-w-screen-sm min-h-[22rem] mx-auto p-4'>
+<main class='max-w-screen-sm min-h-[22rem] mx-auto p-4'>
   <form
     hx-get='/partials/convert'
-    hx-target='#convert-result'
+    hx-target='#convertResult'
     hx-push-url='true'
     class='grid md:grid-cols-[1fr_auto] items-center gap-2'
     _='on sv:generated(id) call setIdInputValue(id)'>
@@ -27,7 +27,7 @@ const { rawValue } = Astro.props
         name='id'
         type='text'
         maxLength={37}
-        spellCheck='true'
+        spellCheck='false'
         autoComplete='off'
         _='on input call updateSubmitLabel(my.value)'
       />
@@ -47,12 +47,12 @@ const { rawValue } = Astro.props
       </div>
     </div>
 
-    <Button id='submitBtn' className='h-12 text-lg rounded-md px-3 min-w-[14ch]' type='submit' aria-live='polite'>
+    <Button id='submitBtn' className='h-12 text-lg px-3 min-w-[14ch]' type='submit' aria-live='polite'>
       {!rawValue ? 'Generate' : 'Convert'}
     </Button>
   </form>
 
-  <div id='convert-result'>
+  <div id='convertResult'>
     {!!rawValue && <ConvertResult rawValue={rawValue} />}
   </div>
 </main>
