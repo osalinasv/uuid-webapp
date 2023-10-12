@@ -4,9 +4,9 @@ import Button from '@/components/ui/Button.astro'
 import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
 ---
 
-<section class='max-w-screen-sm mx-auto p-4'>
-  <form hx-get='/partials/generate' hx-target='#generateResult' class='flex'>
-    <div class='inline-flex items-center gap-2 mr-6'>
+<section class='max-w-screen-sm mx-auto p-4 mb-4'>
+  <form hx-get='/partials/generate' hx-target='#generateResult' class='mb-4'>
+    <div class='flex items-baseline gap-2'>
       <Input
         id='count'
         class='w-[90px]'
@@ -18,10 +18,27 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
         _={`on change set val to my.value js(val) return Math.min(Math.max(${GENERATE_COUNT_MIN}, val), ${GENERATE_COUNT_MAX}) end then set my.value to it`}
       />
       <Button id='generateBtn' type='submit'>Generate</Button>
+      <Button class='inline-flex items-center ml-auto' type='button' variant='ghost'>
+        <span>Options</span>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='24'
+          height='24'
+          viewBox='0 0 24 24'
+          class='-mr-1'
+          aria-hidden='true'
+          data-icon='ic:outline-arrow-drop-down'>
+          <path fill='currentColor' d='m7 10l5 5l5-5H7z'></path>
+        </svg>
+      </Button>
     </div>
-
-    <div class='flex flex-1 justify-end'></div>
   </form>
 
-  <div id='generateResult'></div>
+  <div id='generateResult'>
+    <div class='bg-muted text-muted-foreground rounded-lg p-6'>
+      <p class='max-w-[48ch] mx-auto text-center'>
+        Generate UUIDs in bulk, expand the options menu to customize the output format
+      </p>
+    </div>
+  </div>
 </section>

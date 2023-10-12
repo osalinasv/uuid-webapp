@@ -10,7 +10,7 @@ export type Props = {
 const { rawValue } = Astro.props
 ---
 
-<main class='max-w-screen-sm min-h-[22rem] mx-auto p-4'>
+<main class='max-w-screen-sm mx-auto p-4 mb-4'>
   <form
     hx-get='/partials/convert'
     hx-target='#convertResult'
@@ -20,8 +20,8 @@ const { rawValue } = Astro.props
     <div class='relative'>
       <Input
         id='id'
-        class='h-12 text-lg px-3'
-        placeholder='UUID, Oracle RAW(16), Empty to generate UUIDv4'
+        class='h-12 text-lg'
+        placeholder='UUID, Oracle RAW(16) or empty to generate'
         value={rawValue}
         name='id'
         type='text'
@@ -31,7 +31,7 @@ const { rawValue } = Astro.props
         _='on input call updateSubmitLabel(my.value)'
       />
 
-      <div class='absolute top-0 bottom-0 right-0 inline-flex place-items-center mr-2'>
+      <div class='flex absolute top-0 bottom-0 right-0 place-items-center mr-2'>
         <button
           id='clearBtn'
           type='button'
@@ -46,8 +46,8 @@ const { rawValue } = Astro.props
       </div>
     </div>
 
-    <Button id='submitBtn' class='h-12 text-lg px-3 min-w-[14ch]' type='submit' aria-live='polite'>
-      {!rawValue ? 'Generate' : 'Convert'}
+    <Button id='submitBtn' class='h-12 text-lg min-w-[14ch]' type='submit' aria-live='polite'>
+      {!rawValue ? 'New' : 'Convert'}
     </Button>
   </form>
 
@@ -56,7 +56,6 @@ const { rawValue } = Astro.props
   </div>
 </main>
 
-<!-- prettier-ignore-start -->
 <script type='text/hyperscript'>
   def setIdInputValue(value)
     set #id.value to value
@@ -68,9 +67,8 @@ const { rawValue } = Astro.props
       set #submitBtn.innerText to 'Convert'
       set #clearBtn.disabled to false
     else
-      set #submitBtn.innerText to 'Generate'
+      set #submitBtn.innerText to 'New'
       set #clearBtn.disabled to true
     end
   end
 </script>
-<!-- prettier-ignore-end -->

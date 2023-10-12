@@ -9,9 +9,9 @@ export type Props = {
 const { result } = Astro.props
 ---
 
-<section class='uuid-segments rounded-xl border bg-card text-card-foreground text-center shadow p-6 mt-4'>
+<section class='uuid-segments rounded-lg border bg-card text-card-foreground text-center shadow p-6 mt-4'>
   <h2 class='font-bold'>Standard UUID v4</h2>
-  <p class='flex-inline flex-wrap items-center justify-center text-lg mb-4'>
+  <p class='text-lg mb-4'>
     <OctetSegment octets={result.uuidFormat.timeLow} class='time-low-segment' />
     <span class='py-[2px] text-muted-foreground'>-</span>
     <OctetSegment octets={result.uuidFormat.timeMid} class='time-mid-segment' />
@@ -25,22 +25,22 @@ const { result } = Astro.props
   </p>
 
   <h3 class='font-bold'>Oracle RAW(16)</h3>
-  <p class='flex-inline flex-wrap items-center justify-center text-lg mb-4'>
-    <OctetSegment octets={result.oracleFormat.timeLow} class='time-low-segment px-0' octet='px-[2px]' />
-    <OctetSegment octets={result.oracleFormat.timeMid} class='time-mid-segment px-0' octet='px-[2px]' />
-    <OctetSegment octets={result.oracleFormat.timeHi} class='time-hi-segment px-0' octet='px-[2px]' />
-    <OctetSegment octets={result.oracleFormat.clockHi} class='clock-hi-segment px-0' octet='px-[2px]' />
-    <OctetSegment octets={result.oracleFormat.clockLow} class='clock-low-segment px-0' octet='px-[2px]' />
-    <OctetSegment octets={result.oracleFormat.node} class='node-segment px-0' octet='px-[2px]' />
+  <p class='text-lg mb-4'>
+    <OctetSegment octets={result.oracleFormat.timeLow} class='time-low-segment px-[1px]' octet='px-[2px]' />
+    <OctetSegment octets={result.oracleFormat.timeMid} class='time-mid-segment px-[1px]' octet='px-[2px]' />
+    <OctetSegment octets={result.oracleFormat.timeHi} class='time-hi-segment px-[1px]' octet='px-[2px]' />
+    <OctetSegment octets={result.oracleFormat.clockHi} class='clock-hi-segment px-[1px]' octet='px-[2px]' />
+    <OctetSegment octets={result.oracleFormat.clockLow} class='clock-low-segment px-[1px]' octet='px-[2px]' />
+    <OctetSegment octets={result.oracleFormat.node} class='node-segment px-[1px]' octet='px-[2px]' />
   </p>
 
   <h3 class='font-bold'>Unsigned Integers</h3>
-  <p class='flex flex-wrap items-center justify-center text-lg'>
-    <OctetSegment octets={result.bytes.timeLow} class='flex time-low-segment px-0' octet='px-[3px]' />
-    <OctetSegment octets={result.bytes.timeMid} class='flex time-mid-segment px-0' octet='px-[3px]' />
-    <OctetSegment octets={result.bytes.timeHi} class='flex time-hi-segment px-0' octet='px-[3px]' />
-    <OctetSegment octets={result.bytes.clockHi} class='flex clock-hi-segment px-0' octet='px-[3px]' />
-    <OctetSegment octets={result.bytes.clockLow} class='flex clock-low-segment px-0' octet='px-[3px]' />
-    <OctetSegment octets={result.bytes.node} class='flex node-segment px-0' octet='px-[3px]' />
+  <p class='inline-flex flex-wrap justify-center text-lg'>
+    <OctetSegment octets={result.bytes.timeLow} class='time-low-segment inline-flex px-0' octet='px-[3px]' />
+    <OctetSegment octets={result.bytes.timeMid} class='time-mid-segment inline-flex px-0' octet='px-[3px]' />
+    <OctetSegment octets={result.bytes.timeHi} class='time-hi-segment inline-flex px-0' octet='px-[3px]' />
+    <OctetSegment octets={result.bytes.clockHi} class='clock-hi-segment inline-flex px-0' octet='px-[3px]' />
+    <OctetSegment octets={result.bytes.clockLow} class='clock-low-segment inline-flex px-0' octet='px-[3px]' />
+    <OctetSegment octets={result.bytes.node} class='node-segment inline-flex px-0' octet='px-[3px]' />
   </p>
 </section>

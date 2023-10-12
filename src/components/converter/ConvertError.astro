@@ -11,9 +11,7 @@ const { result, rawValue } = Astro.props
 
 <div
   role='alert'
-  class='max-w-screen-sm mx-auto rounded-md text-sm text-center text-destructive bg-red-200/20 px-4 py-2 mt-2 dark:text-red-600 dark:bg-red-900/20'>
-  <p>
-    The value <span class='font-bold'>{rawValue}</span> is not a valid UUID format
-  </p>
+  class='max-w-screen-sm mx-auto rounded-lg text-sm text-center text-destructive bg-red-200/20 px-6 py-3 mt-2 dark:text-red-600 dark:bg-red-900/20'>
+  <p>The value <span class='font-bold'>{rawValue}</span> is not a valid UUID format</p>
   {result.message && <p class='mt-1'>{result.message}</p>}
 </div>
