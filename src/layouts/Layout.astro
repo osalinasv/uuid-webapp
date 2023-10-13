@@ -55,5 +55,32 @@ const description = 'Parse, transform, and generate UUIDs in multiple formats'
   </head>
   <body hx-ext='head-support'>
     <slot />
+
+    <script is:inline>
+      const colorSchemeMedia = window.matchMedia('(prefers-color-scheme: dark)')
+      colorSchemeMedia.addEventListener('change', (event) => {
+        if (localStorage.theme == undefined) {
+          setDarkTheme(event.matches)
+        }
+      })
+
+      document.addEventListener('cs:toggleTheme', () => {
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && colorSchemeMedia.matches)) {
+          localStorage.theme = 'light'
+          setDarkTheme(false)
+        } else {
+          localStorage.theme = 'dark'
+          setDarkTheme(true)
+        }
+      })
+
+      function setDarkTheme(useDarkTheme) {
+        if (useDarkTheme) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+      }
+    </script>
   </body>
 </html>
