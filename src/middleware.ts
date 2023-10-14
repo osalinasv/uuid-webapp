@@ -12,7 +12,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   return new Response(html, {
-    status: 200,
+    status: response.status,
     headers: response.headers,
   })
 })

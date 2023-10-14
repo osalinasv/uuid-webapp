@@ -17,7 +17,9 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
         min={GENERATE_COUNT_MIN}
         max={GENERATE_COUNT_MAX}
         placeholder='Count'
-        _={`on change set val to my.value js(val) return Math.min(Math.max(${GENERATE_COUNT_MIN}, val), ${GENERATE_COUNT_MAX}) end then set my.value to it`}
+        _={`on change set val to my.value 
+            js(val) return Math.min(Math.max(${GENERATE_COUNT_MIN}, val), ${GENERATE_COUNT_MAX}) end
+            then set my.value to it`}
       />
       <Button id='generateBtn' type='submit'>Generate</Button>
       <Button

@@ -1,4 +1,5 @@
 ---
+import Alert from '@/components/ui/Alert.astro'
 import Input from '@/components/ui/Input.astro'
 import Button from '@/components/ui/Button.astro'
 import ConvertResult from '@/components/converter/ConvertResult.astro'
@@ -16,11 +17,14 @@ const { rawValue } = Astro.props
     hx-target='#convertResult'
     hx-push-url='true'
     class='grid md:grid-cols-[1fr_auto] items-center gap-2'
-    _='on sv:generated(id) call setIdInputValue(id)'>
+    _='on sv:generated(id) call setIdInputValue(id)
+       on htmx:responseError or htmx:timeout
+       js return convertNetworkErrorTemplate.content.cloneNode(true) end
+       put result into #convertResult'>
     <div class='relative'>
       <Input
         id='idInput'
-        class='h-12 text-lg'
+        class='h-12 text-lg pr-6'
         placeholder='UUID, Oracle RAW(16) or empty to generate'
         value={rawValue}
         name='id'
@@ -54,6 +58,12 @@ const { rawValue } = Astro.props
   <div id='convertResult'>
     {!!rawValue && <ConvertResult rawValue={rawValue} />}
   </div>
+
+  <template id="convertNetworkErrorTemplate">
+    <Alert class='max-w-screen-sm mx-auto mt-2'>
+      <p>Ran into an unexpected error, please try again</p>
+    </Alert>
+  </template>
 </main>
 
 <script type='text/hyperscript'>
