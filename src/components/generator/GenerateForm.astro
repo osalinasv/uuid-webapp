@@ -1,6 +1,8 @@
 ---
 import Input from '@/components/ui/Input.astro'
 import Button from '@/components/ui/Button.astro'
+import RadioGroup from '@/components/ui/radio/RadioGroup.astro'
+import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
 import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
 ---
 
@@ -18,7 +20,14 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
         _={`on change set val to my.value js(val) return Math.min(Math.max(${GENERATE_COUNT_MIN}, val), ${GENERATE_COUNT_MAX}) end then set my.value to it`}
       />
       <Button id='generateBtn' type='submit'>Generate</Button>
-      <Button class='inline-flex items-center ml-auto' type='button' variant='ghost'>
+      <Button
+        id='generateOptionsBtn'
+        type='button'
+        variant='ghost'
+        aria-expanded="false"
+        aria-controls="generateOptions"
+        class='inline-flex items-center ml-auto'
+        _='on click call toggleOptionsExpanded(me, @aria-expanded)'>
         <span>Options</span>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -28,9 +37,21 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
           class='-mr-1'
           aria-hidden='true'
           data-icon='ic:outline-arrow-drop-down'>
-          <path fill='currentColor' d='m7 10l5 5l5-5H7z'></path>
+          <path fill='currentColor' d='m10 17l5-5l-5-5v10z'></path>
         </svg>
       </Button>
+    </div>
+
+    <div
+      id='generateOptions'
+      role='region'
+      aria-labelledby='generateOptionsBtn'
+      class='rounded-lg border bg-card shadow-sm p-6 mt-2 hidden'>
+      <p class='text-sm font-medium leading-none text-muted-foreground mb-4'>Format</p>
+      <RadioGroup>
+        <RadioGroupItem id='uuidInput' name='type' value='uuid' checked>UUID v4</RadioGroupItem>
+        <RadioGroupItem id='oracleInput' name='type' value='oracle'>Oracle RAW(16)</RadioGroupItem>
+      </RadioGroup>
     </div>
   </form>
 
@@ -42,3 +63,19 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
     </div>
   </div>
 </section>
+
+<script type='text/hyperscript'>
+  def toggleOptionsExpanded(btn, expanded)
+    if expanded is "true" then
+      set @aria-expanded of btn to false
+
+      remove .rotate-90 from <svg/> in btn
+      add .hidden to #generateOptions
+    else
+      set @aria-expanded of btn to true
+
+      add .rotate-90 to <svg/> in btn
+      remove .hidden from #generateOptions
+    end
+  end
+</script>

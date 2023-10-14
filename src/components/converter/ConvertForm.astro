@@ -19,7 +19,7 @@ const { rawValue } = Astro.props
     _='on sv:generated(id) call setIdInputValue(id)'>
     <div class='relative'>
       <Input
-        id='id'
+        id='idInput'
         class='h-12 text-lg'
         placeholder='UUID, Oracle RAW(16) or empty to generate'
         value={rawValue}
@@ -58,7 +58,7 @@ const { rawValue } = Astro.props
 
 <script type='text/hyperscript'>
   def setIdInputValue(value)
-    set #id.value to value
+    set #idInput.value to value
     call updateSubmitLabel(value)
   end
 
