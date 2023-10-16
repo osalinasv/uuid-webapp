@@ -44,7 +44,7 @@ const { rawValue } = Astro.props
           class='block rounded-full p-0.5 bg-primary text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:hidden'
           _='on click call setIdInputValue(null)'>
           <svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' aria-hidden='true'>
-            <path fill='none' stroke='currentColor'stroke-width='2' d='M17 7L7 17M7 7l10 10'></path>
+            <path fill='none' stroke='currentColor' stroke-width='2' d='M17 7L7 17M7 7l10 10'></path>
           </svg>
         </button>
       </div>
@@ -58,13 +58,13 @@ const { rawValue } = Astro.props
   <div id='convertResult'>
     {!!rawValue && <ConvertResult rawValue={rawValue} />}
   </div>
-
-  <template id="convertNetworkErrorTemplate">
-    <Alert class='max-w-screen-sm mx-auto mt-2'>
-      <p>Ran into an unexpected error, please try again</p>
-    </Alert>
-  </template>
 </main>
+
+<template id='convertNetworkErrorTemplate'>
+  <Alert class='max-w-screen-sm mx-auto mt-2'>
+    <p>Ran into an unexpected error, please try again</p>
+  </Alert>
+</template>
 
 <script type='text/hyperscript'>
   def setIdInputValue(value)

@@ -64,13 +64,19 @@ const description = 'Parse, transform, and generate UUIDs in multiple formats'
         }
       })
 
-      document.addEventListener('cs:toggleTheme', () => {
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && colorSchemeMedia.matches)) {
-          localStorage.theme = 'light'
-          setDarkTheme(false)
-        } else {
-          localStorage.theme = 'dark'
-          setDarkTheme(true)
+      document.addEventListener('cs:themeSelected', (event) => {
+        switch (event.detail.theme) {
+          case 'default':
+            localStorage.removeItem('theme')
+            setDarkTheme(colorSchemeMedia.matches)
+            break
+          case 'light':
+            localStorage.theme = 'light'
+            setDarkTheme(false)
+            break
+          default:
+            localStorage.theme = 'dark'
+            setDarkTheme(true)
         }
       })
 
