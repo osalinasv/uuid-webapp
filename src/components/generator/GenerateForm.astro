@@ -29,7 +29,7 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
         aria-expanded="false"
         aria-controls="generateOptions"
         class='inline-flex items-center ml-auto'
-        _='on click call toggleOptionsExpanded(me, @aria-expanded)'>
+        _='on click call toggleOptionsExpanded()'>
         <span>Options</span>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -67,16 +67,16 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/generate'
 </section>
 
 <script type='text/hyperscript'>
-  def toggleOptionsExpanded(btn, expanded)
-    if expanded is "true" then
-      set @aria-expanded of btn to false
+  def toggleOptionsExpanded()
+    if #generateOptionsBtn[@aria-expanded] is "true" then
+      set #generateOptionsBtn[@aria-expanded] to false
 
-      remove .rotate-90 from <svg/> in btn
+      remove .rotate-90 from <svg/> in #generateOptionsBtn
       add .hidden to #generateOptions
     else
-      set @aria-expanded of btn to true
+      set #generateOptionsBtn[@aria-expanded] to true
 
-      add .rotate-90 to <svg/> in btn
+      add .rotate-90 to <svg/> in #generateOptionsBtn
       remove .hidden from #generateOptions
     end
   end
