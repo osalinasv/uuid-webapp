@@ -1,5 +1,5 @@
 import { v4 as uuidV4 } from 'uuid'
-import { flipNetworkByteOrder } from './common'
+import { flipNetworkByteOrder } from './shared'
 
 export const GENERATE_COUNT_MIN = 1
 export const GENERATE_COUNT_MAX = 50

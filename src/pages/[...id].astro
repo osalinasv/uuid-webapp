@@ -1,18 +1,18 @@
 ---
-import { sanitize, formatTitle } from '@/lib/global'
+import { formatPageTitle } from '@/lib/utils'
+import { sanitizeIdInput } from '@/lib/uuid/shared'
 
 import Layout from '@/layouts/Layout.astro'
-
 import About from '@/components/page/About.astro'
 import Header from '@/components/page/Header.astro'
 import ConvertForm from '@/components/converter/ConvertForm.astro'
 import GenerateForm from '@/components/generator/GenerateForm.astro'
 
 let { id } = Astro.params
-const rawValue = sanitize(id)
+const rawValue = sanitizeIdInput(id)
 ---
 
-<Layout title={formatTitle(rawValue)}>
+<Layout title={formatPageTitle(rawValue)}>
   <Header />
   <ConvertForm rawValue={rawValue} />
   <GenerateForm />

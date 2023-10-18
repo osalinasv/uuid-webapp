@@ -1,11 +1,12 @@
 ---
 import { v4 as uuidv4 } from 'uuid'
-import { sanitize, formatTitle } from '@/lib/global'
+import { formatPageTitle } from '@/lib/utils'
+import { sanitizeIdInput } from '@/lib/uuid/shared'
 
 import ConvertResult from '@/components/converter/ConvertResult.astro'
 
 const id = Astro.url.searchParams.get('id')
-let rawValue = sanitize(id)
+let rawValue = sanitizeIdInput(id)
 
 if (!rawValue) {
   rawValue = uuidv4()
@@ -17,5 +18,5 @@ if (!rawValue) {
 Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(rawValue)}`)
 ---
 
-<head><title>{formatTitle(rawValue)}</title></head>
+<head><title>{formatPageTitle(rawValue)}</title></head>
 <ConvertResult rawValue={rawValue} />

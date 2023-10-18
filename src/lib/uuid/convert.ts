@@ -1,6 +1,6 @@
 import { parse as uuidParse } from 'uuid'
 import { validate as uuidValidate } from 'uuid'
-import { flipNetworkByteOrder } from './common'
+import { flipNetworkByteOrder } from './shared'
 
 type UuidLayout<TOctet = string> = {
   timeLow: TOctet[]
