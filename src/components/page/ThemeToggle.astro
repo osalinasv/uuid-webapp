@@ -12,6 +12,7 @@ export const prerender = true
 
 <div class='relative' _='on focusout call closeThemeMenuOnBlur(event)'>
   <Button
+    id='themeMenuBtn'
     type='button'
     size='icon'
     variant='ghost'
@@ -68,24 +69,25 @@ export const prerender = true
 <script type='text/hyperscript'>
   def closeThemeMenuOnBlur(evt)
     if evt.relatedTarget is null then
-      call setThemeMenuState("closed")
+      call setThemeMenuState("closed", false)
     end
   end
 
   def sendThemeChangedEvent(t)
     send cs:themeSelected(theme:t)
-    call setThemeMenuState("closed")
+    call setThemeMenuState("closed", false)
   end
 
   def toggleThemeMenuState()
     if #themeMenu[@data-state] is "open" then
-      call setThemeMenuState("closed")
+      call setThemeMenuState("closed", false)
     else
-      call setThemeMenuState("open")
+      call setThemeMenuState("open", true)
     end
   end
 
-  def setThemeMenuState(state)
+  def setThemeMenuState(state, expanded)
     set #themeMenu[@data-state] to state
+    set #themeMenuBtn[@aria-expanded] to expanded
   end
 </script>
