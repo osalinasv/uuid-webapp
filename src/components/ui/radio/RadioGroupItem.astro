@@ -8,7 +8,7 @@ export type Props = HTMLAttributes<'input'> & {
   value: string | number
 }
 
-const { class: className, id, name, value, ...props } = Astro.props as Props
+const { class: className, id, name, value, checked, ...props } = Astro.props as Props
 const buttonId = `${id}Btn`
 
 export const prerender = true
@@ -20,18 +20,26 @@ export const prerender = true
     type='radio'
     name={name}
     value={value}
-    tabindex='-1'
+    checked={checked}
     aria-hidden='true'
     class='invisible pointer-events-none absolute peer m-0 w-4 h-4'
+    tabindex='-1'
     {...props}
   />
   <button
     id={buttonId}
     type='button'
     role='radio'
-    class='aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 peer-checked:[&>*]:visible'
+    aria-checked={checked}
+    data-radio-group={name}
+    class='aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 peer peer-checked:[&>*]:visible'
     tabindex='0'
-    _={`on click set #${id}.checked to true`}>
+    _={`on click
+        set #${id}.checked to true
+        send cs:radioGroupValueSelected(value:'${value}') to <button[data-radio-group='${name}']/> end
+
+        on cs:radioGroupValueSelected(value)
+        set @aria-checked to (value is '${value}')`}>
     <span class='flex items-center justify-center invisible'>
       <svg
         width='15'
