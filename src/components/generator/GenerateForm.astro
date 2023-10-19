@@ -18,7 +18,7 @@ import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
         min={GENERATE_COUNT_MIN}
         max={GENERATE_COUNT_MAX}
         placeholder='Count'
-        _={`on change set val to my.value 
+        _={`on change set val to my.value
             js(val) return Math.min(Math.max(${GENERATE_COUNT_MIN}, val), ${GENERATE_COUNT_MAX}) end
             then set my.value to it`}
       />
@@ -69,7 +69,7 @@ import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
 
 <script type='text/hyperscript'>
   def toggleOptionsExpanded()
-    if #generateOptionsBtn[@aria-expanded] is "true" then
+    if #generateOptionsBtn[@aria-expanded] is 'true' then
       set #generateOptionsBtn[@aria-expanded] to false
 
       remove .rotate-90 from <svg/> in #generateOptionsBtn

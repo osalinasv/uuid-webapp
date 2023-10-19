@@ -17,21 +17,22 @@ const { rawValue } = Astro.props
     hx-target='#convertResult'
     hx-push-url='true'
     class='grid md:grid-cols-[1fr_auto] items-center gap-2'
-    _='on sv:generated(id) call setIdInputValue(id)
+    _='on sv:generated(id) call setIdInputValue(id) end
+
        on htmx:responseError or htmx:timeout
        js return convertNetworkErrorTemplate.content.cloneNode(true) end
-       put result into #convertResult'>
+       put result into #convertResult end'>
     <div class='relative'>
       <Input
         id='idInput'
-        class='h-12 text-lg pr-6'
-        placeholder='UUID, Oracle RAW(16) or empty to generate'
-        value={rawValue}
         name='id'
         type='text'
+        value={rawValue}
         maxlength={37}
+        placeholder='UUID, Oracle RAW(16) or empty to generate'
         spellcheck='false'
         autocomplete='off'
+        class='h-12 text-lg pr-6'
         _='on input call updateSubmitLabel(my.value)'
       />
 
@@ -50,7 +51,7 @@ const { rawValue } = Astro.props
       </div>
     </div>
 
-    <Button id='submitBtn' class='h-12 text-lg min-w-[14ch]' type='submit' aria-live='polite'>
+    <Button id='submitBtn' type='submit' aria-live='polite' class='h-12 text-lg min-w-[14ch]'>
       {!rawValue ? 'New' : 'Convert'}
     </Button>
   </form>

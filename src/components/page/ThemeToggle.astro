@@ -58,7 +58,7 @@ export const prerender = true
         <button
           role='menuitem'
           class='flex w-full select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground'
-          _={`on click call sendThemeSelectedEvent("${option}")`}>
+          _={`on click call sendThemeSelectedEvent('${option}')`}>
           {themeOptions[option]}
         </button>
       ))
@@ -79,7 +79,7 @@ export const prerender = true
   end
 
   def toggleThemeMenuState()
-    if #themeMenuBtn[@aria-expanded] is "true" then
+    if #themeMenuBtn[@aria-expanded] is 'true' then
       call setThemeMenuState(false)
     else
       call setThemeMenuState(true)
@@ -90,9 +90,9 @@ export const prerender = true
     set #themeMenuBtn[@aria-expanded] to expanded
 
     if expanded then
-      set #themeMenu[@data-state] to "open"
+      set #themeMenu[@data-state] to 'open'
     else
-      set #themeMenu[@data-state] to "closed"
+      set #themeMenu[@data-state] to 'closed'
     end
   end
 </script>
