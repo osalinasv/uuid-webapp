@@ -3,8 +3,11 @@ import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX } from '@/lib/uuid/generate'
 
 import Input from '@/components/ui/Input.astro'
 import Button from '@/components/ui/Button.astro'
+import Checkbox from '@/components/ui/Checkbox.astro'
 import RadioGroup from '@/components/ui/radio/RadioGroup.astro'
 import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
+
+const OPTIONS_EXPANDED_DEFAULT = true
 ---
 
 <section class='max-w-screen-sm mx-auto p-4 mb-4'>
@@ -12,12 +15,12 @@ import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
     <div class='flex items-baseline gap-2'>
       <Input
         id='count'
-        class='w-[90px]'
-        name='count'
         type='number'
+        name='count'
+        placeholder='Count'
         min={GENERATE_COUNT_MIN}
         max={GENERATE_COUNT_MAX}
-        placeholder='Count'
+        class='w-[90px]'
         _={`on change set val to my.value
             js(val) return Math.min(Math.max(${GENERATE_COUNT_MIN}, val), ${GENERATE_COUNT_MAX}) end
             then set my.value to it`}
@@ -27,9 +30,9 @@ import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
         id='generateOptionsBtn'
         type='button'
         variant='ghost'
-        aria-expanded="false"
+        aria-expanded={OPTIONS_EXPANDED_DEFAULT}
         aria-controls="generateOptions"
-        class='inline-flex items-center ml-auto'
+        class='inline-flex items-center ml-auto group'
         _='on click call toggleOptionsExpanded()'>
         <span>Options</span>
         <svg
@@ -37,7 +40,7 @@ import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
           width='24'
           height='24'
           viewBox='0 0 24 24'
-          class='-mr-1'
+          class='-mr-1 group-aria-expanded:rotate-90'
           aria-hidden='true'
           data-icon='ic:outline-arrow-drop-down'>
           <path fill='currentColor' d='m10 17l5-5l-5-5v10z'></path>
@@ -49,21 +52,35 @@ import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
       id='generateOptions'
       role='region'
       aria-labelledby='generateOptionsBtn'
-      class='rounded-lg border bg-card shadow-sm p-6 mt-2 hidden'>
-      <p class='text-sm font-medium leading-none text-muted-foreground mb-4'>Format</p>
-      <RadioGroup>
-        <RadioGroupItem id='uuidInput' name='type' value='uuid' checked>UUID v4</RadioGroupItem>
-        <RadioGroupItem id='oracleInput' name='type' value='oracle'>Oracle RAW(16)</RadioGroupItem>
-      </RadioGroup>
+      class:list={['flex flex-wrap rounded-lg border bg-card shadow-sm p-6 mt-2 gap-4', { hidden: !OPTIONS_EXPANDED_DEFAULT }]}>
+      <div class="flex-grow-0">
+        <p class='text-sm font-medium leading-none text-muted-foreground mb-4'>Format</p>
+        <RadioGroup>
+          <RadioGroupItem id='uuidInput' name='type' value='uuid' checked>UUID v4</RadioGroupItem>
+          <RadioGroupItem id='oracleInput' name='type' value='oracle'>Oracle RAW(16)</RadioGroupItem>
+        </RadioGroup>
+      </div>
+      <div class="flex-grow">
+        <p class='text-sm font-medium leading-none text-muted-foreground mb-4'>Additional Options</p>
+        <div class="flex flex-wrap items-start gap-2">
+          <RadioGroup>
+            <RadioGroupItem id='lowercaseInput' name='case' value='lowercase' checked>lowercase</RadioGroupItem>
+            <RadioGroupItem id='uppercaseInput' name='case' value='uppercase'>UPPERCASE</RadioGroupItem>
+          </RadioGroup>
+
+          <Checkbox id='testInput1' name='test1' value='true'>Test1</Checkbox>
+          <Checkbox id='testInput2' name='test2' value='true'>Test2</Checkbox>
+        </div>
+      </div>
     </div>
   </form>
 
   <div id='generateResult'>
-    <div class='bg-muted text-muted-foreground rounded-lg p-6'>
+    <!-- <div class='bg-muted text-muted-foreground rounded-lg p-6'>
       <p class='max-w-[48ch] mx-auto text-center'>
         Generate UUIDs in bulk, expand the options menu to customize the output format
       </p>
-    </div>
+    </div> -->
   </div>
 </section>
 
@@ -71,13 +88,9 @@ import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
   def toggleOptionsExpanded()
     if #generateOptionsBtn[@aria-expanded] is 'true' then
       set #generateOptionsBtn[@aria-expanded] to false
-
-      remove .rotate-90 from <svg/> in #generateOptionsBtn
       add .hidden to #generateOptions
     else
       set #generateOptionsBtn[@aria-expanded] to true
-
-      add .rotate-90 to <svg/> in #generateOptionsBtn
       remove .hidden from #generateOptions
     end
   end
