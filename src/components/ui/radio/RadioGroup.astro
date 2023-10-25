@@ -2,12 +2,12 @@
 import { type HTMLAttributes } from 'astro/types'
 import { cn } from '@/lib/utils'
 
-export type Props = HTMLAttributes<'div'>
+export type Props = HTMLAttributes<'fieldset'>
 const { class: className, ...props } = Astro.props as Props
 
 export const prerender = true
 ---
 
-<div role='radiogroup' aria-required='false' dir='ltr' class={cn('grid gap-2 outline-none', className)} {...props}>
+<fieldset role='radiogroup' aria-required='false' dir='ltr' class={cn('grid gap-2 outline-none', className)} {...props}>
   <slot />
-</div>
+</fieldset>

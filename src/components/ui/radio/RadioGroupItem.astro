@@ -36,6 +36,7 @@ export const prerender = true
     tabindex='0'
     _={`on click
         set #${id}.checked to true
+        trigger change on #${id}
         send cs:radioGroupValueSelected(value:'${value}') to <button[data-radio-group='${name}']/> end
 
         on cs:radioGroupValueSelected(value)

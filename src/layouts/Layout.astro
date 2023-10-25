@@ -88,5 +88,17 @@ const description = 'Parse, transform, and generate UUIDs in multiple formats'
         }
       }
     </script>
+
+    <script is:inline>
+      //!TEMP: Ignore HTMX's parameter mapping to properly consider disabled fieldsets
+      document.body.addEventListener('htmx:configRequest', function (evt) {
+        if (evt.target.tagName != 'FORM') return
+
+        const formData = new FormData(evt.target)
+        const parameters = Object.fromEntries(formData)
+
+        evt.detail.parameters = parameters
+      })
+    </script>
   </body>
 </html>

@@ -33,6 +33,8 @@ export const prerender = true
     tabindex='0'
     _={`on click
         set #${id}.checked to (not #${id}.checked)
+        trigger change on #${id}
+
         set @aria-checked to (#${id}.checked)`}>
     <span class='flex items-center justify-center invisible'>
       <svg
