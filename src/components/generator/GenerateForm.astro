@@ -1,5 +1,5 @@
 ---
-import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX, ID_TYPE, type IdType } from '@/lib/uuid/generate'
+import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX, ID_TYPE, OPTIONS_BY_TYPE } from '@/lib/uuid/generate'
 
 import Input from '@/components/ui/Input.astro'
 import Button from '@/components/ui/Button.astro'
@@ -11,38 +11,6 @@ const OPTIONS_MENU_DEFAULTS = {
   EXPANDED: true,
   TYPE: ID_TYPE.UUID,
 } as const
-
-type FormatFlag = {
-  name: string
-  label: string
-  checked?: boolean
-}
-
-type FormatOptions = {
-  type: IdType
-  label: string
-  flags: FormatFlag[]
-}
-
-const optionsByIdType: FormatOptions[] = [
-  {
-    type: ID_TYPE.UUID,
-    label: 'UUID v4',
-    flags: [
-      { name: 'uppercase', label: 'UPPERCASE' },
-      { name: 'useHyphens', label: 'Use hyphens', checked: true },
-      { name: 'encodeBase64', label: 'As Base64' },
-    ],
-  },
-  {
-    type: ID_TYPE.ORACLE,
-    label: 'Oracle RAW(16)',
-    flags: [
-      { name: 'wrapHexToRaw', label: 'Use HEXTORAW' },
-      { name: 'encodeBase64', label: 'As Base64' },
-    ],
-  },
-]
 ---
 
 <section class='max-w-screen-sm mx-auto p-4 mb-4'>
@@ -95,7 +63,7 @@ const optionsByIdType: FormatOptions[] = [
       <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Type:</p>
       <RadioGroup class='flex flex-wrap gap-3'>
         {
-          optionsByIdType.map((options) => (
+          OPTIONS_BY_TYPE.map((options) => (
             <RadioGroupItem
               id={`${options.type}Input`}
               name='type'
@@ -110,14 +78,14 @@ const optionsByIdType: FormatOptions[] = [
 
       <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Format:</p>
       {
-        optionsByIdType.map((options) => (
+        OPTIONS_BY_TYPE.map((options) => (
           <fieldset
             class='flex flex-wrap items-start gap-x-3 gap-y-2 disabled:hidden'
             aria-required='false'
             data-format-options={options.type}
             disabled={options.type != OPTIONS_MENU_DEFAULTS.TYPE}>
             {options.flags.map((flag) => (
-              <Checkbox id={`${options.type}_${flag.name}Input`} name={flag.name} checked={flag.checked}>
+              <Checkbox id={`${options.type}_${flag.name}Input`} name={flag.name} checked={flag.checked} value='true'>
                 {flag.label}
               </Checkbox>
             ))}

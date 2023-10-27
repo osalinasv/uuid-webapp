@@ -17,7 +17,7 @@ const { rawValue } = Astro.props
     hx-target='#convertResult'
     hx-push-url='true'
     class='grid md:grid-cols-[1fr_auto] items-center gap-2'
-    _='on sv:generated(id) call setIdInputValue(id) end
+    _='on sv:generatedId(id) call setIdInputValue(id) end
 
        on htmx:responseError or htmx:timeout
        js return convertNetworkErrorTemplate.content.cloneNode(true) end
