@@ -24,12 +24,12 @@ const OPTIONS_MENU_DEFAULTS = {
         required
         min={GENERATE_COUNT_MIN}
         max={GENERATE_COUNT_MAX}
-        class='w-[90px]'
+        class='w-[90px] shadow-sm'
         _={`on change set val to my.value
             js(val) return Math.min(Math.max(${GENERATE_COUNT_MIN}, val), ${GENERATE_COUNT_MAX}) end
             then set my.value to it`}
       />
-      <Button type='submit'>Generate</Button>
+      <Button type='submit' class='shadow-sm'>Generate</Button>
       <Button
         id='generateOptionsBtn'
         type='button'
@@ -57,7 +57,7 @@ const OPTIONS_MENU_DEFAULTS = {
       role='region'
       aria-labelledby='generateOptionsBtn'
       class:list={[
-        'grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow-sm p-6 mt-2 gap-x-6 gap-y-4',
+        'grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 mt-2 gap-x-6 gap-y-4',
         { hidden: !OPTIONS_MENU_DEFAULTS.EXPANDED },
       ]}>
       <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Type:</p>

@@ -32,7 +32,7 @@ const { rawValue } = Astro.props
         placeholder='UUID, Oracle RAW(16) or empty to generate'
         spellcheck='false'
         autocomplete='off'
-        class='h-12 text-lg pr-6'
+        class='h-12 text-lg pr-6 shadow-sm'
         _='on input call updateSubmitLabel(my.value)'
       />
 
@@ -51,7 +51,7 @@ const { rawValue } = Astro.props
       </div>
     </div>
 
-    <Button id='submitBtn' type='submit' aria-live='polite' class='h-12 text-lg min-w-[14ch]'>
+    <Button id='submitBtn' type='submit' aria-live='polite' class='h-12 text-lg min-w-[14ch] shadow-sm'>
       {!rawValue ? 'New' : 'Convert'}
     </Button>
   </form>
