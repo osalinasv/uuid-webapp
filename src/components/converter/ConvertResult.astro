@@ -12,9 +12,9 @@ const convertResult = convertId(rawValue)
 ---
 
 {
-  convertResult.valid ? (
-    <ConvertSuccess result={convertResult} />
+  convertResult.ok ? (
+    <ConvertSuccess result={convertResult.value} />
   ) : (
-    <ConvertError result={convertResult} rawValue={rawValue} />
+    <ConvertError error={convertResult.error} rawValue={rawValue} />
   )
 }

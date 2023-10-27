@@ -12,31 +12,25 @@ type UuidLayout<TOctet = string> = {
 }
 
 export type ConvertResult = {
-  valid: true
   uuidFormat: UuidLayout
   oracleFormat: UuidLayout
   bytes: UuidLayout<number>
 }
 
-export type ConvertError = {
-  valid: false
-  message?: string
-}
-
-export function convertId(rawValue: string): ConvertResult | ConvertError {
+export function convertId(rawValue: string): Result<ConvertResult> {
   try {
     if (uuidValidate(rawValue)) {
-      return convertFromUuid(rawValue.toLowerCase())
+      return { ok: true, value: convertFromUuid(rawValue.toLowerCase()) }
     }
 
     const uppercased = rawValue.toUpperCase()
     if (/^[0-9A-F]{32}$/gs.test(uppercased)) {
-      return convertFromOracle(uppercased)
+      return { ok: true, value: convertFromOracle(uppercased) }
     }
 
-    return { valid: false }
+    return { ok: false }
   } catch (e: any) {
-    return { valid: false, message: e.message }
+    return { ok: false, error: e }
   }
 }
 
@@ -48,7 +42,6 @@ function convertFromUuid(id: string): ConvertResult {
   const oracleFormat = buildHexLayout(oracleBytes, true)
 
   return {
-    valid: true,
     uuidFormat,
     oracleFormat,
     bytes: buildLayout(uuidBytes),
@@ -63,13 +56,11 @@ function convertFromOracle(id: string): ConvertResult {
   const oracleFormat = buildHexLayout(oracleBytes, true)
 
   return {
-    valid: true,
     uuidFormat,
     oracleFormat,
     bytes: buildLayout(uuidBytes),
   }
 }
-
 function buildLayout<TOctet>(bytes: TOctet[]): UuidLayout<TOctet> {
   return {
     timeLow: bytes.slice(0, 4),

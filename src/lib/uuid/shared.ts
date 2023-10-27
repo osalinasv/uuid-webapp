@@ -1,5 +1,5 @@
-export function sanitizeIdInput(value: Nullable<string>) {
-  return !value ? '' : value.replace(/\s/g, '')
+export function sanitizeIdInput(value: string) {
+  return value.replace(/\s/g, '')
 }
 
 export function flipNetworkByteOrder<TByte>(bytes: TByte[]) {

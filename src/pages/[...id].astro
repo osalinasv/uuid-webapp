@@ -9,7 +9,7 @@ import ConvertForm from '@/components/converter/ConvertForm.astro'
 import GenerateForm from '@/components/generator/GenerateForm.astro'
 
 let { id } = Astro.params
-const rawValue = sanitizeIdInput(id)
+const rawValue = id ? sanitizeIdInput(id) : ''
 ---
 
 <Layout title={formatPageTitle(rawValue)}>

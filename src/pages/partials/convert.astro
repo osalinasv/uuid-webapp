@@ -7,10 +7,9 @@ import ConvertResult from '@/components/converter/ConvertResult.astro'
 
 const id = Astro.url.searchParams.get('id')
 
-let rawValue = sanitizeIdInput(id)
-if (!rawValue) rawValue = uuidv4()
-
+const rawValue = id ? sanitizeIdInput(id) : uuidv4()
 const events = { 'sv:generatedId': { id: rawValue } }
+
 Astro.response.headers.append('HX-Trigger', JSON.stringify(events))
 Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(rawValue)}`)
 ---

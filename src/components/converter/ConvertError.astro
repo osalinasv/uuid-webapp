@@ -1,16 +1,15 @@
 ---
-import { type ConvertError } from '@/lib/uuid/convert'
 import Alert from '@/components/ui/Alert.astro'
 
 export type Props = {
-  result: ConvertError
+  error?: Error
   rawValue: string
 }
 
-const { result, rawValue } = Astro.props
+const { error, rawValue } = Astro.props
 ---
 
 <Alert class='max-w-screen-sm mx-auto mt-2'>
   <p>The value <span class='font-bold'>{rawValue}</span> is not a valid UUID format</p>
-  {result.message && <p class='mt-1'>{result.message}</p>}
+  {error && <p class='mt-1'>{error.message}</p>}
 </Alert>
