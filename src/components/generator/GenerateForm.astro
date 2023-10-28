@@ -9,6 +9,7 @@ import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
 
 const OPTIONS_MENU_DEFAULTS = {
   EXPANDED: true,
+  COUNT: 10,
   TYPE: ID_TYPE.UUID,
 } as const
 ---
@@ -22,6 +23,7 @@ const OPTIONS_MENU_DEFAULTS = {
         name='count'
         placeholder='Count'
         required
+        value={OPTIONS_MENU_DEFAULTS.COUNT}
         min={GENERATE_COUNT_MIN}
         max={GENERATE_COUNT_MAX}
         class='w-[90px] shadow-sm'

@@ -99,8 +99,8 @@ function generateIdsFromOptions(options: GenerateOptions) {
     : formatOracleStrings(options, rawGeneratedIds)
 }
 
-type GeneratedId = {
-  id: string
+export type GeneratedId = {
+  value: string
   formatted: string
 }
 
@@ -116,7 +116,7 @@ function formatUuidStrings(options: UuidGenerateOptions, ids: string[]) {
     if (options.encodeBase64) formattedId = btoa(formattedId)
 
     generatedIds[i] = {
-      id: originalId,
+      value: originalId,
       formatted: formattedId,
     }
   }
@@ -134,11 +134,11 @@ function formatOracleStrings(options: OracleGenerateOptions, ids: string[]) {
     const originalId = flippedBytes.join('')
     let formattedId = originalId
 
-    if (options.wrapHexToRaw) formattedId = `HEXTORAW(${formattedId})`
+    if (options.wrapHexToRaw) formattedId = `HEXTORAW('${formattedId}')`
     if (options.encodeBase64) formattedId = btoa(formattedId)
 
     generatedIds[i] = {
-      id: originalId,
+      value: originalId,
       formatted: formattedId,
     }
   }

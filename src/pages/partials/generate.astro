@@ -1,16 +1,28 @@
 ---
 import { generateIds } from '@/lib/uuid/generate'
 
+import Button from '@/components/ui/Button.astro'
+import GeneratedId from '@/components/generator/GeneratedId.astro'
+
 const parameters = Astro.url.searchParams
 const generatedIds = generateIds(parameters)
 ---
 
-<section class='grid gap-2 pb-2 mt-4 max-h-[37rem] overflow-y-auto'>
+<section class='mt-4'>
+  <div
+    class:list={['max-h-[37rem] overflow-y-auto scrollbar-slim', { 'scroll-linear-mask': generatedIds.length > 10 }]}>
+    <div class='grid gap-2 pt-1 pb-2'>
+      {generatedIds.map((id) => <GeneratedId genId={id} />)}
+    </div>
+  </div>
+
   {
-    generatedIds.map((gen) => (
-      <div class='flex flex-nowrap items-center rounded-md border bg-card h-12 px-6 py-2 shadow' data-id={gen.id}>
-        <p class='leading-none break-all'>{gen.formatted}</p>
+    generatedIds.length > 1 && (
+      <div class='flex flex-nowrap justify-center mt-2'>
+        <Button type='button' variant='secondary' size='sm' class='shadow-sm'>
+          Copy All
+        </Button>
       </div>
-    ))
+    )
   }
 </section>

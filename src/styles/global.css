@@ -102,4 +102,23 @@
   .uuid-segments:has(.node-segment:focus-visible) .node-segment {
     @apply bg-rose-100 dark:bg-rose-600/60;
   }
+
+  .scroll-linear-mask {
+    --linear-gradient: linear-gradient(180deg, transparent, rgba(0, 0, 0, 1) 6%, rgba(0, 0, 0, 1) 94%, transparent);
+    -webkit-mask-image: var(--linear-gradient);
+    mask-image: var(--linear-gradient);
+  }
+
+  .scrollbar-slim::-webkit-scrollbar {
+    width: theme(spacing.4);
+  }
+  .scrollbar-slim::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-slim::-webkit-scrollbar-thumb {
+    border: theme(spacing.1) solid transparent;
+    background: theme(colors.secondary.DEFAULT);
+    background-clip: content-box;
+    border-radius: theme(borderRadius.lg);
+  }
 }

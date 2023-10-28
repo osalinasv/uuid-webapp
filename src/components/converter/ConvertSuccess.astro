@@ -11,7 +11,7 @@ const { result } = Astro.props
 
 <section class='uuid-segments rounded-lg border bg-card text-card-foreground text-center shadow p-6 mt-4'>
   <h2 class='font-bold'>Standard UUID v4</h2>
-  <p class='text-lg mb-4'>
+  <p class='text-lg mb-4 font-mono'>
     <OctetSegment octets={result.uuidFormat.timeLow} class='time-low-segment' />
     <span class='py-[2px] text-muted-foreground'>-</span>
     <OctetSegment octets={result.uuidFormat.timeMid} class='time-mid-segment' />
@@ -25,7 +25,7 @@ const { result } = Astro.props
   </p>
 
   <h3 class='font-bold'>Oracle RAW(16)</h3>
-  <p class='text-lg mb-4'>
+  <p class='text-lg mb-4 font-mono'>
     <OctetSegment octets={result.oracleFormat.timeLow} class='time-low-segment px-[1px]' octet='px-[2px]' />
     <OctetSegment octets={result.oracleFormat.timeMid} class='time-mid-segment px-[1px]' octet='px-[2px]' />
     <OctetSegment octets={result.oracleFormat.timeHi} class='time-hi-segment px-[1px]' octet='px-[2px]' />
@@ -35,7 +35,7 @@ const { result } = Astro.props
   </p>
 
   <h3 class='font-bold'>Unsigned Integers</h3>
-  <p class='inline-flex flex-wrap justify-center text-lg'>
+  <p class='inline-flex flex-wrap justify-center text-lg font-mono'>
     <OctetSegment octets={result.bytes.timeLow} class='time-low-segment inline-flex px-0' octet='px-[3px]' />
     <OctetSegment octets={result.bytes.timeMid} class='time-mid-segment inline-flex px-0' octet='px-[3px]' />
     <OctetSegment octets={result.bytes.timeHi} class='time-hi-segment inline-flex px-0' octet='px-[3px]' />
