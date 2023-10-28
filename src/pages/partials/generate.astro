@@ -6,23 +6,34 @@ import GeneratedId from '@/components/generator/GeneratedId.astro'
 
 const parameters = Astro.url.searchParams
 const generatedIds = generateIds(parameters)
+
+const maxNonScrollItems = 8
+const scrollMaxHeight = 3.25 * maxNonScrollItems + 4
 ---
 
-<section class='mt-4'>
+<section class='py-3 overflow-y-clip'>
   <div
-    class:list={['max-h-[37rem] overflow-y-auto scrollbar-slim', { 'scroll-linear-mask': generatedIds.length > 10 }]}>
-    <div class='grid gap-2 pt-1 pb-2'>
-      {generatedIds.map((id) => <GeneratedId genId={id} />)}
-    </div>
+    class:list={[
+      'grid gap-2 py-1 overflow-y-auto scrollbar-slim',
+      { 'scroll-linear-mask': generatedIds.length > maxNonScrollItems },
+    ]}
+    style={`max-height: ${scrollMaxHeight}rem;`}>
+    {
+      generatedIds.map((id, idx) => (
+        <GeneratedId genId={id} class='items-center'>
+          <span class='text-sm text-muted-foreground leading-none'>{idx + 1}.</span>
+        </GeneratedId>
+      ))
+    }
   </div>
-
-  {
-    generatedIds.length > 1 && (
-      <div class='flex flex-nowrap justify-center mt-2'>
-        <Button type='button' variant='secondary' size='sm' class='shadow-sm'>
-          Copy All
-        </Button>
-      </div>
-    )
-  }
 </section>
+
+{
+  generatedIds.length > 1 && (
+    <div class='flex flex-nowrap justify-center'>
+      <Button type='button' variant='secondary' size='sm' class='shadow-sm'>
+        Copy All
+      </Button>
+    </div>
+  )
+}

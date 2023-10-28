@@ -62,9 +62,7 @@
   a {
     @apply outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring;
   }
-}
 
-@layer components {
   .uuid-segment {
     @apply transition-colors;
   }
