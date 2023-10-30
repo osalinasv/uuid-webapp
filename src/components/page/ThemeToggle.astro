@@ -52,7 +52,8 @@ export const prerender = true
     id='themeMenu'
     role='menu'
     data-state='closed'
-    class='absolute right-0 top-100% mt-2 z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2 data-[state=closed]:hidden'>
+    class='absolute right-0 top-100% mt-2 z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2 data-[state=closing]:animate-out data-[state=closing]:fade-out-0 data-[state=closing]:zoom-out-95 data-[state=closing]:slide-out-from-bottom-2 data-[state=closed]:hidden'
+    _="on animationend if @data-state is 'closing' then set @data-state to 'closed' end">
     {
       Object.keys(themeOptions).map((option) => (
         <button
@@ -91,6 +92,8 @@ export const prerender = true
 
     if expanded then
       set #themeMenu[@data-state] to 'open'
+    else if #themeMenu[@data-state] is 'open'
+      set #themeMenu[@data-state] to 'closing'
     else
       set #themeMenu[@data-state] to 'closed'
     end
