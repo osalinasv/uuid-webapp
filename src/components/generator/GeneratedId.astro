@@ -18,8 +18,8 @@ const convertTooltip = `Convert ID: ${idStart}`
 ---
 
 <div
-  class={cn('flex flex-nowrap items-center rounded-md border bg-card h-12 p-2 gap-2 shadow', className)}
-  data-generated-id={genId.value}>
+  class={cn('flex flex-nowrap items-center rounded-md border bg-card h-12 pl-3 pr-2 py-2 gap-2 shadow', className)}
+  data-generated-id={genId.formatted}>
   <slot />
   <p class='flex-grow leading-none break-all font-mono'>{genId.formatted}</p>
   <div class='flex flex-nowrap items-baseline gap-1'>
@@ -30,7 +30,8 @@ const convertTooltip = `Convert ID: ${idStart}`
       class='h-8 w-8'
       title={copyTooltip}
       aria-label={copyTooltip}
-      _={`on click js navigator.clipboard.writeText('${genId.formatted}') end`}>
+      data-copy-id={genId.formatted}
+      _='on click set id to @data-copy-id js(id) navigator.clipboard.writeText(id) end'>
       <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 256 256' aria-hidden='true'>
         <path
           fill='currentColor'

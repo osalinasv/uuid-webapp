@@ -31,7 +31,18 @@ const scrollMaxHeight = 3.25 * maxNonScrollItems + 4
 {
   generatedIds.length > 1 && (
     <div class='flex flex-nowrap justify-center'>
-      <Button type='button' variant='secondary' size='sm' class='shadow-sm'>
+      <Button
+        type='button'
+        variant='secondary'
+        size='sm'
+        class='shadow-sm'
+        _={`on click set buffer to ''
+          for generated in <[data-generated-id]/>
+            append generated[@data-generated-id] to buffer
+            append '\n' to buffer
+          end
+
+          js(buffer) navigator.clipboard.writeText(buffer) end`}>
         Copy All
       </Button>
     </div>
