@@ -57,11 +57,9 @@ const OPTIONS_MENU_DEFAULTS = {
     <div
       id='generateOptions'
       role='region'
+      data-state={OPTIONS_MENU_DEFAULTS.EXPANDED ? 'open' : 'closed'}
       aria-labelledby='generateOptionsBtn'
-      class:list={[
-        'grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 mt-2 gap-x-6 gap-y-4',
-        { hidden: !OPTIONS_MENU_DEFAULTS.EXPANDED },
-      ]}>
+      class='grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 mt-2 gap-x-6 gap-y-4 data-[state=closed]:hidden'>
       <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Type:</p>
       <RadioGroup class='flex flex-wrap gap-3'>
         {
@@ -110,10 +108,10 @@ const OPTIONS_MENU_DEFAULTS = {
   def toggleOptionsExpanded()
     if #generateOptionsBtn[@aria-expanded] is 'true' then
       set #generateOptionsBtn[@aria-expanded] to false
-      add .hidden to #generateOptions
+      set #generateOptions[@data-state] to 'closed'
     else
       set #generateOptionsBtn[@aria-expanded] to true
-      remove .hidden from #generateOptions
+      set #generateOptions[@data-state] to 'open'
     end
   end
 

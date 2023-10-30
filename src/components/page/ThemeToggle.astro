@@ -52,7 +52,7 @@ export const prerender = true
     id='themeMenu'
     role='menu'
     data-state='closed'
-    class='absolute right-0 top-100% mt-2 z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md hidden data-[state=open]:block'>
+    class='absolute right-0 top-100% mt-2 z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2 data-[state=closed]:hidden'>
     {
       Object.keys(themeOptions).map((option) => (
         <button
