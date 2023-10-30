@@ -8,16 +8,11 @@ const parameters = Astro.url.searchParams
 const generatedIds = generateIds(parameters)
 
 const maxNonScrollItems = 8
-const scrollMaxHeight = 3.25 * maxNonScrollItems + 4
+const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * (maxNonScrollItems - 1)
 ---
 
-<section class='py-3 overflow-y-clip'>
-  <div
-    class:list={[
-      'grid gap-2 py-1 overflow-y-auto scrollbar-slim',
-      { 'scroll-linear-mask': generatedIds.length > maxNonScrollItems },
-    ]}
-    style={`max-height: ${scrollMaxHeight}rem;`}>
+<section class:list={['py-4', { 'scroll-linear-mask': generatedIds.length > maxNonScrollItems }]}>
+  <div class='grid gap-2 overflow-y-auto scrollbar-slim' style={`max-height: ${scrollMaxHeight}rem;`}>
     {
       generatedIds.map((id, idx) => (
         <GeneratedId genId={id} class='items-center'>
@@ -37,12 +32,12 @@ const scrollMaxHeight = 3.25 * maxNonScrollItems + 4
         size='sm'
         class='shadow-sm'
         _={`on click set buffer to ''
-          for generated in <[data-generated-id]/>
-            append generated[@data-generated-id] to buffer
-            append '\n' to buffer
-          end
+            for generated in <[data-generated-id]/>
+              append generated[@data-generated-id] to buffer
+              append '\n' to buffer
+            end
 
-          js(buffer) navigator.clipboard.writeText(buffer) end`}>
+            js(buffer) navigator.clipboard.writeText(buffer) end`}>
         Copy All
       </Button>
     </div>
