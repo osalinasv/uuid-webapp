@@ -59,39 +59,48 @@ const OPTIONS_MENU_DEFAULTS = {
       role='region'
       data-state={OPTIONS_MENU_DEFAULTS.EXPANDED ? 'open' : 'closed'}
       aria-labelledby='generateOptionsBtn'
-      class='grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 mt-2 gap-x-6 gap-y-4 data-[state=closed]:hidden'>
-      <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Type:</p>
-      <RadioGroup class='flex flex-wrap gap-3'>
-        {
-          OPTIONS_BY_TYPE.map((options) => (
-            <RadioGroupItem
-              id={`${options.type}Input`}
-              name='type'
-              value={options.type}
-              checked={OPTIONS_MENU_DEFAULTS.TYPE == options.type}
-              _='on change call revealOptionsFieldsetForType(my.value)'>
-              {options.label}
-            </RadioGroupItem>
-          ))
-        }
-      </RadioGroup>
+      class='grid data-[state=open]:grid-rows-[1fr] grid-rows-[0fr] data-[state=closed]:collapse transition-[grid-template-rows]'
+      _='on transitionend if @data-state is "closing" then set @data-state to "closed" end'>
+      <div class='overflow-hidden'>
+        <div class='grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 mt-2 gap-x-6 gap-y-4'>
+          <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Type:</p>
+          <RadioGroup class='flex flex-wrap gap-3'>
+            {
+              OPTIONS_BY_TYPE.map((options) => (
+                <RadioGroupItem
+                  id={`${options.type}Input`}
+                  name='type'
+                  value={options.type}
+                  checked={OPTIONS_MENU_DEFAULTS.TYPE == options.type}
+                  _='on change call revealOptionsFieldsetForType(my.value)'>
+                  {options.label}
+                </RadioGroupItem>
+              ))
+            }
+          </RadioGroup>
 
-      <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Format:</p>
-      {
-        OPTIONS_BY_TYPE.map((options) => (
-          <fieldset
-            class='flex flex-wrap items-start gap-x-3 gap-y-2 disabled:hidden'
-            aria-required='false'
-            data-format-options={options.type}
-            disabled={options.type != OPTIONS_MENU_DEFAULTS.TYPE}>
-            {options.flags.map((flag) => (
-              <Checkbox id={`${options.type}_${flag.name}Input`} name={flag.name} checked={flag.checked} value='true'>
-                {flag.label}
-              </Checkbox>
-            ))}
-          </fieldset>
-        ))
-      }
+          <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Format:</p>
+          {
+            OPTIONS_BY_TYPE.map((options) => (
+              <fieldset
+                class='flex flex-wrap items-start gap-x-3 gap-y-2 disabled:hidden'
+                aria-required='false'
+                data-format-options={options.type}
+                disabled={options.type != OPTIONS_MENU_DEFAULTS.TYPE}>
+                {options.flags.map((flag) => (
+                  <Checkbox
+                    id={`${options.type}_${flag.name}Input`}
+                    name={flag.name}
+                    checked={flag.checked}
+                    value='true'>
+                    {flag.label}
+                  </Checkbox>
+                ))}
+              </fieldset>
+            ))
+          }
+        </div>
+      </div>
     </div>
   </form>
 
@@ -108,7 +117,7 @@ const OPTIONS_MENU_DEFAULTS = {
   def toggleOptionsExpanded()
     if #generateOptionsBtn[@aria-expanded] is 'true' then
       set #generateOptionsBtn[@aria-expanded] to false
-      set #generateOptions[@data-state] to 'closed'
+      set #generateOptions[@data-state] to 'closing'
     else
       set #generateOptionsBtn[@aria-expanded] to true
       set #generateOptions[@data-state] to 'open'
