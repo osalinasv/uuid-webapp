@@ -20,8 +20,9 @@ const convertTooltip = `Convert ID: ${idStart}`
 <div
   class={cn('flex flex-nowrap items-center rounded-md border bg-card h-12 pl-3 pr-2 py-2 gap-2 shadow', className)}
   data-generated-id={genId.formatted}>
-  <slot />
+  <slot name='prefix' />
   <p class='flex-grow leading-none break-all font-mono'>{genId.formatted}</p>
+
   <div class='flex flex-nowrap items-baseline gap-1'>
     <Button
       type='button'
@@ -44,13 +45,13 @@ const convertTooltip = `Convert ID: ${idStart}`
       hx-get={`/partials/convert?id=${encodeURIComponent(genId.value)}`}
       hx-target='#convertResult'
       hx-push-url='true'
-      _='on sv:generatedId(id) call setIdInputValue(id)'
       type='button'
       variant='secondary'
       size='icon'
       class='h-8 w-8'
       title={convertTooltip}
-      aria-label={convertTooltip}>
+      aria-label={convertTooltip}
+      _='on sv:generatedId(id) call setIdInputValue(id)'>
       <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 20 20' aria-hidden='true'>
         <path
           fill='currentColor'

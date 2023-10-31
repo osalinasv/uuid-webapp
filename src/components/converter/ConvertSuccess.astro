@@ -12,7 +12,7 @@ const { result } = Astro.props
 <section class='uuid-segments grid rounded-lg border bg-card text-card-foreground text-center shadow p-6 mt-4 gap-4'>
   <article>
     <h2 class='font-bold'>Standard UUID v4</h2>
-    <p class='text-lg font-mono'>
+    <p class='text-lg font-mono break-words'>
       <OctetSegment octets={result.uuidFormat.timeLow} class='time-low-segment' />
       <span class='py-[2px] text-muted-foreground'>-</span>
       <OctetSegment octets={result.uuidFormat.timeMid} class='time-mid-segment' />
@@ -28,7 +28,7 @@ const { result } = Astro.props
 
   <article>
     <h3 class='font-bold'>Oracle RAW(16)</h3>
-    <p class='text-lg font-mono'>
+    <p class='text-lg font-mono break-all'>
       <OctetSegment octets={result.oracleFormat.timeLow} class='time-low-segment px-[1px]' octet='px-[2px]' />
       <OctetSegment octets={result.oracleFormat.timeMid} class='time-mid-segment px-[1px]' octet='px-[2px]' />
       <OctetSegment octets={result.oracleFormat.timeHi} class='time-hi-segment px-[1px]' octet='px-[2px]' />

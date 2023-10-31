@@ -16,7 +16,9 @@ const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * (maxNonScrollItems - 1)
     {
       generatedIds.map((id, idx) => (
         <GeneratedId genId={id} class='items-center'>
-          <span class='text-sm text-muted-foreground leading-none select-none'>{idx + 1}.</span>
+          <span slot='prefix' class='text-sm text-muted-foreground leading-none select-none'>
+            {idx + 1}.
+          </span>
         </GeneratedId>
       ))
     }
