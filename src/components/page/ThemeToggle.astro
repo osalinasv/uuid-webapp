@@ -10,7 +10,17 @@ const themeOptions: Record<string, string> = {
 export const prerender = true
 ---
 
-<div class='relative' _='on focusout call closeThemeMenuOnBlur(event)'>
+<div
+  class='relative'
+  _={`on focusout(relatedTarget)
+      if (relatedTarget is null) or (not me.contains(relatedTarget)) then
+        call setThemeMenuState(false)
+      end
+
+      on keydown(key)
+      if key is 'Escape' then
+        call setThemeMenuState(false)
+      end`}>
   <Button
     id='themeMenuBtn'
     type='button'
@@ -68,23 +78,13 @@ export const prerender = true
 </div>
 
 <script type='text/hyperscript'>
-  def closeThemeMenuOnBlur(evt)
-    if evt.relatedTarget is null then
-      call setThemeMenuState(false)
-    end
-  end
-
   def sendThemeSelectedEvent(newValue)
     send cs:themeSelected(theme:newValue)
     call setThemeMenuState(false)
   end
 
   def toggleThemeMenuState()
-    if #themeMenuBtn[@aria-expanded] is 'true' then
-      call setThemeMenuState(false)
-    else
-      call setThemeMenuState(true)
-    end
+    call setThemeMenuState((#themeMenuBtn[@aria-expanded] is not 'true'))
   end
 
   def setThemeMenuState(expanded)
