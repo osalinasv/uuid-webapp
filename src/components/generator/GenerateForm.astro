@@ -62,7 +62,7 @@ const OPTIONS_MENU_DEFAULTS = {
       class='grid data-[state=open]:grid-rows-[1fr] grid-rows-[0fr] data-[state=closed]:collapse transition-[grid-template-rows]'
       _='on transitionend if @data-state is "closing" then set @data-state to "closed" end'>
       <div class='overflow-hidden'>
-        <div class='grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 mt-2 gap-x-6 gap-y-4'>
+        <div class='grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 my-2 gap-x-6 gap-y-4'>
           <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Type:</p>
           <RadioGroup class='flex flex-wrap gap-3'>
             {

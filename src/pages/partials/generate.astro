@@ -8,26 +8,24 @@ const parameters = Astro.url.searchParams
 const generatedIds = generateIds(parameters)
 
 const maxNonScrollItems = 8
-const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * (maxNonScrollItems - 1)
+const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * maxNonScrollItems
 ---
 
-<section class:list={['py-4', { 'scroll-linear-mask': generatedIds.length > maxNonScrollItems }]}>
-  <div class='grid gap-2 overflow-y-auto scrollbar-slim' style={`max-height: ${scrollMaxHeight}rem;`}>
-    {
-      generatedIds.map((id, idx) => (
-        <GeneratedId genId={id} class='items-center'>
-          <span slot='prefix' class='text-sm text-muted-foreground leading-none select-none'>
-            {idx + 1}.
-          </span>
-        </GeneratedId>
-      ))
-    }
-  </div>
+<section class='grid gap-2 py-1 mt-1 overflow-y-auto scrollbar-slim' style={`max-height: ${scrollMaxHeight}rem;`}>
+  {
+    generatedIds.map((id, idx) => (
+      <GeneratedId genId={id} class='items-center'>
+        <span slot='prefix' class='text-sm text-muted-foreground leading-none select-none'>
+          {idx + 1}.
+        </span>
+      </GeneratedId>
+    ))
+  }
 </section>
 
 {
   generatedIds.length > 1 && (
-    <div class='flex flex-nowrap justify-center'>
+    <div class='flex flex-nowrap justify-center mt-4'>
       <Button
         type='button'
         variant='secondary'
