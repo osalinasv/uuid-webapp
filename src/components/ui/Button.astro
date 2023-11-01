@@ -31,8 +31,6 @@ const buttonVariants = cva(
 
 export type Props = HTMLAttributes<'button'> & VariantProps<typeof buttonVariants>
 const { class: className, variant, size, ...props } = Astro.props as Props
-
-export const prerender = true
 ---
 
 <button class={cn(buttonVariants({ variant, size, className }))} {...props}>

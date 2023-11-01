@@ -9,8 +9,6 @@ export type Props = HTMLAttributes<'input'> & {
 
 const { class: className, id, name, checked, ...props } = Astro.props as Props
 const buttonId = `${id}Btn`
-
-export const prerender = true
 ---
 
 <div class={cn('flex items-center gap-x-2', className)}>

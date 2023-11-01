@@ -8,8 +8,6 @@ export type Props = {
 }
 
 const { octets, class: classList, octet } = Astro.props
-
-export const prerender = true
 ---
 
 <span class:list={['uuid-segment', cn('rounded p-[2px]', classList)]} tabindex='0'>

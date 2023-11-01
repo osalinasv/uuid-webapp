@@ -4,8 +4,6 @@ import { cn } from '@/lib/utils'
 
 export type Props = HTMLAttributes<'thead'>
 const { class: className, ...props } = Astro.props as Props
-
-export const prerender = true
 ---
 
 <thead class={cn('[&_tr]:border-b', className)} {...props}>
