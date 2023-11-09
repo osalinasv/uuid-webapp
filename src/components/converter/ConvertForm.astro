@@ -11,63 +11,61 @@ export type Props = {
 const { rawValue } = Astro.props
 ---
 
-<main class='max-w-screen-sm mx-auto p-4 mb-4'>
+<main class="max-w-screen-sm mx-auto p-4 mb-4">
   <form
-    hx-get='/partials/convert'
-    hx-target='#convertResult'
-    hx-push-url='true'
-    class='grid md:grid-cols-[1fr_auto] items-center gap-2'
-    _='on htmx:responseError or htmx:timeout
+    hx-get="/partials/convert"
+    hx-target="#convertResult"
+    hx-push-url="true"
+    class="grid md:grid-cols-[1fr_auto] items-center gap-2"
+    _="on htmx:responseError or htmx:timeout
        js return convertNetworkErrorTemplate.content.cloneNode(true) end
-       put result into #convertResult end'>
-    <div class='relative'>
+       put result into #convertResult end">
+    <div class="relative">
       <Input
-        id='idInput'
-        name='id'
-        type='text'
+        id="idInput"
+        name="id"
+        type="text"
         maxlength={37}
-        placeholder='UUID, Oracle RAW(16) or empty to generate'
-        spellcheck='false'
-        autocomplete='off'
-        class='h-12 text-lg pr-6 shadow-sm'
-        _='on input call updateSubmitLabel(my.value)'
+        placeholder="UUID, Oracle RAW(16) or empty to generate"
+        spellcheck="false"
+        autocomplete="off"
+        class="h-12 text-lg pr-6 shadow-sm"
+        _="on input call updateSubmitLabel(my.value)"
       />
 
-      <div class='flex absolute top-0 bottom-0 right-0 place-items-center mr-2'>
+      <div class="flex absolute top-0 bottom-0 right-0 place-items-center mr-2">
         <button
-          id='clearBtn'
-          type='button'
+          id="clearBtn"
+          type="button"
           disabled={true}
-          aria-label='Clear ID field'
-          class='block rounded-full p-0.5 bg-primary text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:hidden'
-          _={`on click
-              call setIdInputValue(null)
-              set input to #idInput
-              js(input) input.focus() end`}>
-          <svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' aria-hidden='true'>
-            <path fill='none' stroke='currentColor' stroke-width='2' d='M17 7L7 17M7 7l10 10'></path>
+          aria-label="Clear ID field"
+          class="block rounded-full p-0.5 bg-primary text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:hidden"
+          _="on click
+             call setIdInputValue(null)
+             set input to #idInput
+             js(input) input.focus() end">
+          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="none" stroke="currentColor" stroke-width="2" d="M17 7L7 17M7 7l10 10"></path>
           </svg>
         </button>
       </div>
     </div>
 
-    <Button id='submitBtn' type='submit' aria-live='polite' class='h-12 text-lg min-w-[14ch] shadow-sm'>
-      New
-    </Button>
+    <Button id="submitBtn" type="submit" aria-live="polite" class="h-12 text-lg min-w-[14ch] shadow-sm">New</Button>
   </form>
 
-  <div id='convertResult' _="on htmx:afterSwap call setIdInputValue(null)">
+  <div id="convertResult" _="on htmx:afterSwap call setIdInputValue(null)">
     {!!rawValue && <ConvertResult rawValue={rawValue} />}
   </div>
 </main>
 
-<template id='convertNetworkErrorTemplate'>
-  <Alert class='max-w-screen-sm mx-auto mt-2'>
+<template id="convertNetworkErrorTemplate">
+  <Alert class="max-w-screen-sm mx-auto mt-2">
     <p>Ran into an unexpected error, please try again</p>
   </Alert>
 </template>
 
-<script type='text/hyperscript'>
+<script type="text/hyperscript">
   def setIdInputValue(value)
     set #idInput.value to value
     call updateSubmitLabel(value)

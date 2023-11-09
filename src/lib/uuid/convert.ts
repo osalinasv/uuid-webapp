@@ -1,5 +1,4 @@
-import { parse as uuidParse } from 'uuid'
-import { validate as uuidValidate } from 'uuid'
+import { parse as uuidParse, validate as uuidValidate } from 'uuid'
 import { flipNetworkByteOrder } from './shared'
 
 type UuidLayout<TOctet = string> = {

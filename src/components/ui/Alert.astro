@@ -7,10 +7,10 @@ const { class: className, ...props } = Astro.props as Props
 ---
 
 <div
-  role='alert'
+  role="alert"
   class={cn(
     'relative w-full rounded-lg text-sm text-center text-destructive bg-red-200/20 px-4 py-3 dark:text-red-600 dark:bg-red-900/20',
-    className
+    className,
   )}
   {...props}>
   <slot />

@@ -1,5 +1,5 @@
-import { defineConfig } from 'astro/config'
 import tailwind from '@astrojs/tailwind'
+import { defineConfig } from 'astro/config'
 
 // import nodejs from '@astrojs/node'
 import netlify from '@astrojs/netlify/functions'

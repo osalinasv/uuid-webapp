@@ -14,77 +14,77 @@ const OPTIONS_MENU_DEFAULTS = {
 } as const
 ---
 
-<section class='max-w-screen-sm mx-auto p-4 mb-4'>
-  <form hx-get='/partials/generate' hx-target='#generateResult'>
-    <div class='flex items-baseline gap-2'>
+<section class="max-w-screen-sm mx-auto p-4 mb-4">
+  <form hx-get="/partials/generate" hx-target="#generateResult">
+    <div class="flex items-baseline gap-2">
       <Input
-        id='count'
-        type='number'
-        name='count'
-        placeholder='Count'
+        id="count"
+        type="number"
+        name="count"
+        placeholder="Count"
         required
         value={OPTIONS_MENU_DEFAULTS.COUNT}
         min={GENERATE_COUNT_MIN}
         max={GENERATE_COUNT_MAX}
-        class='w-[90px] shadow-sm'
+        class="w-[90px] shadow-sm"
         _={`on change set val to my.value
             js(val) return Math.min(Math.max(${GENERATE_COUNT_MIN}, val), ${GENERATE_COUNT_MAX}) end
             then set my.value to it`}
       />
-      <Button type='submit' class='shadow-sm'>Generate</Button>
+      <Button type="submit" class="shadow-sm">Generate</Button>
       <Button
-        id='generateOptionsBtn'
-        type='button'
-        variant='ghost'
+        id="generateOptionsBtn"
+        type="button"
+        variant="ghost"
         aria-expanded={OPTIONS_MENU_DEFAULTS.EXPANDED}
-        aria-controls='generateOptions'
-        class='inline-flex items-center ml-auto group'
-        _='on click call toggleOptionsExpanded()'>
+        aria-controls="generateOptions"
+        class="inline-flex items-center ml-auto group"
+        _="on click call toggleOptionsExpanded()">
         <span>Options</span>
         <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='24'
-          height='24'
-          viewBox='0 0 24 24'
-          class='-mr-1 group-aria-expanded:rotate-90 transition-transform'
-          aria-hidden='true'
-          data-icon='ic:outline-arrow-drop-down'>
-          <path fill='currentColor' d='m10 17l5-5l-5-5v10z'></path>
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          class="-mr-1 group-aria-expanded:rotate-90 transition-transform"
+          aria-hidden="true"
+          data-icon="ic:outline-arrow-drop-down">
+          <path fill="currentColor" d="m10 17l5-5l-5-5v10z"></path>
         </svg>
       </Button>
     </div>
 
     <div
-      id='generateOptions'
-      role='region'
+      id="generateOptions"
+      role="region"
       data-state={OPTIONS_MENU_DEFAULTS.EXPANDED ? 'open' : 'closed'}
-      aria-labelledby='generateOptionsBtn'
-      class='grid data-[state=open]:grid-rows-[1fr] grid-rows-[0fr] data-[state=closed]:collapse transition-[grid-template-rows]'
+      aria-labelledby="generateOptionsBtn"
+      class="grid data-[state=open]:grid-rows-[1fr] grid-rows-[0fr] data-[state=closed]:collapse transition-[grid-template-rows]"
       _='on transitionend if @data-state is "closing" then set @data-state to "closed" end'>
-      <div class='overflow-hidden'>
-        <div class='grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 my-2 gap-x-6 gap-y-4'>
-          <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Type:</p>
-          <RadioGroup class='flex flex-wrap gap-3'>
+      <div class="overflow-hidden">
+        <div class="grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 my-2 gap-x-6 gap-y-4">
+          <p class="text-sm font-medium leading-none md:text-right text-muted-foreground">Type:</p>
+          <RadioGroup class="flex flex-wrap gap-3">
             {
               OPTIONS_BY_TYPE.map((options) => (
                 <RadioGroupItem
                   id={`${options.type}Input`}
-                  name='type'
+                  name="type"
                   value={options.type}
                   checked={OPTIONS_MENU_DEFAULTS.TYPE == options.type}
-                  _='on change call revealOptionsFieldsetForType(my.value)'>
+                  _="on change call revealOptionsFieldsetForType(my.value)">
                   {options.label}
                 </RadioGroupItem>
               ))
             }
           </RadioGroup>
 
-          <p class='text-sm font-medium leading-none md:text-right text-muted-foreground'>Format:</p>
+          <p class="text-sm font-medium leading-none md:text-right text-muted-foreground">Format:</p>
           {
             OPTIONS_BY_TYPE.map((options) => (
               <fieldset
-                class='flex flex-wrap items-start gap-x-3 gap-y-2 disabled:hidden'
-                aria-required='false'
+                class="flex flex-wrap items-start gap-x-3 gap-y-2 disabled:hidden"
+                aria-required="false"
                 data-format-options={options.type}
                 disabled={options.type != OPTIONS_MENU_DEFAULTS.TYPE}>
                 {options.flags.map((flag) => (
@@ -92,7 +92,7 @@ const OPTIONS_MENU_DEFAULTS = {
                     id={`${options.type}_${flag.name}Input`}
                     name={flag.name}
                     checked={flag.checked}
-                    value='true'>
+                    value="true">
                     {flag.label}
                   </Checkbox>
                 ))}
@@ -104,16 +104,10 @@ const OPTIONS_MENU_DEFAULTS = {
     </div>
   </form>
 
-  <div id='generateResult'>
-    <!-- <div class='bg-muted text-muted-foreground rounded-lg p-6'>
-      <p class='max-w-[48ch] mx-auto text-center'>
-        Generate UUIDs in bulk, expand the options menu to customize the output format
-      </p>
-    </div> -->
-  </div>
+  <div id="generateResult"></div>
 </section>
 
-<script type='text/hyperscript'>
+<script type="text/hyperscript">
   def toggleOptionsExpanded()
     if #generateOptionsBtn[@aria-expanded] is 'true' then
       set #generateOptionsBtn[@aria-expanded] to false

@@ -9,7 +9,7 @@ export type Props = {
 const { error, rawValue } = Astro.props
 ---
 
-<Alert class='max-w-screen-sm mx-auto mt-2'>
-  <p>The value <span class='font-bold'>{rawValue}</span> is not a valid UUID format</p>
-  {error && <p class='mt-1'>{error.message}</p>}
+<Alert class="max-w-screen-sm mx-auto mt-2">
+  <p>The value <span class="font-bold">{rawValue}</span> is not a valid UUID format</p>
+  {error && <p class="mt-1">{error.message}</p>}
 </Alert>

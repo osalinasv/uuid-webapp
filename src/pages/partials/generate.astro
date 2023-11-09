@@ -11,11 +11,11 @@ const maxNonScrollItems = 8
 const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * maxNonScrollItems
 ---
 
-<section class='grid gap-2 py-1 mt-1 overflow-y-auto scrollbar-slim' style={`max-height: ${scrollMaxHeight}rem;`}>
+<section class="grid gap-2 py-1 mt-1 overflow-y-auto scrollbar-slim" style={`max-height: ${scrollMaxHeight}rem;`}>
   {
     generatedIds.map((id, idx) => (
-      <GeneratedId genId={id} class='items-center'>
-        <span slot='prefix' class='text-sm text-muted-foreground leading-none select-none'>
+      <GeneratedId genId={id} class="items-center">
+        <span slot="prefix" class="text-sm text-muted-foreground leading-none select-none">
           {idx + 1}.
         </span>
       </GeneratedId>
@@ -25,16 +25,16 @@ const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * maxNonScrollItems
 
 {
   generatedIds.length > 1 && (
-    <div class='flex flex-nowrap justify-center mt-4'>
+    <div class="flex flex-nowrap justify-center mt-4">
       <Button
-        type='button'
-        variant='secondary'
-        size='sm'
-        class='shadow-sm'
+        type="button"
+        variant="secondary"
+        size="sm"
+        class="shadow-sm"
         _={`on click set buffer to ''
             for generated in <[data-generated-id]/>
               append generated[@data-generated-id] to buffer
-              append '\n' to buffer
+              append '\\n' to buffer
             end
 
             js(buffer) navigator.clipboard.writeText(buffer) end`}>

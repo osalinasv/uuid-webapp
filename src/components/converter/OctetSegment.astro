@@ -10,6 +10,6 @@ export type Props = {
 const { octets, class: classList, octet } = Astro.props
 ---
 
-<span class:list={['uuid-segment', cn('rounded p-[2px]', classList)]} tabindex='0'>
+<span class:list={['uuid-segment', cn('rounded p-[2px]', classList)]} tabindex="0">
   {octets.map((o) => <span class={cn('px-[1px]', octet)}>{o}</span>)}
 </span>

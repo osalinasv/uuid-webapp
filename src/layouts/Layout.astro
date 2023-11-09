@@ -11,34 +11,34 @@ const description = 'Parse, transform, and generate UUIDs in multiple formats'
 ---
 
 <!doctype html>
-<html lang='en'>
+<html lang="en">
   <head>
     <title>{title}</title>
 
-    <meta charset='utf-8' />
-    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-    <meta name='generator' content={Astro.generator} />
-    <meta name='viewport' content='width=device-width,initial-scale=1,minimum-scale=1' />
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1" />
 
-    <meta name='author' content='Omar Salinas' />
-    <meta name='content-language' content='en' />
-    <meta name='description' content={description} />
-    <meta name='keywords' content='uuid, v4, guid, generate, create, parse, transform, oracle, raw, id, tool' />
+    <meta name="author" content="Omar Salinas" />
+    <meta name="content-language" content="en" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="uuid, v4, guid, generate, create, parse, transform, oracle, raw, id, tool" />
 
-    <meta property='og:site_name' content={title} />
-    <meta property='og:title' content={title} />
-    <meta property='og:description' content={description} />
-    <meta property='og:type' content='website' />
-    <meta property='og:locale' content='en_US' />
+    <meta property="og:site_name" content={title} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
 
-    <meta name='color-scheme' content='dark light' />
-    <meta name='theme-color' media='(prefers-color-scheme: light)' content='white' />
-    <meta name='theme-color' media='(prefers-color-scheme: dark)' content='black' />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
 
-    <link rel='icon' href='/favicon.svg' />
+    <link rel="icon" href="/favicon.svg" />
 
-    <script is:inline src='/scripts/htmx.min.js'></script>
-    <script is:inline src='/scripts/hyperscript.min.js'></script>
+    <script is:inline src="/scripts/htmx.min.js"></script>
+    <script is:inline src="/scripts/hyperscript.min.js"></script>
 
     <script is:inline>
       if (
@@ -51,7 +51,7 @@ const description = 'Parse, transform, and generate UUIDs in multiple formats'
       }
     </script>
   </head>
-  <body hx-ext='head-support'>
+  <body hx-ext="head-support">
     <slot />
 
     <script is:inline>
