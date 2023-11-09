@@ -17,9 +17,7 @@ const { rawValue } = Astro.props
     hx-target='#convertResult'
     hx-push-url='true'
     class='grid md:grid-cols-[1fr_auto] items-center gap-2'
-    _='on sv:generatedId(id) call setIdInputValue(id) end
-
-       on htmx:responseError or htmx:timeout
+    _='on htmx:responseError or htmx:timeout
        js return convertNetworkErrorTemplate.content.cloneNode(true) end
        put result into #convertResult end'>
     <div class='relative'>
@@ -27,7 +25,6 @@ const { rawValue } = Astro.props
         id='idInput'
         name='id'
         type='text'
-        value={rawValue}
         maxlength={37}
         placeholder='UUID, Oracle RAW(16) or empty to generate'
         spellcheck='false'
@@ -40,10 +37,13 @@ const { rawValue } = Astro.props
         <button
           id='clearBtn'
           type='button'
-          disabled={!rawValue}
+          disabled={true}
           aria-label='Clear ID field'
           class='block rounded-full p-0.5 bg-primary text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:hidden'
-          _='on click call setIdInputValue(null)'>
+          _={`on click
+              call setIdInputValue(null)
+              set input to #idInput
+              js(input) input.focus() end`}>
           <svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' aria-hidden='true'>
             <path fill='none' stroke='currentColor' stroke-width='2' d='M17 7L7 17M7 7l10 10'></path>
           </svg>
@@ -52,11 +52,11 @@ const { rawValue } = Astro.props
     </div>
 
     <Button id='submitBtn' type='submit' aria-live='polite' class='h-12 text-lg min-w-[14ch] shadow-sm'>
-      {!rawValue ? 'New' : 'Convert'}
+      New
     </Button>
   </form>
 
-  <div id='convertResult'>
+  <div id='convertResult' _="on htmx:afterSwap call setIdInputValue(null)">
     {!!rawValue && <ConvertResult rawValue={rawValue} />}
   </div>
 </main>

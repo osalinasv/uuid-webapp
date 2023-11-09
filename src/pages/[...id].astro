@@ -5,6 +5,7 @@ import { sanitizeIdInput } from '@/lib/uuid/shared'
 import Layout from '@/layouts/Layout.astro'
 import About from '@/components/page/About.astro'
 import Header from '@/components/page/Header.astro'
+import Footer from '@/components/page/Footer.astro'
 import ConvertForm from '@/components/converter/ConvertForm.astro'
 import GenerateForm from '@/components/generator/GenerateForm.astro'
 
@@ -18,5 +19,5 @@ const rawValue = id ? sanitizeIdInput(id) : ''
   <GenerateForm />
 
   <About />
-  <footer class='container px-4'></footer>
+  <Footer />
 </Layout>
