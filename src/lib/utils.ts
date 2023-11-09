@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPageTitle(id: string) {
-  let title = 'UUID Tools by osalinasv.dev'
+  let title = 'UUID Tools'
   if (id) title += ` | ${id}`
 
   return title
