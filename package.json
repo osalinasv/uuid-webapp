@@ -11,9 +11,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/netlify": "3.0.3",
+    "@astrojs/netlify": "~3.0.4",
     "@astrojs/tailwind": "^5.0.2",
-    "astro": "^3.5.4",
+    "astro": "~3.4.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "tailwind-merge": "^2.0.0",
@@ -34,3 +34,4 @@
     "prettier-plugin-tailwindcss": "^0.5.7"
   }
 }
+
