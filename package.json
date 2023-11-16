@@ -1,8 +1,8 @@
 {
   "name": "uuid-webapp",
   "type": "module",
-  "version": "1.0.0",
-  "packageManager": "pnpm@8.7.1",
+  "version": "1.2.0",
+  "packageManager": "pnpm@8.10.5",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -11,22 +11,22 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/netlify": "^3.0.3",
+    "@astrojs/netlify": "^3.0.4",
     "@astrojs/node": "^6.0.3",
     "@astrojs/tailwind": "^5.0.2",
-    "astro": "^3.4.0",
+    "astro": "^3.5.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^1.14.0",
+    "tailwind-merge": "^2.0.0",
     "tailwindcss": "^3.3.5",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.8.9",
-    "@types/uuid": "^9.0.6",
-    "prettier": "^3.0.3",
-    "prettier-plugin-astro": "^0.12.1",
-    "prettier-plugin-tailwindcss": "^0.5.6"
+    "@types/node": "^20.9.0",
+    "@types/uuid": "^9.0.7",
+    "prettier": "^3.1.0",
+    "prettier-plugin-astro": "^0.12.2",
+    "prettier-plugin-tailwindcss": "^0.5.7"
   }
 }
