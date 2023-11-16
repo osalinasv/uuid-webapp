@@ -6,6 +6,6 @@ import netlify from '@astrojs/netlify/functions'
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  adapter: netlify({ functionPerRoute: true }),
+  adapter: netlify({ functionPerRoute: false }),
   integrations: [tailwind({ applyBaseStyles: false })],
 })
