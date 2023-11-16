@@ -9,7 +9,8 @@ export type Props = HTMLAttributes<'input'> & {
 }
 
 const { class: className, id, name, value, checked, ...props } = Astro.props as Props
-const buttonId = `${id}Btn`
+const buttonId = `${id}RadioBtn`
+const labelId = `${id}RadioLabel`
 ---
 
 <div class={cn('flex items-center gap-x-2', className)}>
@@ -28,7 +29,8 @@ const buttonId = `${id}Btn`
     id={buttonId}
     type="button"
     role="radio"
-    aria-checked={checked}
+    aria-checked={checked?.toString()}
+    aria-labelledby={labelId}
     data-radio-group={name}
     class="aspect-square h-4 w-4 rounded-full border border-primary text-primary shadow focus:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 peer peer-checked:[&>*]:visible"
     tabindex="0"
@@ -57,8 +59,9 @@ const buttonId = `${id}Btn`
     </span>
   </button>
   <label
-    class="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-    for={buttonId}>
+    id={labelId}
+    for={buttonId}
+    class="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
     <slot />
   </label>
 </div>

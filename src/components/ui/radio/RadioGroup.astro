@@ -6,6 +6,6 @@ export type Props = HTMLAttributes<'fieldset'>
 const { class: className, ...props } = Astro.props as Props
 ---
 
-<fieldset role="radiogroup" aria-required="false" dir="ltr" class={cn('grid gap-2 outline-none', className)} {...props}>
+<fieldset role="radiogroup" dir="ltr" class={cn('grid gap-2 outline-none', className)} {...props}>
   <slot />
 </fieldset>

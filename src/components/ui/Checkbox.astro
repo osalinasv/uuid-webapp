@@ -8,7 +8,8 @@ export type Props = HTMLAttributes<'input'> & {
 }
 
 const { class: className, id, name, checked, ...props } = Astro.props as Props
-const buttonId = `${id}Btn`
+const buttonId = `${id}CheckboxBtn`
+const labelId = `${id}CheckboxLabel`
 ---
 
 <div class={cn('flex items-center gap-x-2', className)}>
@@ -26,7 +27,8 @@ const buttonId = `${id}Btn`
     id={buttonId}
     type="button"
     role="checkbox"
-    aria-checked={checked}
+    aria-checked={checked?.toString()}
+    aria-labelledby={labelId}
     class="h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground peer-checked:[&>*]:visible"
     tabindex="0"
     _={`on click
@@ -52,8 +54,9 @@ const buttonId = `${id}Btn`
     </span>
   </button>
   <label
-    class="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-    for={buttonId}>
+    id={labelId}
+    for={buttonId}
+    class="text-sm font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
     <slot />
   </label>
 </div>

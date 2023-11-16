@@ -84,7 +84,6 @@ const OPTIONS_MENU_DEFAULTS = {
             OPTIONS_BY_TYPE.map((options) => (
               <fieldset
                 class="flex flex-wrap items-start gap-x-3 gap-y-2 disabled:hidden"
-                aria-required="false"
                 data-format-options={options.type}
                 disabled={options.type != OPTIONS_MENU_DEFAULTS.TYPE}>
                 {options.flags.map((flag) => (
