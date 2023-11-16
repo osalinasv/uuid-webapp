@@ -26,11 +26,13 @@ export function convertId(rawValue: string): Result<ConvertResult> {
     if (/^[0-9A-F]{32}$/gs.test(uppercased)) {
       return { ok: true, value: convertFromOracle(uppercased) }
     }
-
-    return { ok: false }
-  } catch (e: any) {
-    return { ok: false, error: e }
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return { ok: false, error: e }
+    }
   }
+
+  return { ok: false }
 }
 
 function convertFromUuid(id: string): ConvertResult {
@@ -84,7 +86,7 @@ function stringifyAsHex(byte: number, uppercase = false) {
 function getBytesFromOracle(id: string) {
   const bytes = new Array<number>(16)
 
-  for (var i = 0; i < bytes.length; i++) {
+  for (let i = 0; i < bytes.length; i++) {
     bytes[i] = parseInt(id.substring(i + i, i + i + 2), 16)
   }
 
