@@ -7,9 +7,9 @@ export type Props = {
   octet?: string
 }
 
-const { octets, class: classList, octet } = Astro.props
+const { octets, class: classList } = Astro.props
 ---
 
-<span class:list={['uuid-segment', cn('rounded p-[2px]', classList)]} tabindex="0">
-  {octets.map((o) => <span class={cn('px-[1px]', octet)}>{o}</span>)}
-</span>
+<p class:list={['uuid-segment inline-block', cn('rounded px-[1px]', classList)]} tabindex="0">
+  {octets.map((o) => <span class="px-[2px]">{o}</span>)}
+</p>
