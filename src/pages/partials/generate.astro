@@ -1,7 +1,6 @@
 ---
 import { generateIds } from '@/lib/uuid/generate'
 
-import Button from '@/components/ui/Button.astro'
 import GeneratedId from '@/components/generator/GeneratedId.astro'
 
 const parameters = Astro.url.searchParams
@@ -9,37 +8,19 @@ const generatedIds = generateIds(parameters)
 
 const maxNonScrollItems = 8
 const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * maxNonScrollItems
+
+const events = { 'sv:generatedBatch': { count: generatedIds.length } }
+Astro.response.headers.append('HX-Trigger', JSON.stringify(events))
 ---
 
-<section class="grid gap-2 py-1 mt-1 overflow-y-auto scrollbar-slim" style={`max-height: ${scrollMaxHeight}rem;`}>
+<section class="scrollbar-slim mt-1 grid gap-2 overflow-y-auto py-1" style={`max-height: ${scrollMaxHeight}rem;`}>
   {
     generatedIds.map((id, idx) => (
       <GeneratedId genId={id} class="items-center">
-        <span slot="prefix" class="text-sm text-muted-foreground leading-none select-none">
+        <span slot="prefix" class="select-none text-sm leading-none text-muted-foreground">
           {idx + 1}.
         </span>
       </GeneratedId>
     ))
   }
 </section>
-
-{
-  generatedIds.length > 1 && (
-    <div class="flex flex-nowrap justify-center mt-4">
-      <Button
-        type="button"
-        variant="secondary"
-        size="sm"
-        class="shadow-sm"
-        _={`on click set buffer to ''
-            for generated in <[data-generated-id]/>
-              append generated[@data-generated-id] to buffer
-              append '\\n' to buffer
-            end
-
-            js(buffer) navigator.clipboard.writeText(buffer) end`}>
-        Copy All
-      </Button>
-    </div>
-  )
-}
