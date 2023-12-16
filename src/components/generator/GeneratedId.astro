@@ -21,7 +21,7 @@ const convertTooltip = `Convert ID: ${idStart}`
   class={cn('flex flex-nowrap items-center rounded-md border bg-card h-12 pl-3 pr-2 py-2 gap-2 shadow', className)}
   data-generated-id={genId.formatted}>
   <slot name="prefix" />
-  <p class="flex-grow leading-none break-all font-mono">{genId.formatted}</p>
+  <p class="flex-grow break-all font-mono leading-none">{genId.formatted}</p>
 
   <div class="flex flex-nowrap items-baseline gap-1">
     <Button
@@ -50,7 +50,10 @@ const convertTooltip = `Convert ID: ${idStart}`
       size="icon"
       class="h-8 w-8"
       title={convertTooltip}
-      aria-label={convertTooltip}>
+      aria-label={convertTooltip}
+      _={`on htmx:afterRequest
+          set result to #convertResult
+          js(result) result.scrollIntoView({ behavior: 'smooth', block: 'center' }) end`}>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
         <path
           fill="currentColor"

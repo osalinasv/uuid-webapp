@@ -23,6 +23,6 @@ export type Props = VariantProps<typeof octetVariants> & {
 const { octets, variant, suffix, class: className } = Astro.props as Props
 ---
 
-<span class={cn(octetVariants({ variant, className }))} tabindex="0">
-  {octets.map((o) => <span>{o}</span>)}
-</span>{suffix && <span>{suffix}</span>}
+<span class={cn(octetVariants({ variant, className }))} tabindex="0"
+  >{variant === 'exploded' ? octets.map((o) => <span>{o}</span>) : octets.join('')}</span
+>{suffix && <span>{suffix}</span>}
