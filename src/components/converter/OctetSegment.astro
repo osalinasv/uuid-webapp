@@ -17,11 +17,12 @@ const octetVariants = cva('uuid-segment rounded py-[1px]', {
 export type Props = VariantProps<typeof octetVariants> & {
   octets: string[] | number[]
   class?: string
+  suffix?: string
 }
 
-const { octets, variant, class: className } = Astro.props as Props
+const { octets, variant, suffix, class: className } = Astro.props as Props
 ---
 
 <span class={cn(octetVariants({ variant, className }))} tabindex="0">
   {octets.map((o) => <span>{o}</span>)}
-</span>
+</span>{suffix && <span>{suffix}</span>}
