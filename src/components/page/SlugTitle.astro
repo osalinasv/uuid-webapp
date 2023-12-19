@@ -11,11 +11,11 @@ const { id, class: classList, ...props } = Astro.props
   <a class="group" href={`#${id}`}>
     <span><slot /></span>
     <div
-      class="inline-block relative opacity-0 group-hover:opacity-100 group-focus:opacity-100 pointer-events-none"
+      class="pointer-events-none relative inline-block opacity-0 group-hover:opacity-100 group-focus:opacity-100"
       aria-hidden="true">
       &ZeroWidthSpace;
-      <div class="flex absolute top-0 bottom-0 left-0 place-items-center ml-2">
-        <i class="rounded border bg-card text-muted-foreground p-1">
+      <div class="absolute bottom-0 left-0 top-0 ml-2 flex place-items-center">
+        <i class="rounded border bg-card p-1 text-muted-foreground">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path
               d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10"

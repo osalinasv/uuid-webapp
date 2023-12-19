@@ -8,9 +8,9 @@ import TableRow from '@/components/ui/table/TableRow.astro'
 import SlugTitle from '@/components/page/SlugTitle.astro'
 ---
 
-<section id="about" class="max-w-screen-sm mx-auto p-4 mt-4">
+<section id="about" class="mx-auto mt-4 max-w-screen-sm p-4">
   <article class="mb-12">
-    <SlugTitle id="what-is-uuid" class="text-center mb-4">What is a UUID?</SlugTitle>
+    <SlugTitle id="what-is-uuid" class="mb-4 text-center">What is a UUID?</SlugTitle>
     <p class="mb-2">
       A UUID or &OpenCurlyQuote;Universally Unique Identifier&CloseCurlyQuote; (also known as a GUID) is a 128-bit label
       used to identify resources. The UUID specification has 5 versions, each one has its own generation strategy with
@@ -25,14 +25,14 @@ import SlugTitle from '@/components/page/SlugTitle.astro'
         href="https://datatracker.ietf.org/doc/html/rfc4122"
         rel="noopener"
         target="_blank"
-        class="underline underline-offset-4 text-blue-500 hover:text-blue-400 focus-visible:text-blue-400 transition-colors"
+        class="text-blue-500 underline underline-offset-4 transition-colors hover:text-blue-400 focus-visible:text-blue-400"
         >UUID specification</a
       > for more info.
     </p>
   </article>
 
   <article class="mb-12">
-    <SlugTitle id="how-unique-is-uuid" class="text-center mb-4">How unique is a UUID?</SlugTitle>
+    <SlugTitle id="how-unique-is-uuid" class="mb-4 text-center">How unique is a UUID?</SlugTitle>
     <p class="mb-2">
       In the case of v1 and v2 UUIDs using unique MAC addresses as their node, generating duplicates is virtually
       imposible. In contrast, all other standard versions can have collisions. However the probability of generating a
@@ -45,20 +45,20 @@ import SlugTitle from '@/components/page/SlugTitle.astro'
   </article>
 
   <article>
-    <SlugTitle id="uuid-layout-byte-order" class="text-center mb-4">Layout and Byte Order</SlugTitle>
+    <SlugTitle id="uuid-layout-byte-order" class="mb-4 text-center">Layout and Byte Order</SlugTitle>
     <p class="mb-4">
       A UUID is defined in fields that are integral numbers of octets. The fields are encoded as 16 octets with each
       field encoded with the Most Significant Byte first (known as network byte order).
     </p>
 
-    <figure class="rounded-lg border bg-card shadow p-6">
+    <figure class="rounded-lg border bg-card p-6 shadow">
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead class="whitespace-nowrap">Field</TableHead>
             <TableHead class="whitespace-nowrap">Data Type</TableHead>
             <TableHead class="whitespace-nowrap">Octets</TableHead>
-            <TableHead class="whitespace-nowrap min-w-[26ch]">Description</TableHead>
+            <TableHead class="min-w-[26ch] whitespace-nowrap">Description</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
