@@ -13,9 +13,9 @@
     "format": "prettier ./src --write"
   },
   "dependencies": {
-    "@astrojs/netlify": "~3.0.4",
-    "@astrojs/tailwind": "^5.0.2",
-    "astro": "~3.4.4",
+    "@astrojs/netlify": "~4.0.1",
+    "@astrojs/tailwind": "^5.0.4",
+    "astro": "~4.0.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "tailwind-merge": "^2.0.0",
