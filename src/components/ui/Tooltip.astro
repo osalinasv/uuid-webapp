@@ -3,15 +3,20 @@ import { type HTMLAttributes } from 'astro/types'
 import { cn } from '@/lib/utils'
 
 export type Props = HTMLAttributes<'div'> & { id: string }
-const { class: className, id, ...props } = Astro.props as Props
+const { class: classNames, id, ...props } = Astro.props as Props
 ---
 
 <div
   data-focused="false"
-  class={cn('inline-block relative', className)}
+  class={cn('inline-block', classNames)}
   {...props}
   _={`on mouseenter or focusin
       set @data-focused to true
+
+      measure me then set container to it
+      measure #${id} then set tooltip to it
+      set #${id}[@style] to \`left:\${(container.left + (container.width/2)) - (tooltip.width/2)}px;top:\${(container.bottom - container.height) - tooltip.height}px;\`
+
       wait 500ms
       if @data-focused is 'true' then
         set #${id}[@data-state] to 'open'
@@ -19,14 +24,18 @@ const { class: className, id, ...props } = Astro.props as Props
 
       on mouseleave or focusout
       set @data-focused to false
-      set #${id}[@data-state] to 'closing'`}>
+      if #${id}[@data-state] is 'open' then
+        set #${id}[@data-state] to 'closing'
+      else
+        set #${id}[@data-state] to 'closed'
+      end`}>
   <slot />
 
   <div
     id={id}
     role="tooltip"
     data-state="closed"
-    class="group absolute bottom-full left-1/2 z-50 -translate-x-1/2 overflow-hidden pb-1 data-[state=closing]:pointer-events-none data-[state=closed]:invisible"
+    class="group fixed z-50 overflow-hidden pb-1 data-[state=closing]:pointer-events-none data-[state=closed]:invisible"
     _='on animationend if @data-state is "closing" then set @data-state to "closed" end'>
     <div
       class="min-w-max rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground group-data-[state=open]:animate-in group-data-[state=closing]:animate-out group-data-[state=closing]:fade-out-0 group-data-[state=open]:fade-in-0 group-data-[state=closing]:zoom-out-95 group-data-[state=open]:zoom-in-95 group-data-[state=open]:slide-in-from-bottom-2">

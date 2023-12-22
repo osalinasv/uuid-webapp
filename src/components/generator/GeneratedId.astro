@@ -4,6 +4,7 @@ import { type GeneratedId } from '@/lib/uuid/generate'
 import { cn } from '@/lib/utils'
 
 import Button from '@/components/ui/Button.astro'
+import Tooltip from '@/components/ui/Tooltip.astro'
 
 export type Props = HTMLAttributes<'div'> & {
   genId: GeneratedId
@@ -13,8 +14,8 @@ const { genId, class: className } = Astro.props
 
 const idStart = genId.formatted.substring(0, 8)
 
-const copyTooltip = `Copy ID: ${idStart}`
-const convertTooltip = `Convert ID: ${idStart}`
+const copyTooltipId = `copyTooltip_${idStart}`
+const convertTooltipId = `convertTooltip_${idStart}`
 ---
 
 <div
@@ -23,43 +24,49 @@ const convertTooltip = `Convert ID: ${idStart}`
   <slot name="prefix" />
   <p class="flex-grow break-all font-mono leading-none">{genId.formatted}</p>
 
-  <div class="flex flex-nowrap items-baseline gap-1">
-    <Button
-      type="button"
-      variant="ghost"
-      size="icon"
-      class="h-8 w-8"
-      title={copyTooltip}
-      aria-label={copyTooltip}
-      data-copy-id={genId.formatted}
-      _="on click set id to @data-copy-id js(id) navigator.clipboard.writeText(id) end">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" aria-hidden="true">
-        <path
-          fill="currentColor"
-          d="M168 152a8 8 0 0 1-8 8H96a8 8 0 0 1 0-16h64a8 8 0 0 1 8 8Zm-8-40H96a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16Zm56-64v168a16 16 0 0 1-16 16H56a16 16 0 0 1-16-16V48a16 16 0 0 1 16-16h36.26a47.92 47.92 0 0 1 71.48 0H200a16 16 0 0 1 16 16ZM96 64h64a32 32 0 0 0-64 0Zm104-16h-26.75A47.93 47.93 0 0 1 176 64v8a8 8 0 0 1-8 8H88a8 8 0 0 1-8-8v-8a47.93 47.93 0 0 1 2.75-16H56v168h144Z"
-        ></path>
-      </svg>
-    </Button>
+  <div class="flex flex-nowrap gap-1">
+    <Tooltip id={copyTooltipId}>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        class="h-8 w-8"
+        aria-label="Copy"
+        aria-describedby={copyTooltipId}
+        data-copy-id={genId.formatted}
+        _="on click set id to @data-copy-id js(id) navigator.clipboard.writeText(id) end">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M168 152a8 8 0 0 1-8 8H96a8 8 0 0 1 0-16h64a8 8 0 0 1 8 8Zm-8-40H96a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16Zm56-64v168a16 16 0 0 1-16 16H56a16 16 0 0 1-16-16V48a16 16 0 0 1 16-16h36.26a47.92 47.92 0 0 1 71.48 0H200a16 16 0 0 1 16 16ZM96 64h64a32 32 0 0 0-64 0Zm104-16h-26.75A47.93 47.93 0 0 1 176 64v8a8 8 0 0 1-8 8H88a8 8 0 0 1-8-8v-8a47.93 47.93 0 0 1 2.75-16H56v168h144Z"
+          ></path>
+        </svg>
+      </Button>
+      <span slot="tooltip">Copy ID <span class="sr-only">{idStart}</span></span>
+    </Tooltip>
 
-    <Button
-      hx-get={`/partials/convert?id=${encodeURIComponent(genId.value)}`}
-      hx-target="#convertResult"
-      hx-push-url="true"
-      type="button"
-      variant="secondary"
-      size="icon"
-      class="h-8 w-8"
-      title={convertTooltip}
-      aria-label={convertTooltip}
-      _={`on htmx:afterRequest
-          set result to #convertResult
-          js(result) result.scrollIntoView({ behavior: 'smooth', block: 'center' }) end`}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
-        <path
-          fill="currentColor"
-          d="M16.78 9.28a.75.75 0 0 0 0-1.06l-4-4a.75.75 0 0 0-1.06 0l-4 4a.75.75 0 0 0 1.06 1.06l2.72-2.72V13a1.5 1.5 0 0 1-1.5 1.5H3.75a.75.75 0 0 0 0 1.5H10a3 3 0 0 0 3-3V6.56l2.72 2.72a.75.75 0 0 0 1.06 0Z"
-        ></path>
-      </svg>
-    </Button>
+    <Tooltip id={convertTooltipId}>
+      <Button
+        hx-get={`/partials/convert?id=${encodeURIComponent(genId.value)}`}
+        hx-target="#convertResult"
+        hx-push-url="true"
+        type="button"
+        variant="secondary"
+        size="icon"
+        class="h-8 w-8"
+        aria-label="Convert"
+        aria-describedby={convertTooltipId}
+        _={`on htmx:afterRequest
+            set result to #convertResult
+            js(result) result.scrollIntoView({ behavior: 'smooth', block: 'center' }) end`}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M16.78 9.28a.75.75 0 0 0 0-1.06l-4-4a.75.75 0 0 0-1.06 0l-4 4a.75.75 0 0 0 1.06 1.06l2.72-2.72V13a1.5 1.5 0 0 1-1.5 1.5H3.75a.75.75 0 0 0 0 1.5H10a3 3 0 0 0 3-3V6.56l2.72 2.72a.75.75 0 0 0 1.06 0Z"
+          ></path>
+        </svg>
+      </Button>
+      <span slot="tooltip">Convert ID <span class="sr-only">{idStart}</span></span>
+    </Tooltip>
   </div>
 </div>
