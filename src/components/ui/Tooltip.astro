@@ -2,44 +2,77 @@
 import { type HTMLAttributes } from 'astro/types'
 import { cn } from '@/lib/utils'
 
-export type Props = HTMLAttributes<'div'> & { id: string }
-const { class: classNames, id, ...props } = Astro.props as Props
+export type Props = HTMLAttributes<'div'> & { id: string; showOnHover?: boolean; containerId?: string }
+const { class: classNames, id, showOnHover, containerId: contId, ...props } = Astro.props as Props
+
+const containerId = contId ?? `${id}Container`
+const tooltipContentId = `${id}Content`
+const tooltipMessageId = `${id}Message`
+
+let openEvents = ['tooltip:open(message)']
+if (showOnHover !== false) openEvents.push('mouseenter', 'focusin')
+
+let closeEvents = ['tooltip:close']
+if (showOnHover !== false) closeEvents.push('mouseleave', 'focusout')
+
+const tooltipEventHandler = `
+on ${openEvents.join(' or ')}
+set controlled to (message is not null)
+set @data-controlled to controlled
+
+if controlled then
+  put message into #${tooltipMessageId}
+end
+
+measure me then set container to it
+measure #${id} then set tooltip to it
+set #${id}[@style] to \`left:\${(container.left + (container.width/2)) - (tooltip.width/2)}px;top:\${(container.bottom - container.height) - tooltip.height}px;\`
+
+set @data-focused to true
+if not controlled then wait 500ms end
+
+if @data-focused is 'true' then
+  set @data-state to 'open'
+end
+
+if controlled then
+  wait 1500ms
+  trigger tooltip:close on me
+end
+
+on ${closeEvents.join(' or ')}
+set @data-focused to false
+if @data-state is 'open' then
+  set @data-state to 'closing'
+else
+  set @data-state to 'closed'
+  set @data-controlled to false
+end`
 ---
 
 <div
+  id={containerId}
+  data-state="closed"
   data-focused="false"
-  class={cn('inline-block', classNames)}
+  data-controlled="false"
+  class={cn('group inline-block', classNames)}
   {...props}
-  _={`on mouseenter or focusin
-      set @data-focused to true
-
-      measure me then set container to it
-      measure #${id} then set tooltip to it
-      set #${id}[@style] to \`left:\${(container.left + (container.width/2)) - (tooltip.width/2)}px;top:\${(container.bottom - container.height) - tooltip.height}px;\`
-
-      wait 500ms
-      if @data-focused is 'true' then
-        set #${id}[@data-state] to 'open'
-      end
-
-      on mouseleave or focusout
-      set @data-focused to false
-      if #${id}[@data-state] is 'open' then
-        set #${id}[@data-state] to 'closing'
-      else
-        set #${id}[@data-state] to 'closed'
-      end`}>
+  _={tooltipEventHandler}>
   <slot />
 
   <div
     id={id}
     role="tooltip"
-    data-state="closed"
-    class="group fixed z-50 overflow-hidden pb-1 data-[state=closing]:pointer-events-none data-[state=closed]:invisible"
-    _='on animationend if @data-state is "closing" then set @data-state to "closed" end'>
+    class="fixed z-50 overflow-hidden pb-1 group-data-[state=closing]:pointer-events-none group-data-[state=closed]:invisible"
+    _={`on animationend
+        if #${containerId}[@data-state] is 'closing' then
+          set #${containerId}[@data-state] to 'closed'
+          set #${containerId}[@data-controlled] to false
+        end`}>
     <div
       class="min-w-max rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground group-data-[state=open]:animate-in group-data-[state=closing]:animate-out group-data-[state=closing]:fade-out-0 group-data-[state=open]:fade-in-0 group-data-[state=closing]:zoom-out-95 group-data-[state=open]:zoom-in-95 group-data-[state=open]:slide-in-from-bottom-2">
-      <slot name="tooltip" />
+      <div id={tooltipContentId} class="inline-block group-data-[controlled=true]:hidden"><slot name="tooltip" /></div>
+      <div id={tooltipMessageId} class="hidden group-data-[controlled=true]:inline-block"></div>
     </div>
   </div>
 </div>

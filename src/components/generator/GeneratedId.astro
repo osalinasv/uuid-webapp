@@ -15,6 +15,7 @@ const { genId, class: className } = Astro.props
 const idStart = genId.formatted.substring(0, 8)
 
 const copyTooltipId = `copyTooltip_${idStart}`
+const copyTooltipContId = `copyTooltipCont_${idStart}`
 const convertTooltipId = `convertTooltip_${idStart}`
 ---
 
@@ -25,7 +26,7 @@ const convertTooltipId = `convertTooltip_${idStart}`
   <p class="flex-grow break-all font-mono leading-none">{genId.formatted}</p>
 
   <div class="flex flex-nowrap gap-1">
-    <Tooltip id={copyTooltipId}>
+    <Tooltip id={copyTooltipId} containerId={copyTooltipContId}>
       <Button
         type="button"
         variant="ghost"
@@ -34,7 +35,10 @@ const convertTooltipId = `convertTooltip_${idStart}`
         aria-label="Copy"
         aria-describedby={copyTooltipId}
         data-copy-id={genId.formatted}
-        _="on click set id to @data-copy-id js(id) navigator.clipboard.writeText(id) end">
+        _={`on click
+            set id to @data-copy-id
+            js(id) navigator.clipboard.writeText(id) end
+            trigger tooltip:open(message: 'Copied!') on #${copyTooltipContId}`}>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" aria-hidden="true">
           <path
             fill="currentColor"
