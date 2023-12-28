@@ -43,14 +43,14 @@ pnpm install
 
 ## Build & deploy
 
-To start a development instance with astro run the `dev` command:
+To start a development instance with Astro run the `dev` command:
 
 ```sh
 pnpm dev
 ```
 
 The live version at [https://uuid.osalinasv.dev/](https://uuid.osalinasv.dev/)
-as deployed using Netlify's adapter for Astro. To build and deploy in Netlify
+was deployed using Netlify's adapter for Astro. To build and deploy in Netlify
 run the `build` command:
 
 ```sh
