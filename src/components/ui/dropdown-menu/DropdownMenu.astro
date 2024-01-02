@@ -1,0 +1,61 @@
+---
+import { type HTMLAttributes } from 'astro/types'
+import { cn } from '@/lib/utils'
+
+export type Props = HTMLAttributes<'div'> & { id: string; triggerId: string; containerId?: string }
+const { id, class: classList, triggerId, containerId: contId, ...props } = Astro.props
+
+const containerId = contId ?? `${id}Container`
+---
+
+<div
+  id={containerId}
+  data-state="closed"
+  class={cn('group relative inline-block', classList)}
+  {...props}
+  _={`on focusout(relatedTarget)
+      if ((relatedTarget is null) or (not me.contains(relatedTarget))) and (@data-state is 'open') then
+        set @data-state to 'closing'
+        set #${triggerId}[@aria-expanded] to false
+      end
+
+      on keydown(key)
+      if (key is 'Escape') and (@data-state is 'open') then
+        set @data-state to 'closing'
+        set #${triggerId}[@aria-expanded] to false
+
+        set trigger to #${triggerId}
+        js(trigger) trigger.focus() end
+      end
+
+      on dropdown:close
+      if (@data-state is 'open') then
+        set @data-state to 'closing'
+        set #${triggerId}[@aria-expanded] to false
+      end
+
+      on dropdown:open
+      set @data-state to 'open'
+      set #${triggerId}[@aria-expanded] to true
+
+      on dropdown:toggle
+      if (@data-state is 'open') then
+        set @data-state to 'closing'
+        set #${triggerId}[@aria-expanded] to false
+      else
+        set @data-state to 'open'
+        set #${triggerId}[@aria-expanded] to true
+      end`}>
+  <slot name="trigger" />
+
+  <div
+    id={id}
+    role="menu"
+    class="top-100% group-data-[state=closing]:slide-out-from-bottom-2 absolute right-0 z-50 mt-2 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md group-data-[state=closed]:hidden group-data-[state=open]:animate-in group-data-[state=closing]:animate-out group-data-[state=closing]:fade-out-0 group-data-[state=open]:fade-in-0 group-data-[state=closing]:zoom-out-95 group-data-[state=open]:zoom-in-95 group-data-[state=open]:slide-in-from-top-2"
+    _={`on animationend
+      if #${containerId}[@data-state] is 'closing' then
+        set #${containerId}[@data-state] to 'closed'
+      end`}>
+    <slot name="content" />
+  </div>
+</div>

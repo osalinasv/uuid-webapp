@@ -1,5 +1,7 @@
 ---
 import Button from '@/components/ui/Button.astro'
+import DropdownMenu from '@/components/ui/dropdown-menu/DropdownMenu.astro'
+import DropdownMenuItem from '@/components/ui/dropdown-menu/DropdownMenuItem.astro'
 
 const themeOptions: Record<string, string> = {
   light: 'Light',
@@ -8,26 +10,17 @@ const themeOptions: Record<string, string> = {
 }
 ---
 
-<div
-  class="relative"
-  _={`on focusout(relatedTarget)
-      if (relatedTarget is null) or (not me.contains(relatedTarget)) then
-        call setThemeMenuState(false)
-      end
-
-      on keydown(key)
-      if key is 'Escape' then
-        call setThemeMenuState(false)
-      end`}>
+<DropdownMenu id="themeMenu" triggerId="themeMenuBtn" containerId="themeMenuContainer">
   <Button
+    slot="trigger"
     id="themeMenuBtn"
     type="button"
     size="icon"
     variant="ghost"
-    aria-label="Select theme"
     aria-expanded="false"
     aria-controls="themeMenu"
-    _="on click call toggleThemeMenuState()">
+    _="on click send dropdown:toggle to #themeMenuContainer">
+    <span class="sr-only">Select theme</span>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -56,44 +49,20 @@ const themeOptions: Record<string, string> = {
     </svg>
   </Button>
 
-  <div
-    id="themeMenu"
-    role="menu"
-    data-state="closed"
-    class="absolute right-0 top-100% mt-2 z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2 data-[state=closing]:animate-out data-[state=closing]:fade-out-0 data-[state=closing]:zoom-out-95 data-[state=closing]:slide-out-from-bottom-2 data-[state=closed]:hidden"
-    _="on animationend if @data-state is 'closing' then set @data-state to 'closed' end">
+  <Fragment slot="content">
     {
       Object.keys(themeOptions).map((option) => (
-        <button
-          role="menuitem"
-          class="flex w-full select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
-          _={`on click call sendThemeSelectedEvent('${option}')`}>
+        <DropdownMenuItem as="button" _={`on click call sendThemeSelectedEvent('${option}')`}>
           {themeOptions[option]}
-        </button>
+        </DropdownMenuItem>
       ))
     }
-  </div>
-</div>
+  </Fragment>
+</DropdownMenu>
 
 <script type="text/hyperscript">
   def sendThemeSelectedEvent(newValue)
     send cs:themeSelected(theme:newValue)
-    call setThemeMenuState(false)
-  end
-
-  def toggleThemeMenuState()
-    call setThemeMenuState((#themeMenuBtn[@aria-expanded] is not 'true'))
-  end
-
-  def setThemeMenuState(expanded)
-    set #themeMenuBtn[@aria-expanded] to expanded
-
-    if expanded then
-      set #themeMenu[@data-state] to 'open'
-    else if #themeMenu[@data-state] is 'open'
-      set #themeMenu[@data-state] to 'closing'
-    else
-      set #themeMenu[@data-state] to 'closed'
-    end
+    send dropdown:close to #themeMenuContainer
   end
 </script>
