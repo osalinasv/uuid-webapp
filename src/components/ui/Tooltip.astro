@@ -26,7 +26,7 @@ end
 
 measure me then set container to it
 measure #${id} then set tooltip to it
-set #${id}[@style] to \`left:\${(container.left + (container.width/2)) - (tooltip.width/2)}px;top:\${(container.bottom - container.height) - tooltip.height}px;\`
+set #${id}[@style] to \`transform: translate(\${(container.left + (container.width/2)) - (tooltip.width/2)}px, \${(container.bottom - container.height) - tooltip.height}px);\`
 
 set @data-focused to true
 if not controlled then wait 500ms end
@@ -47,6 +47,12 @@ if @data-state is 'open' then
 else
   set @data-state to 'closed'
   set @data-controlled to false
+end
+
+on scroll from window queue first
+if @data-state is 'open' then
+  set @data-focused to false
+  set @data-state to 'closing'
 end`
 ---
 
@@ -63,7 +69,7 @@ end`
   <div
     id={id}
     role="tooltip"
-    class="fixed z-50 overflow-hidden pb-1 group-data-[state=closing]:pointer-events-none group-data-[state=closed]:invisible"
+    class="fixed left-0 top-0 z-50 overflow-hidden pb-1 group-data-[state=closing]:pointer-events-none group-data-[state=closed]:invisible"
     _={`on animationend
         if #${containerId}[@data-state] is 'closing' then
           set #${containerId}[@data-state] to 'closed'
