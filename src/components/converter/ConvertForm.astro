@@ -57,6 +57,14 @@ const { rawValue } = Astro.props
   <div id="convertResult" _="on htmx:afterSwap call setIdInputValue(null)">
     {!!rawValue && <ConvertResult rawValue={rawValue} />}
   </div>
+
+  <div class="mt-4 text-center text-muted-foreground">
+    <p class="text-sm">Need an empty UUID?</p>
+    <a
+      class="font-bold transition-colors hover:text-accent-foreground focus-visible:text-accent-foreground"
+      href="/empty">00000000-0000-0000-0000-000000000000</a
+    >
+  </div>
 </main>
 
 <template id="convertNetworkErrorTemplate">
