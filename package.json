@@ -13,27 +13,27 @@
     "format": "prettier ./src --write"
   },
   "dependencies": {
-    "@astrojs/netlify": "~4.0.1",
-    "@astrojs/tailwind": "^5.0.4",
-    "astro": "~4.0.7",
+    "@astrojs/netlify": "~5.0.1",
+    "@astrojs/tailwind": "^5.1.0",
+    "astro": "~4.3.2",
     "class-variance-authority": "^0.7.0",
-    "clsx": "^2.0.0",
-    "tailwind-merge": "^2.0.0",
-    "tailwindcss": "^3.3.5",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss": "^3.4.1",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^20.9.0",
-    "@types/uuid": "^9.0.7",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "@typescript-eslint/parser": "^6.11.0",
-    "eslint": "^8.53.0",
-    "eslint-plugin-astro": "^0.29.1",
+    "@types/node": "^20.11.16",
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-astro": "^0.31.4",
     "eslint-plugin-jsx-a11y": "^6.8.0",
-    "prettier": "^3.1.0",
-    "prettier-plugin-astro": "^0.12.2",
-    "prettier-plugin-tailwindcss": "^0.5.7"
+    "prettier": "^3.2.5",
+    "prettier-plugin-astro": "^0.13.0",
+    "prettier-plugin-tailwindcss": "^0.5.11"
   }
 }
