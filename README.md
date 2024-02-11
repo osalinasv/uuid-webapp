@@ -50,8 +50,8 @@ pnpm dev
 ```
 
 The live version at [https://uuid.osalinasv.dev/](https://uuid.osalinasv.dev/)
-was deployed using Netlify's adapter for Astro. To build and deploy in Netlify
-run the `build` command:
+was deployed using Cloudflare's adapter for Astro. To build and deploy on
+Cloudflare run the `build` command:
 
 ```sh
 pnpm build
@@ -60,3 +60,4 @@ pnpm build
 You can also check out
 [Astro's various guides on SSR adapters](https://docs.astro.build/en/guides/server-side-rendering/)
 if you want to deploy somewhere else.
+
