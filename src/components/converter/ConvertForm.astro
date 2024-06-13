@@ -14,6 +14,7 @@ const { rawValue } = Astro.props
 <main class="max-w-screen-sm mx-auto p-4 mb-4">
   <form
     hx-get="/partials/convert"
+    hx-trigger="submit throttle:150ms"
     hx-target="#convertResult"
     hx-push-url="true"
     class="grid md:grid-cols-[1fr_auto] items-center gap-2"
