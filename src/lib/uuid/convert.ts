@@ -1,19 +1,10 @@
-import { parse as uuidParse, validate as uuidValidate } from 'uuid'
+import { validate as uuidValidate, parse as uuidParse, stringify as uuidStringify } from 'uuid'
 import { flipNetworkByteOrder } from './shared'
 
-type UuidLayout<TOctet = string> = {
-  timeLow: TOctet[]
-  timeMid: TOctet[]
-  timeHi: TOctet[]
-  clockHi: TOctet[]
-  clockLow: TOctet[]
-  node: TOctet[]
-}
-
 export type ConvertResult = {
-  uuidFormat: UuidLayout
-  oracleFormat: UuidLayout
-  bytes: UuidLayout<number>
+  uuidFormat: string
+  oracleFormat: string
+  bytes: number[]
 }
 
 export function convertId(rawValue: string): Result<ConvertResult> {
@@ -39,13 +30,13 @@ function convertFromUuid(id: string): ConvertResult {
   const uuidBytes = Array.from(uuidParse(id))
   const oracleBytes = flipNetworkByteOrder(uuidBytes)
 
-  const uuidFormat = buildHexLayout(uuidBytes)
-  const oracleFormat = buildHexLayout(oracleBytes, true)
+  const uuidFormat = id
+  const oracleFormat = stringifySegment(oracleBytes, true)
 
   return {
     uuidFormat,
     oracleFormat,
-    bytes: buildLayout(uuidBytes),
+    bytes: uuidBytes,
   }
 }
 
@@ -53,29 +44,18 @@ function convertFromOracle(id: string): ConvertResult {
   const oracleBytes = getBytesFromOracle(id)
   const uuidBytes = flipNetworkByteOrder(oracleBytes)
 
-  const uuidFormat = buildHexLayout(uuidBytes)
-  const oracleFormat = buildHexLayout(oracleBytes, true)
+  const uuidFormat = uuidStringify(uuidBytes)
+  const oracleFormat = id
 
   return {
     uuidFormat,
     oracleFormat,
-    bytes: buildLayout(uuidBytes),
-  }
-}
-function buildLayout<TOctet>(bytes: TOctet[]): UuidLayout<TOctet> {
-  return {
-    timeLow: bytes.slice(0, 4),
-    timeMid: bytes.slice(4, 6),
-    timeHi: bytes.slice(6, 8),
-    clockHi: bytes.slice(8, 9),
-    clockLow: bytes.slice(9, 10),
-    node: bytes.slice(10),
+    bytes: uuidBytes,
   }
 }
 
-function buildHexLayout(bytes: number[], uppercase = false) {
-  const hex = bytes.map((b) => stringifyAsHex(b, uppercase))
-  return buildLayout(hex)
+function stringifySegment(bytes: number[], uppercase = false) {
+  return bytes.map((b) => stringifyAsHex(b, uppercase)).join('')
 }
 
 function stringifyAsHex(byte: number, uppercase = false) {
@@ -87,7 +67,7 @@ function getBytesFromOracle(id: string) {
   const bytes = new Array<number>(16)
 
   for (let i = 0; i < bytes.length; i++) {
-    bytes[i] = parseInt(id.substring(i + i, i + i + 2), 16)
+    bytes[i] = Number.parseInt(id.substring(i + i, i + i + 2), 16)
   }
 
   return bytes

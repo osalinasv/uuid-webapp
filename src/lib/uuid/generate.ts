@@ -67,7 +67,7 @@ function parseOptions(parameters: URLSearchParams) {
   const rawType = parameters.get('type')
   const type = rawType && Object.hasOwn(ID_TYPE, rawType.toUpperCase()) ? rawType : ID_TYPE.UUID
 
-  const rawCount = parseInt(parameters.get('count') as string) || GENERATE_COUNT_MIN
+  const rawCount = Number.parseInt(parameters.get('count') as string) || GENERATE_COUNT_MIN
   const count = Math.min(Math.max(GENERATE_COUNT_MIN, rawCount), GENERATE_COUNT_MAX)
 
   parameters.delete('type')
