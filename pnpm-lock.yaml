@@ -39,6 +39,9 @@ importers:
         specifier: ~11.0.2
         version: 11.0.2
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.13.0
+        version: 9.13.0
       '@types/node':
         specifier: ~22.8.6
         version: 22.8.6
@@ -60,6 +63,9 @@ importers:
       eslint-plugin-jsx-a11y:
         specifier: ~6.10.2
         version: 6.10.2(eslint@9.13.0(jiti@1.21.6))
+      globals:
+        specifier: ^15.11.0
+        version: 15.11.0
       prettier:
         specifier: ~3.3.3
         version: 3.3.3
@@ -69,6 +75,9 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ~0.6.8
         version: 0.6.8(prettier-plugin-astro@0.14.1)(prettier@3.3.3)
+      typescript-eslint:
+        specifier: ^8.12.2
+        version: 8.12.2(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)
 
 packages:
 
@@ -2793,6 +2802,15 @@ packages:
   typed-array-length@1.0.6:
     resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
+
+  typescript-eslint@8.12.2:
+    resolution: {integrity: sha512-UbuVUWSrHVR03q9CWx+JDHeO6B/Hr9p4U5lRH++5tq/EbFq1faYZe50ZSBePptgfIKLEti0aPQ3hFgnPVcd8ZQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   typescript@5.6.3:
     resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
@@ -6139,6 +6157,17 @@ snapshots:
       has-proto: 1.0.3
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
+
+  typescript-eslint@8.12.2(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3):
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 8.12.2(@typescript-eslint/parser@8.12.2(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3))(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)
+      '@typescript-eslint/parser': 8.12.2(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)
+      '@typescript-eslint/utils': 8.12.2(eslint@9.13.0(jiti@1.21.6))(typescript@5.6.3)
+    optionalDependencies:
+      typescript: 5.6.3
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
 
   typescript@5.6.3: {}
 
