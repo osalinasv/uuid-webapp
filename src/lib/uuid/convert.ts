@@ -47,7 +47,7 @@ function convertFromOracle(originalId: string): ConvertResult {
   const oracleBytes = getBytesFromOracle(originalId)
   const uuidBytes = flipNetworkByteOrder(oracleBytes)
 
-  const uuidFormat = uuid.stringify(uuidBytes)
+  const uuidFormat = uuid.stringify(new Uint8Array(uuidBytes))
   const oracleFormat = originalId
 
   return {
