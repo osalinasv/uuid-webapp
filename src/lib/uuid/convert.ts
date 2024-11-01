@@ -1,7 +1,8 @@
-import { validate as uuidValidate, parse as uuidParse, stringify as uuidStringify } from 'uuid'
+import * as uuid from 'uuid'
 import { flipNetworkByteOrder } from './shared'
 
 export type ConvertResult = {
+  version: number
   uuidFormat: string
   oracleFormat: string
   bytes: number[]
@@ -9,11 +10,12 @@ export type ConvertResult = {
 
 export function convertId(rawValue: string): Result<ConvertResult> {
   try {
-    if (uuidValidate(rawValue)) {
+    if (uuid.validate(rawValue)) {
       return { ok: true, value: convertFromUuid(rawValue.toLowerCase()) }
     }
 
     const uppercased = rawValue.toUpperCase()
+
     if (/^[0-9A-F]{32}$/gs.test(uppercased)) {
       return { ok: true, value: convertFromOracle(uppercased) }
     }
@@ -26,32 +28,39 @@ export function convertId(rawValue: string): Result<ConvertResult> {
   return { ok: false }
 }
 
-function convertFromUuid(id: string): ConvertResult {
-  const uuidBytes = Array.from(uuidParse(id))
+function convertFromUuid(originalId: string): ConvertResult {
+  const uuidBytes = Array.from(uuid.parse(originalId))
   const oracleBytes = flipNetworkByteOrder(uuidBytes)
 
-  const uuidFormat = id
+  const uuidFormat = originalId
   const oracleFormat = stringifySegment(oracleBytes, true)
 
   return {
     uuidFormat,
     oracleFormat,
     bytes: uuidBytes,
+    version: getVersion(originalId),
   }
 }
 
-function convertFromOracle(id: string): ConvertResult {
-  const oracleBytes = getBytesFromOracle(id)
+function convertFromOracle(originalId: string): ConvertResult {
+  const oracleBytes = getBytesFromOracle(originalId)
   const uuidBytes = flipNetworkByteOrder(oracleBytes)
 
-  const uuidFormat = uuidStringify(uuidBytes)
-  const oracleFormat = id
+  const uuidFormat = uuid.stringify(uuidBytes)
+  const oracleFormat = originalId
 
   return {
     uuidFormat,
     oracleFormat,
     bytes: uuidBytes,
+    version: getVersion(uuidFormat),
   }
+}
+
+function getVersion(id: string) {
+  const version = uuid.version(id)
+  return version === 0 ? 4 : version
 }
 
 function stringifySegment(bytes: number[], uppercase = false) {

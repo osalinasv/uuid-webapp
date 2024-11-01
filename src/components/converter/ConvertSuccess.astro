@@ -10,7 +10,7 @@ const { result } = Astro.props
 
 <section class="mt-4 grid gap-4 rounded-lg border bg-card p-6 text-center text-card-foreground shadow">
   <article>
-    <h2 class="mb-1 font-bold">Standard UUID</h2>
+    <h2 class="mb-1 font-bold">UUID v{result.version}</h2>
     <p class="break-all font-mono text-lg">{result.uuidFormat}</p>
   </article>
 
