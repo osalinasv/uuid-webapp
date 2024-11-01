@@ -1,13 +1,13 @@
 ---
-import '@/styles/base.css'
-import '@/styles/global.css'
+import "@/styles/base.css";
+import "@/styles/global.css";
 
 interface Props {
-  title: string
+  title: string;
 }
 
-const { title } = Astro.props
-const description = 'Parse, transform, and generate UUIDs in multiple formats'
+const { title } = Astro.props;
+const description = "Parse, transform, and generate UUIDs in multiple formats";
 ---
 
 <!doctype html>
@@ -46,12 +46,12 @@ const description = 'Parse, transform, and generate UUIDs in multiple formats'
 
     <script is:inline>
       if (
-        localStorage.theme === 'dark' ||
-        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
-        document.documentElement.classList.add('dark')
+        document.documentElement.classList.add("dark");
       } else {
-        document.documentElement.classList.remove('dark')
+        document.documentElement.classList.remove("dark");
       }
     </script>
   </head>
@@ -59,48 +59,48 @@ const description = 'Parse, transform, and generate UUIDs in multiple formats'
     <slot />
 
     <script is:inline>
-      const colorSchemeMedia = window.matchMedia('(prefers-color-scheme: dark)')
-      colorSchemeMedia.addEventListener('change', (event) => {
+      const colorSchemeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+      colorSchemeMedia.addEventListener("change", (event) => {
         if (localStorage.theme == undefined) {
-          setDarkTheme(event.matches)
+          setDarkTheme(event.matches);
         }
-      })
+      });
 
-      document.addEventListener('cs:themeSelected', (event) => {
+      document.addEventListener("cs:themeSelected", (event) => {
         switch (event.detail.theme) {
-          case 'default':
-            localStorage.removeItem('theme')
-            setDarkTheme(colorSchemeMedia.matches)
-            break
-          case 'light':
-            localStorage.theme = 'light'
-            setDarkTheme(false)
-            break
+          case "default":
+            localStorage.removeItem("theme");
+            setDarkTheme(colorSchemeMedia.matches);
+            break;
+          case "light":
+            localStorage.theme = "light";
+            setDarkTheme(false);
+            break;
           default:
-            localStorage.theme = 'dark'
-            setDarkTheme(true)
+            localStorage.theme = "dark";
+            setDarkTheme(true);
         }
-      })
+      });
 
       function setDarkTheme(useDarkTheme) {
         if (useDarkTheme) {
-          document.documentElement.classList.add('dark')
+          document.documentElement.classList.add("dark");
         } else {
-          document.documentElement.classList.remove('dark')
+          document.documentElement.classList.remove("dark");
         }
       }
     </script>
 
     <script is:inline>
       //!TEMP: Ignore HTMX's parameter mapping to properly consider disabled fieldsets
-      document.body.addEventListener('htmx:configRequest', function (evt) {
-        if (evt.target.tagName != 'FORM') return
+      document.body.addEventListener("htmx:configRequest", function (evt) {
+        if (evt.target.tagName != "FORM") return;
 
-        const formData = new FormData(evt.target)
-        const parameters = Object.fromEntries(formData)
+        const formData = new FormData(evt.target);
+        const parameters = Object.fromEntries(formData);
 
-        evt.detail.parameters = parameters
-      })
+        evt.detail.parameters = parameters;
+      });
     </script>
   </body>
 </html>

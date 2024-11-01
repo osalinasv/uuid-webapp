@@ -1,46 +1,46 @@
-import { v4 as uuidV4 } from 'uuid'
-import { flipNetworkByteOrder } from './shared'
+import { v4 as uuidV4 } from "uuid";
+import { flipNetworkByteOrder } from "./shared";
 
-export const GENERATE_COUNT_MIN = 1
-export const GENERATE_COUNT_MAX = 50
+export const GENERATE_COUNT_MIN = 1;
+export const GENERATE_COUNT_MAX = 50;
 
 export const ID_TYPE = {
-  UUID: 'uuid',
-  ORACLE: 'oracle',
-} as const
+  UUID: "uuid",
+  ORACLE: "oracle",
+} as const;
 
-export type IdType = (typeof ID_TYPE)[keyof typeof ID_TYPE]
+export type IdType = (typeof ID_TYPE)[keyof typeof ID_TYPE];
 
 type FormatFlag = {
-  name: string
-  label: string
-  checked: boolean
-}
+  name: string;
+  label: string;
+  checked: boolean;
+};
 
 type FormatOptions = {
-  type: IdType
-  label: string
-  flags: Readonly<FormatFlag[]>
-}
+  type: IdType;
+  label: string;
+  flags: Readonly<FormatFlag[]>;
+};
 
 const UUID_FORMAT_OPTIONS = {
   type: ID_TYPE.UUID,
-  label: 'UUID v4',
+  label: "UUID v4",
   flags: [
-    { name: 'uppercase', label: 'UPPERCASE', checked: false },
-    { name: 'useHyphens', label: 'Use hyphens', checked: true },
-    { name: 'encodeBase64', label: 'As Base64', checked: false },
+    { name: "uppercase", label: "UPPERCASE", checked: false },
+    { name: "useHyphens", label: "Use hyphens", checked: true },
+    { name: "encodeBase64", label: "As Base64", checked: false },
   ],
-} as const
+} as const;
 
 const ORACLE_FORMAT_OPTIONS = {
   type: ID_TYPE.ORACLE,
-  label: 'Oracle RAW(16)',
+  label: "Oracle RAW(16)",
   flags: [
-    { name: 'wrapHexToRaw', label: 'Use HEXTORAW', checked: false },
-    { name: 'encodeBase64', label: 'As Base64', checked: false },
+    { name: "wrapHexToRaw", label: "Use HEXTORAW", checked: false },
+    { name: "encodeBase64", label: "As Base64", checked: false },
   ],
-} as const
+} as const;
 
 // prettier-ignore
 export const OPTIONS_BY_TYPE = [
@@ -49,112 +49,112 @@ export const OPTIONS_BY_TYPE = [
 ]
 
 type TypeOptionsHelper<T extends Readonly<FormatOptions>> = {
-  type: T['type']
+  type: T["type"];
 } & {
-  [K in T['flags'][number]['name']]: boolean
-}
+  [K in T["flags"][number]["name"]]: boolean;
+};
 
-type UuidGenerateOptions = TypeOptionsHelper<typeof UUID_FORMAT_OPTIONS>
-type OracleGenerateOptions = TypeOptionsHelper<typeof ORACLE_FORMAT_OPTIONS>
-export type GenerateOptions = { count: number } & (UuidGenerateOptions | OracleGenerateOptions)
+type UuidGenerateOptions = TypeOptionsHelper<typeof UUID_FORMAT_OPTIONS>;
+type OracleGenerateOptions = TypeOptionsHelper<typeof ORACLE_FORMAT_OPTIONS>;
+export type GenerateOptions = { count: number } & (UuidGenerateOptions | OracleGenerateOptions);
 
 export function generateIds(parameters: URLSearchParams) {
-  const options = parseOptions(parameters)
-  return generateIdsFromOptions(options)
+  const options = parseOptions(parameters);
+  return generateIdsFromOptions(options);
 }
 
 function parseOptions(parameters: URLSearchParams) {
-  const rawType = parameters.get('type')
-  const type = rawType && Object.hasOwn(ID_TYPE, rawType.toUpperCase()) ? rawType : ID_TYPE.UUID
+  const rawType = parameters.get("type");
+  const type = rawType && Object.hasOwn(ID_TYPE, rawType.toUpperCase()) ? rawType : ID_TYPE.UUID;
 
-  const rawCount = Number.parseInt(parameters.get('count') as string) || GENERATE_COUNT_MIN
-  const count = Math.min(Math.max(GENERATE_COUNT_MIN, rawCount), GENERATE_COUNT_MAX)
+  const rawCount = Number.parseInt(parameters.get("count") as string) || GENERATE_COUNT_MIN;
+  const count = Math.min(Math.max(GENERATE_COUNT_MIN, rawCount), GENERATE_COUNT_MAX);
 
-  parameters.delete('type')
-  parameters.delete('count')
+  parameters.delete("type");
+  parameters.delete("count");
 
   const options = {
     type: type as IdType,
     count: count,
-  }
+  };
 
   parameters.forEach((val, key) => {
-    if (val === 'true') {
+    if (val === "true") {
       // Any parameter key at this point shoul be pre-validated to be an option flag
       // eslint-disable-next-line no-extra-semi, @typescript-eslint/no-explicit-any
-      ;(options as any)[key] = true
+      (options as any)[key] = true;
     }
-  })
+  });
 
-  return options as GenerateOptions
+  return options as GenerateOptions;
 }
 
 function generateIdsFromOptions(options: GenerateOptions) {
-  const rawGeneratedIds = new Array<string>(options.count)
+  const rawGeneratedIds = new Array<string>(options.count);
 
   for (let i = 0; i < options.count; i++) {
-    rawGeneratedIds[i] = uuidV4()
+    rawGeneratedIds[i] = uuidV4();
   }
 
-  return options.type === 'uuid'
+  return options.type === "uuid"
     ? formatUuidStrings(options, rawGeneratedIds)
-    : formatOracleStrings(options, rawGeneratedIds)
+    : formatOracleStrings(options, rawGeneratedIds);
 }
 
 export type GeneratedId = {
-  value: string
-  formatted: string
-}
+  value: string;
+  formatted: string;
+};
 
 function formatUuidStrings(options: UuidGenerateOptions, ids: string[]) {
-  const generatedIds = new Array<GeneratedId>(ids.length)
+  const generatedIds = new Array<GeneratedId>(ids.length);
 
   for (let i = 0; i < ids.length; i++) {
-    const originalId = ids[i]
-    let formattedId = originalId
+    const originalId = ids[i];
+    let formattedId = originalId;
 
-    if (!options.useHyphens) formattedId = formattedId.replaceAll('-', '')
-    if (options.uppercase) formattedId = formattedId.toUpperCase()
-    if (options.encodeBase64) formattedId = btoa(formattedId)
+    if (!options.useHyphens) formattedId = formattedId.replaceAll("-", "");
+    if (options.uppercase) formattedId = formattedId.toUpperCase();
+    if (options.encodeBase64) formattedId = btoa(formattedId);
 
     generatedIds[i] = {
       value: originalId,
       formatted: formattedId,
-    }
+    };
   }
 
-  return generatedIds
+  return generatedIds;
 }
 
 function formatOracleStrings(options: OracleGenerateOptions, ids: string[]) {
-  const generatedIds = new Array<GeneratedId>(ids.length)
+  const generatedIds = new Array<GeneratedId>(ids.length);
 
   for (let i = 0; i < ids.length; i++) {
-    const generatedBytes = explodeStringIntoBytes(ids[i])
-    const flippedBytes = flipNetworkByteOrder(generatedBytes)
+    const generatedBytes = explodeStringIntoBytes(ids[i]);
+    const flippedBytes = flipNetworkByteOrder(generatedBytes);
 
-    const originalId = flippedBytes.join('')
-    let formattedId = originalId
+    const originalId = flippedBytes.join("");
+    let formattedId = originalId;
 
-    if (options.wrapHexToRaw) formattedId = `HEXTORAW('${formattedId}')`
-    if (options.encodeBase64) formattedId = btoa(formattedId)
+    if (options.wrapHexToRaw) formattedId = `HEXTORAW('${formattedId}')`;
+    if (options.encodeBase64) formattedId = btoa(formattedId);
 
     generatedIds[i] = {
       value: originalId,
       formatted: formattedId,
-    }
+    };
   }
 
-  return generatedIds
+  return generatedIds;
 }
 
 function explodeStringIntoBytes(id: string) {
-  const uppercased = id.replaceAll('-', '').toUpperCase()
-  const bytes: string[] = []
+  const uppercased = id.replaceAll("-", "").toUpperCase();
+  const bytes: string[] = [];
 
   for (let index = 0; index < uppercased.length; index += 2) {
-    bytes.push(uppercased[index] + uppercased[index + 1])
+    bytes.push(uppercased[index] + uppercased[index + 1]);
   }
 
-  return bytes
+  return bytes;
 }

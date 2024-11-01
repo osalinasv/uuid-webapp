@@ -1,11 +1,11 @@
 ---
-import { type HTMLAttributes } from 'astro/types'
-import { cn } from '@/lib/utils'
+import { type HTMLAttributes } from "astro/types";
+import { cn } from "@/lib/utils";
 
-export type Props = HTMLAttributes<'thead'>
-const { class: className, ...props } = Astro.props as Props
+export type Props = HTMLAttributes<"thead">;
+const { class: className, ...props } = Astro.props as Props;
 ---
 
-<thead class={cn('[&_tr]:border-b', className)} {...props}>
+<thead class={cn("[&_tr]:border-b", className)} {...props}>
   <slot />
 </thead>

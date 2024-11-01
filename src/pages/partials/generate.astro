@@ -1,17 +1,17 @@
 ---
-import { generateIds } from '@/lib/uuid/generate'
+import { generateIds } from "@/lib/uuid/generate";
 
-import Button from '@/components/ui/Button.astro'
-import Tooltip from '@/components/ui/Tooltip.astro'
-import GeneratedId from '@/components/generator/GeneratedId.astro'
+import Button from "@/components/ui/Button.astro";
+import Tooltip from "@/components/ui/Tooltip.astro";
+import GeneratedId from "@/components/generator/GeneratedId.astro";
 
-const parameters = Astro.url.searchParams
-const generatedIds = generateIds(parameters)
+const parameters = Astro.url.searchParams;
+const generatedIds = generateIds(parameters);
 
-const maxNonScrollItems = 8
-const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * maxNonScrollItems
+const maxNonScrollItems = 8;
+const scrollMaxHeight = 3 * maxNonScrollItems + 0.5 * maxNonScrollItems;
 
-export const partial = true
+export const partial = true;
 ---
 
 {
@@ -30,7 +30,8 @@ export const partial = true
               end
 
               js(buffer) navigator.clipboard.writeText(buffer) end
-              trigger tooltip:open(message: "Copied! 🎉") on #copyAllTooltipCont`}>
+              trigger tooltip:open(message: "Copied! 🎉") on #copyAllTooltipCont`}
+        >
           <span>Copy All</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" aria-hidden="true">
             <path

@@ -1,22 +1,22 @@
 ---
-import { type HTMLAttributes } from 'astro/types'
-import { cn } from '@/lib/utils'
+import { type HTMLAttributes } from "astro/types";
+import { cn } from "@/lib/utils";
 
-export type Props = HTMLAttributes<'div'> & { id: string; showOnHover?: boolean; containerId?: string }
-const { class: classNames, id, showOnHover, containerId: contId, ...props } = Astro.props as Props
+export type Props = HTMLAttributes<"div"> & { id: string; showOnHover?: boolean; containerId?: string };
+const { class: classNames, id, showOnHover, containerId: contId, ...props } = Astro.props as Props;
 
-const containerId = contId ?? `${id}Container`
-const tooltipContentId = `${id}Content`
-const tooltipMessageId = `${id}Message`
+const containerId = contId ?? `${id}Container`;
+const tooltipContentId = `${id}Content`;
+const tooltipMessageId = `${id}Message`;
 
-let openEvents = ['tooltip:open(message)']
-if (showOnHover !== false) openEvents.push('mouseenter', 'focusin')
+let openEvents = ["tooltip:open(message)"];
+if (showOnHover !== false) openEvents.push("mouseenter", "focusin");
 
-let closeEvents = ['tooltip:close']
-if (showOnHover !== false) closeEvents.push('mouseleave', 'focusout')
+let closeEvents = ["tooltip:close"];
+if (showOnHover !== false) closeEvents.push("mouseleave", "focusout");
 
 const tooltipEventHandler = `
-on ${openEvents.join(' or ')}
+on ${openEvents.join(" or ")}
 set controlled to (message is not null)
 set @data-controlled to controlled
 
@@ -40,7 +40,7 @@ if controlled then
   trigger tooltip:close on me
 end
 
-on ${closeEvents.join(' or ')}
+on ${closeEvents.join(" or ")}
 set @data-focused to false
 if @data-state is 'open' then
   set @data-state to 'closing'
@@ -53,7 +53,7 @@ on scroll from window queue first
 if @data-state is 'open' then
   set @data-focused to false
   set @data-state to 'closing'
-end`
+end`;
 ---
 
 <div
@@ -61,9 +61,10 @@ end`
   data-state="closed"
   data-focused="false"
   data-controlled="false"
-  class={cn('group inline-block', classNames)}
+  class={cn("group inline-block", classNames)}
   {...props}
-  _={tooltipEventHandler}>
+  _={tooltipEventHandler}
+>
   <slot />
 
   <div
@@ -74,9 +75,11 @@ end`
         if #${containerId}[@data-state] is 'closing' then
           set #${containerId}[@data-state] to 'closed'
           set #${containerId}[@data-controlled] to false
-        end`}>
+        end`}
+  >
     <div
-      class="min-w-max rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground group-data-[state=open]:animate-in group-data-[state=closing]:animate-out group-data-[state=closing]:fade-out-0 group-data-[state=open]:fade-in-0 group-data-[state=closing]:zoom-out-95 group-data-[state=open]:zoom-in-95 group-data-[state=open]:slide-in-from-bottom-2">
+      class="min-w-max rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground group-data-[state=open]:animate-in group-data-[state=closing]:animate-out group-data-[state=closing]:fade-out-0 group-data-[state=open]:fade-in-0 group-data-[state=closing]:zoom-out-95 group-data-[state=open]:zoom-in-95 group-data-[state=open]:slide-in-from-bottom-2"
+    >
       <div id={tooltipContentId} class="inline-block group-data-[controlled=true]:hidden"><slot name="tooltip" /></div>
       <div id={tooltipMessageId} class="hidden group-data-[controlled=true]:inline-block"></div>
     </div>

@@ -1,18 +1,19 @@
 ---
-import { type HTMLAttributes } from 'astro/types'
-import { cn } from '@/lib/utils'
+import { type HTMLAttributes } from "astro/types";
+import { cn } from "@/lib/utils";
 
-export type Props = HTMLAttributes<'h2'>
+export type Props = HTMLAttributes<"h2">;
 
-const { id, class: classList, ...props } = Astro.props
+const { id, class: classList, ...props } = Astro.props;
 ---
 
-<h2 class={cn('text-2xl font-bold leading-tight', classList)} id={id} {...props}>
+<h2 class={cn("text-2xl font-bold leading-tight", classList)} id={id} {...props}>
   <a class="group" href={`#${id}`}>
     <span><slot /></span>
     <div
       class="pointer-events-none relative inline-block opacity-0 group-hover:opacity-100 group-focus:opacity-100"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       &ZeroWidthSpace;
       <div class="absolute bottom-0 left-0 top-0 ml-2 flex place-items-center">
         <i class="rounded border bg-card p-1 text-muted-foreground">
@@ -21,7 +22,8 @@ const { id, class: classList, ...props } = Astro.props
               d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10"
               stroke="currentColor"
               stroke-width="1.5"
-              stroke-linecap="round">
+              stroke-linecap="round"
+            >
             </path>
           </svg>
         </i>

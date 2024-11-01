@@ -1,17 +1,22 @@
 ---
-import { GENERATE_COUNT_MIN, GENERATE_COUNT_MAX, ID_TYPE, OPTIONS_BY_TYPE } from '@/lib/uuid/generate'
+import {
+  GENERATE_COUNT_MIN,
+  GENERATE_COUNT_MAX,
+  ID_TYPE,
+  OPTIONS_BY_TYPE,
+} from "@/lib/uuid/generate";
 
-import Input from '@/components/ui/Input.astro'
-import Button from '@/components/ui/Button.astro'
-import Checkbox from '@/components/ui/Checkbox.astro'
-import RadioGroup from '@/components/ui/radio/RadioGroup.astro'
-import RadioGroupItem from '@/components/ui/radio/RadioGroupItem.astro'
+import Input from "@/components/ui/Input.astro";
+import Button from "@/components/ui/Button.astro";
+import Checkbox from "@/components/ui/Checkbox.astro";
+import RadioGroup from "@/components/ui/radio/RadioGroup.astro";
+import RadioGroupItem from "@/components/ui/radio/RadioGroupItem.astro";
 
 const OPTIONS_MENU_DEFAULTS = {
   EXPANDED: true,
   COUNT: 10,
   TYPE: ID_TYPE.UUID,
-} as const
+} as const;
 ---
 
 <section class="max-w-screen-sm mx-auto p-4 mb-4">
@@ -19,7 +24,8 @@ const OPTIONS_MENU_DEFAULTS = {
     hx-get="/partials/generate"
     hx-trigger="submit throttle:200ms"
     hx-target="#generateResult"
-    class="mb-2">
+    class="mb-2"
+  >
     <div class="flex gap-2">
       <Input
         id="count"
@@ -44,7 +50,8 @@ const OPTIONS_MENU_DEFAULTS = {
         aria-expanded={OPTIONS_MENU_DEFAULTS.EXPANDED}
         aria-controls="generateOptions"
         class="inline-flex items-center ml-auto group"
-        _="on click call toggleOptionsExpanded()">
+        _="on click call toggleOptionsExpanded()"
+      >
         <span>Options</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +60,8 @@ const OPTIONS_MENU_DEFAULTS = {
           viewBox="0 0 24 24"
           class="-mr-1 group-aria-expanded:rotate-90 transition-transform"
           aria-hidden="true"
-          data-icon="ic:outline-arrow-drop-down">
+          data-icon="ic:outline-arrow-drop-down"
+        >
           <path fill="currentColor" d="m10 17l5-5l-5-5v10z"></path>
         </svg>
       </Button>
@@ -62,13 +70,20 @@ const OPTIONS_MENU_DEFAULTS = {
     <div
       id="generateOptions"
       role="region"
-      data-state={OPTIONS_MENU_DEFAULTS.EXPANDED ? 'open' : 'closed'}
+      data-state={OPTIONS_MENU_DEFAULTS.EXPANDED ? "open" : "closed"}
       aria-labelledby="generateOptionsBtn"
       class="grid data-[state=open]:grid-rows-[1fr] grid-rows-[0fr] data-[state=closed]:collapse transition-[grid-template-rows]"
-      _='on transitionend if @data-state is "closing" then set @data-state to "closed" end'>
+      _='on transitionend if @data-state is "closing" then set @data-state to "closed" end'
+    >
       <div class="overflow-hidden">
-        <div class="grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 mt-2 gap-x-6 gap-y-4">
-          <p class="text-sm font-medium leading-none md:text-right text-muted-foreground">Type:</p>
+        <div
+          class="grid md:grid-cols-[auto_1fr] rounded-lg border bg-card shadow p-6 mt-2 gap-x-6 gap-y-4"
+        >
+          <p
+            class="text-sm font-medium leading-none md:text-right text-muted-foreground"
+          >
+            Type:
+          </p>
           <RadioGroup class="flex flex-wrap gap-3">
             {
               OPTIONS_BY_TYPE.map((options) => (
@@ -77,26 +92,33 @@ const OPTIONS_MENU_DEFAULTS = {
                   name="type"
                   value={options.type}
                   checked={OPTIONS_MENU_DEFAULTS.TYPE == options.type}
-                  _="on change call revealOptionsFieldsetForType(my.value)">
+                  _="on change call revealOptionsFieldsetForType(my.value)"
+                >
                   {options.label}
                 </RadioGroupItem>
               ))
             }
           </RadioGroup>
 
-          <p class="text-sm font-medium leading-none md:text-right text-muted-foreground">Format:</p>
+          <p
+            class="text-sm font-medium leading-none md:text-right text-muted-foreground"
+          >
+            Format:
+          </p>
           {
             OPTIONS_BY_TYPE.map((options) => (
               <fieldset
                 class="flex flex-wrap items-start gap-x-3 gap-y-2 disabled:hidden"
                 data-format-options={options.type}
-                disabled={options.type != OPTIONS_MENU_DEFAULTS.TYPE}>
+                disabled={options.type != OPTIONS_MENU_DEFAULTS.TYPE}
+              >
                 {options.flags.map((flag) => (
                   <Checkbox
                     id={`${options.type}_${flag.name}Input`}
                     name={flag.name}
                     checked={flag.checked}
-                    value="true">
+                    value="true"
+                  >
                     {flag.label}
                   </Checkbox>
                 ))}

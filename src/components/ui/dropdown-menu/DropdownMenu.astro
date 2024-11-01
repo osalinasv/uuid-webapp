@@ -1,17 +1,17 @@
 ---
-import { type HTMLAttributes } from 'astro/types'
-import { cn } from '@/lib/utils'
+import { type HTMLAttributes } from "astro/types";
+import { cn } from "@/lib/utils";
 
-export type Props = HTMLAttributes<'div'> & { id: string; triggerId: string; containerId?: string }
-const { id, class: classList, triggerId, containerId: contId, ...props } = Astro.props
+export type Props = HTMLAttributes<"div"> & { id: string; triggerId: string; containerId?: string };
+const { id, class: classList, triggerId, containerId: contId, ...props } = Astro.props;
 
-const containerId = contId ?? `${id}Container`
+const containerId = contId ?? `${id}Container`;
 ---
 
 <div
   id={containerId}
   data-state="closed"
-  class={cn('group relative inline-block', classList)}
+  class={cn("group relative inline-block", classList)}
   {...props}
   _={`on focusout(relatedTarget)
       if ((relatedTarget is null) or (not me.contains(relatedTarget))) and (@data-state is 'open') then
@@ -45,7 +45,8 @@ const containerId = contId ?? `${id}Container`
       else
         set @data-state to 'open'
         set #${triggerId}[@aria-expanded] to true
-      end`}>
+      end`}
+>
   <slot name="trigger" />
 
   <div
@@ -55,7 +56,8 @@ const containerId = contId ?? `${id}Container`
     _={`on animationend
       if #${containerId}[@data-state] is 'closing' then
         set #${containerId}[@data-state] to 'closed'
-      end`}>
+      end`}
+  >
     <slot name="content" />
   </div>
 </div>

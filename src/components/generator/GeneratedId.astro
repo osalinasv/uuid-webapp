@@ -1,27 +1,28 @@
 ---
-import { type HTMLAttributes } from 'astro/types'
-import { type GeneratedId } from '@/lib/uuid/generate'
-import { cn } from '@/lib/utils'
+import { type HTMLAttributes } from "astro/types";
+import { type GeneratedId } from "@/lib/uuid/generate";
+import { cn } from "@/lib/utils";
 
-import Button from '@/components/ui/Button.astro'
-import Tooltip from '@/components/ui/Tooltip.astro'
+import Button from "@/components/ui/Button.astro";
+import Tooltip from "@/components/ui/Tooltip.astro";
 
-export type Props = HTMLAttributes<'div'> & {
-  genId: GeneratedId
-}
+export type Props = HTMLAttributes<"div"> & {
+  genId: GeneratedId;
+};
 
-const { genId, class: className } = Astro.props
+const { genId, class: className } = Astro.props;
 
-const idStart = genId.formatted.substring(0, 8)
+const idStart = genId.formatted.substring(0, 8);
 
-const copyTooltipId = `copyTooltip_${idStart}`
-const copyTooltipContId = `copyTooltipCont_${idStart}`
-const convertTooltipId = `convertTooltip_${idStart}`
+const copyTooltipId = `copyTooltip_${idStart}`;
+const copyTooltipContId = `copyTooltipCont_${idStart}`;
+const convertTooltipId = `convertTooltip_${idStart}`;
 ---
 
 <div
-  class={cn('flex flex-nowrap items-center rounded-md border bg-card h-12 pl-3 pr-2 py-2 gap-2 shadow', className)}
-  data-generated-id={genId.formatted}>
+  class={cn("flex flex-nowrap items-center rounded-md border bg-card h-12 pl-3 pr-2 py-2 gap-2 shadow", className)}
+  data-generated-id={genId.formatted}
+>
   <slot name="prefix" />
   <p class="flex-grow break-all font-mono leading-none">{genId.formatted}</p>
 
@@ -38,7 +39,8 @@ const convertTooltipId = `convertTooltip_${idStart}`
         _={`on click
             set id to @data-copy-id
             js(id) navigator.clipboard.writeText(id) end
-            trigger tooltip:open(message: 'Copied! 🎉') on #${copyTooltipContId}`}>
+            trigger tooltip:open(message: 'Copied! 🎉') on #${copyTooltipContId}`}
+      >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256" aria-hidden="true">
           <path
             fill="currentColor"
@@ -62,7 +64,8 @@ const convertTooltipId = `convertTooltip_${idStart}`
         aria-describedby={convertTooltipId}
         _={`on htmx:afterRequest
             set result to #convertResult
-            js(result) result.scrollIntoView({ behavior: 'smooth', block: 'center' }) end`}>
+            js(result) result.scrollIntoView({ behavior: 'smooth', block: 'center' }) end`}
+      >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
           <path
             fill="currentColor"

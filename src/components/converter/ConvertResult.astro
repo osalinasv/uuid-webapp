@@ -1,14 +1,14 @@
 ---
-import { convertId } from '@/lib/uuid/convert'
-import ConvertError from '@/components/converter/ConvertError.astro'
-import ConvertSuccess from '@/components/converter/ConvertSuccess.astro'
+import { convertId } from "@/lib/uuid/convert";
+import ConvertError from "@/components/converter/ConvertError.astro";
+import ConvertSuccess from "@/components/converter/ConvertSuccess.astro";
 
 export type Props = {
-  rawValue: string
-}
+  rawValue: string;
+};
 
-const { rawValue } = Astro.props
-const convertResult = convertId(rawValue)
+const { rawValue } = Astro.props;
+const convertResult = convertId(rawValue);
 ---
 
 {

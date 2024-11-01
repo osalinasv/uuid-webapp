@@ -1,13 +1,14 @@
 ---
-import { type HTMLAttributes } from 'astro/types'
-import { cn } from '@/lib/utils'
+import { type HTMLAttributes } from "astro/types";
+import { cn } from "@/lib/utils";
 
-export type Props = HTMLAttributes<'td'>
-const { class: className, ...props } = Astro.props as Props
+export type Props = HTMLAttributes<"td">;
+const { class: className, ...props } = Astro.props as Props;
 ---
 
 <td
-  class={cn('p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]', className)}
-  {...props}>
+  class={cn("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", className)}
+  {...props}
+>
   <slot />
 </td>

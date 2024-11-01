@@ -60,4 +60,3 @@ pnpm build
 You can also check out
 [Astro's various guides on SSR adapters](https://docs.astro.build/en/guides/server-side-rendering/)
 if you want to deploy somewhere else.
-

@@ -1,19 +1,19 @@
 ---
-import { v4 as uuidv4 } from 'uuid'
-import { formatPageTitle } from '@/lib/utils'
-import { sanitizeIdInput } from '@/lib/uuid/shared'
+import { v4 as uuidv4 } from "uuid";
+import { formatPageTitle } from "@/lib/utils";
+import { sanitizeIdInput } from "@/lib/uuid/shared";
 
-import ConvertResult from '@/components/converter/ConvertResult.astro'
+import ConvertResult from "@/components/converter/ConvertResult.astro";
 
-const id = Astro.url.searchParams.get('id')
+const id = Astro.url.searchParams.get("id");
 
-const rawValue = id ? sanitizeIdInput(id) : uuidv4()
-const events = { 'sv:generatedId': { id: rawValue } }
+const rawValue = id ? sanitizeIdInput(id) : uuidv4();
+const events = { "sv:generatedId": { id: rawValue } };
 
-Astro.response.headers.append('HX-Trigger', JSON.stringify(events))
-Astro.response.headers.append('HX-Push-Url', `/${encodeURIComponent(rawValue)}`)
+Astro.response.headers.append("HX-Trigger", JSON.stringify(events));
+Astro.response.headers.append("HX-Push-Url", `/${encodeURIComponent(rawValue)}`);
 
-export const partial = true
+export const partial = true;
 ---
 
 <head><title>{formatPageTitle(rawValue)}</title></head>

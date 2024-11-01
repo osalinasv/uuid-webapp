@@ -1,6 +1,6 @@
 export function sanitizeIdInput(value: string) {
-  const sanitized = value.replace(/\s/g, '')
-  return sanitized === 'empty' ? '00000000-0000-0000-0000-000000000000' : sanitized
+  const sanitized = value.replace(/\s/g, "");
+  return sanitized === "empty" ? "00000000-0000-0000-0000-000000000000" : sanitized;
 }
 
 export function flipNetworkByteOrder<TByte>(bytes: TByte[]) {
@@ -25,5 +25,5 @@ export function flipNetworkByteOrder<TByte>(bytes: TByte[]) {
     bytes[13],
     bytes[14],
     bytes[15],
-  ]
+  ];
 }
