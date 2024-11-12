@@ -10,11 +10,11 @@ import SlugTitle from "@/components/page/SlugTitle.astro";
 
 <section id="about" class="mx-auto mt-4 max-w-screen-sm p-4">
   <article class="mb-12">
-    <SlugTitle id="what-is-uuid" class="mb-4 text-center">What is a UUID?</SlugTitle>
+    <SlugTitle id="what-is-uuid" class="mb-4 text-center">What is an UUID?</SlugTitle>
     <p class="mb-2">
-      A UUID or &OpenCurlyQuote;Universally Unique Identifier&CloseCurlyQuote; (also known as a GUID) is a 128-bit label
-      used to identify resources. The UUID specification has 5 versions, each one has its own generation strategy with
-      v4 being random or pseudo-random numbers.
+      An UUID or &OpenCurlyQuote;Universally Unique Identifier&CloseCurlyQuote; (also known as a GUID) is a 128-bit
+      label used to identify resources. The UUID specification has 8 versions, each one has its own generation strategy
+      with v4 being random or pseudo-random numbers.
     </p>
     <p class="mb-2">
       The term GUID or &OpenCurlyQuote;Globally Unique Identifier&CloseCurlyQuote; is generally used when working with
@@ -32,7 +32,7 @@ import SlugTitle from "@/components/page/SlugTitle.astro";
   </article>
 
   <article class="mb-12">
-    <SlugTitle id="how-unique-is-uuid" class="mb-4 text-center">How unique is a UUID?</SlugTitle>
+    <SlugTitle id="how-unique-is-uuid" class="mb-4 text-center">How unique is an UUID?</SlugTitle>
     <p class="mb-2">
       In the case of v1 and v2 UUIDs using unique MAC addresses as their node, generating duplicates is virtually
       imposible. In contrast, all other standard versions can have collisions. However the probability of generating a
@@ -47,7 +47,7 @@ import SlugTitle from "@/components/page/SlugTitle.astro";
   <article>
     <SlugTitle id="uuid-layout-byte-order" class="mb-4 text-center">Layout and Byte Order</SlugTitle>
     <p class="mb-4">
-      A UUID is defined in fields that are integral numbers of octets. The fields are encoded as 16 octets with each
+      An UUID is defined in fields that are integral numbers of octets. The fields are encoded as 16 octets with each
       field encoded with the Most Significant Byte first (known as network byte order).
     </p>
 
