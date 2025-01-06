@@ -81,7 +81,7 @@ function parseOptions(parameters: URLSearchParams) {
   parameters.forEach((val, key) => {
     if (val === "true") {
       // Any parameter key at this point shoul be pre-validated to be an option flag
-      // eslint-disable-next-line no-extra-semi, @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (options as any)[key] = true;
     }
   });
