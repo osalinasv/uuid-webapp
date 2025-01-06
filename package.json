@@ -12,9 +12,9 @@
     "format": "prettier . --write"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "~11.2.0",
-    "@astrojs/tailwind": "~5.1.2",
-    "astro": "~4.16.8",
+    "@astrojs/cloudflare": "~12.1.0",
+    "@astrojs/tailwind": "~5.1.4",
+    "astro": "~5.1.2",
     "class-variance-authority": "~0.7.0",
     "clsx": "~2.1.1",
     "tailwind-merge": "~2.5.4",
